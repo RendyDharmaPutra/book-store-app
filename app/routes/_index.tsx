@@ -17,7 +17,7 @@ export default function Dashboard() {
 	const { books } = useLoaderData<typeof loader>();
 
 	return (
-		<section className="page">
+		<section className="page overflow-scroll">
 			<h1 className="title">Daftar Buku</h1>
 			<ActionBar route="Buku" addRoute="/addBook" />
 			<Suspense>
