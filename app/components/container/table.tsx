@@ -4,7 +4,7 @@ import NotFound from "../dashboard/not_found";
 
 export default function Table({ books }: { books: book[] }): JSX.Element {
 	return (
-		<div className="relative flex flex-col w-[20.8rem] sm:w-full max-h-[26rem] overflow-scroll rounded-xl text-gray-800 bg-zinc-100 shadow-md">
+		<div className="relative flex flex-col w-[18rem] sm:w-full max-h-[26rem] overflow-scroll rounded-xl text-gray-800 bg-zinc-100 shadow-md">
 			{books.length == 0 ? (
 				<NotFound />
 			) : (
