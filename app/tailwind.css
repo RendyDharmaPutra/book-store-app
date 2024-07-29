@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+	.layout {
+		@apply p-4 lg:p-5 xl:p-6 flex flex-col;
+	}
+
+	.page {
+		@apply layout gap-6 w-full bg-white;
+	}
+
+	.center {
+		@apply justify-center items-center;
+	}
+
+	.row-section {
+		@apply flex flex-col md:flex-row;
+	}
+
+	.btn {
+		@apply px-4 py-2 text-center outline-none rounded-xl;
+	}
+
+	.btn-primary {
+		@apply btn text-white bg-primary darker-hover;
+	}
+
+	.input-primary {
+		@apply px-3 py-2 text-gray-600 outline-none rounded-xl border border-gray-300 focus:border-secondary bg-white hover:bg-gray-200 focus:bg-white duration-200;
+	}
+
+	.tcol {
+		@apply p-4 border-b border-gray-50;
+	}
+
+	.tbutton {
+		@apply text-sm antialiased font-medium leading-normal hover:brightness-50 duration-200;
+	}
+
+	.bold {
+		@apply font-bold text-gray-900;
+	}
+
+	.headline {
+		@apply bold text-2xl lg:text-3xl;
+	}
+
+	.title {
+		@apply bold text-xl md:text-2xl;
+	}
+
+	.hamburger-item {
+		@apply w-[1rem] h-[.15rem] rounded-xl bg-gray-800 group-hover:brightness-90 duration-200;
+	}
+
+	.darker-hover {
+		@apply hover:brightness-90 active:brightness-100 duration-200;
+	}
+
+	.nav-item {
+		@apply p-1 md:p-2 flex flex-row gap-2 w-full text-gray-800 rounded-lg hover:bg-gray-100 duration-200;
+	}
+
+	.nav-icon {
+		@apply size-4 md:size-5 text-gray-600;
+	}
+
+	.nav-text {
+		@apply md:block text-sm md:text-base text-gray-600;
+	}
+}
