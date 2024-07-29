@@ -13,13 +13,13 @@ export default function Sidebar() {
 	return (
 		<div
 			className={`layout flex flex-col gap-6 ${
-				show ? "w-[16rem]" : "w-fit"
+				show ? "min-w-[12rem] md:min-w-[16rem]" : "w-fit"
 			} min-h-screen duration-200`}
 		>
 			<section
 				className={`flex flex-row ${
 					show ? "justify-start" : "justify-center"
-				} items-center gap-2`}
+				} items-center gap-2 min-h-[2rem]`}
 			>
 				<div
 					className="rounded-full flex flex-col gap-1 justify-center h-full cursor-pointer hover:bg-gray-200 active:bg-stone-300 duration-200"
@@ -45,10 +45,10 @@ export default function Sidebar() {
 						show ? "block" : "hidden"
 					} font-semibold text-gray-800 text-lg md:text-xl`}
 				>
-					Book Store App
+					Book Store
 				</h1>
 			</section>
-			<section className="mb-auto flex flex-col gap-2 ">
+			<section className="mb-auto flex flex-col gap-2">
 				{routes.map((element) => (
 					<NavItem
 						key={element.page}

@@ -4,7 +4,7 @@ import NotFound from "../dashboard/not_found";
 
 export default function Table({ books }: { books: book[] }): JSX.Element {
 	return (
-		<div className="relative flex flex-col w-full max-h-[26rem] overflow-scroll rounded-xl text-gray-800 bg-zinc-100 shadow-md">
+		<div className="relative flex flex-col w-[20.8rem] sm:w-full max-h-[26rem] overflow-scroll rounded-xl text-gray-800 bg-zinc-100 shadow-md">
 			{books.length == 0 ? (
 				<NotFound />
 			) : (
@@ -12,8 +12,8 @@ export default function Table({ books }: { books: book[] }): JSX.Element {
 					<thead>
 						<tr>
 							<THead name="Judul" />
-							<THead name="Penulis" />
 							<THead name="Kategori" />
+							<THead name="Penulis" />
 							<THead name="Penerbit" />
 							<THead name="Tahun Terbit" />
 							<THead name="Aksi" />
@@ -63,7 +63,7 @@ function TBody({
 			<TCol content={writer} />
 			<TCol content={publisher} />
 			<TCol content={year} />
-			<td className="tcol">
+			<td className="p-4 border-b border-gray-50">
 				<Link
 					prefetch="viewport"
 					to={`/${idBook}`}

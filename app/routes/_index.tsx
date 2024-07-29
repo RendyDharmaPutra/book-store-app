@@ -17,12 +17,14 @@ export default function Dashboard() {
 	const { books } = useLoaderData<typeof loader>();
 
 	return (
-		<section className="page overflow-scroll">
+		<section className="page">
 			<h1 className="title">Daftar Buku</h1>
 			<ActionBar route="Buku" addRoute="/addBook" />
-			<Suspense>
-				<Await resolve={books}>{(books) => <Table books={books} />}</Await>
-			</Suspense>
+			<div className="flex flex-col items-center sm:items-start">
+				<Suspense fallback={<h1>Loading...</h1>}>
+					<Await resolve={books}>{(books) => <Table books={books} />}</Await>
+				</Suspense>
+			</div>
 		</section>
 	);
 }

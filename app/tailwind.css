@@ -8,7 +8,7 @@
 	}
 
 	.page {
-		@apply layout gap-6 w-full max-w-screen bg-white;
+		@apply layout gap-6 w-full bg-white;
 	}
 
 	.center {
@@ -60,7 +60,7 @@
 	}
 
 	.nav-item {
-		@apply p-1 md:p-2 flex flex-row gap-2 w-full text-gray-800 rounded-lg hover:bg-gray-100 duration-200;
+		@apply p-1 md:p-2 flex flex-row items-center gap-2 w-full text-gray-800 rounded-lg hover:bg-gray-100 duration-200;
 	}
 
 	.nav-icon {
