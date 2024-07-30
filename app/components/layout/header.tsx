@@ -136,6 +136,7 @@ function ProfileMenu() {
 	return (
 		<section className={`p-1 flex flex-col gap-1 w-[8rem] rounded-xl bg-white`}>
 			<Link
+				replace
 				prefetch="viewport"
 				to={"/user"}
 				className="p-1 flex flex-row items-center justify-start gap-1 md:gap-2 w-full rounded-lg hover:bg-gray-100 duration-200"
@@ -218,6 +219,7 @@ function NavItem({
 
 	return (
 		<Link
+			replace
 			prefetch="viewport"
 			to={route}
 			className={`nav-item ${path === route && "bg-gray-100"}`}
