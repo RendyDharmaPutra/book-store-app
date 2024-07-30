@@ -61,6 +61,7 @@ export default function Sidebar() {
 				))}
 			</section>
 			<Link
+				prefetch="viewport"
 				to={"/user"}
 				className={`nav-item ${path === "/user" && "bg-secondary"} ${
 					!show && "justify-center"
@@ -130,6 +131,7 @@ function NavItem({
 
 	return (
 		<Link
+			prefetch="viewport"
 			to={route}
 			className={`nav-item ${path === route && "bg-secondary"} ${
 				!show && "justify-center"

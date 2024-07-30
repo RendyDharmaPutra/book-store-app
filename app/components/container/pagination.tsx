@@ -18,7 +18,7 @@ export default function Pagination() {
 	return (
 		<section className="flex flex-row justify-between items-center ">
 			<h2 className="font-medium text-sm md:text-base text-gray-700 ">
-				Halaman 1
+				Halaman {currentPage}
 			</h2>
 			{/* <div className="flex flex-row overflow-hidden rounded-lg border-2 border-primary">
 				<button
