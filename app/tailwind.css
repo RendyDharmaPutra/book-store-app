@@ -32,7 +32,7 @@
 	} */
 
 	.btn-secondary {
-		@apply p-2 py-1 text-center outline-none font-medium border border-primary rounded-md hover:bg-primary hover:text-white duration-200;
+		@apply p-2 py-1 text-center outline-none border border-primary rounded-md hover:bg-primary hover:text-white duration-200;
 	}
 
 	.input-primary {
