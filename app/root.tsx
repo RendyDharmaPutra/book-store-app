@@ -36,7 +36,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 						{/* <Header /> */}
 						<main className="p-2 flex-grow flex flex-row gap-2 bg-page">
 							<Sidebar />
-							{children}
+							<div className="flex-grow bg-page">{children}</div>
 						</main>
 						<Footer />
 					</>
