@@ -9,13 +9,14 @@ export default function Table({ books }: { books: book[] }): JSX.Element {
 				<NotFound />
 			) : (
 				<table className="text-left table-auto md:table-fixed">
-					<thead className="bg-gray-100">
+					<thead className="bg-zinc-200">
 						<tr>
 							<THead name="Judul" />
 							<THead name="Kategori" />
 							<THead name="Penulis" />
 							<THead name="Penerbit" />
 							<THead name="Tahun Terbit" />
+							<THead name="Harga" />
 							<THead name="Aksi" />
 						</tr>
 					</thead>
@@ -23,12 +24,13 @@ export default function Table({ books }: { books: book[] }): JSX.Element {
 						{books.map((book) => (
 							<TBody
 								key={book.id}
-								idBook={book.id}
+								id={book.id}
 								title={book.title}
 								writer={book.writer}
 								publisher={book.publisher}
 								category={book.category}
 								year={book.year}
+								price={book.price}
 							/>
 						))}
 					</tbody>
@@ -40,7 +42,7 @@ export default function Table({ books }: { books: book[] }): JSX.Element {
 
 function THead({ name }: { name: string }): JSX.Element {
 	return (
-		<th className="p-4 border-b border-gray-200 ">
+		<th className="p-4 border-b border-gray-200">
 			<p className="block text-sm antialiased font-semibold leading-none text-gray-600">
 				{name}
 			</p>
@@ -49,13 +51,14 @@ function THead({ name }: { name: string }): JSX.Element {
 }
 
 function TBody({
-	idBook,
+	id,
 	title,
 	writer,
 	publisher,
 	category,
 	year,
-}: tableBody): JSX.Element {
+	price,
+}: book): JSX.Element {
 	return (
 		<tr>
 			<TCol content={title} />
@@ -63,15 +66,16 @@ function TBody({
 			<TCol content={writer} />
 			<TCol content={publisher} />
 			<TCol content={year} />
+			<TCol content={price} />
 			<td className="p-4 border-b border-gray-50">
 				<Link
 					prefetch="viewport"
-					to={`/${idBook}`}
+					to={`/${id}`}
 					className="mr-2 tbutton text-primary"
 				>
 					Ubah
 				</Link>
-				<ModalButton id={idBook} title={title} />
+				<ModalButton id={id} title={title} />
 			</td>
 		</tr>
 	);

@@ -5,6 +5,7 @@ interface tableBody {
 	publisher: string;
 	year: number;
 	category: string;
+	price: number;
 }
 
 interface book {
