@@ -45,7 +45,7 @@ export default function Pagination() {
 					onClick={() => setPage(false)}
 					className={`${
 						currentPage === 1
-							? "px-2 py-1 text-center outline-none font-medium rounded-md text-gray-600"
+							? "px-2 py-1 text-center outline-none rounded-md text-gray-600"
 							: "btn-secondary"
 					}`}
 				>
