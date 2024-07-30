@@ -4,12 +4,12 @@ import NotFound from "../dashboard/not_found";
 
 export default function Table({ books }: { books: book[] }): JSX.Element {
 	return (
-		<div className="relative flex flex-col w-[20.8rem] sm:w-full max-h-[26rem] overflow-scroll rounded-xl text-gray-800 bg-zinc-100 shadow-md">
+		<div className="flex flex-col w-[20rem] sm:w-full max-h-[26rem] overflow-scroll overflow-x-scroll rounded-xl text-gray-800 bg-zinc-100">
 			{books.length == 0 ? (
 				<NotFound />
 			) : (
 				<table className="text-left table-auto md:table-fixed">
-					<thead>
+					<thead className="bg-gray-100">
 						<tr>
 							<THead name="Judul" />
 							<THead name="Kategori" />
@@ -40,8 +40,8 @@ export default function Table({ books }: { books: book[] }): JSX.Element {
 
 function THead({ name }: { name: string }): JSX.Element {
 	return (
-		<th className="p-4 border-b border-gray-200 bg-gray-100">
-			<p className="block text-sm antialiased font-normal leading-none text-gray-600">
+		<th className="p-4 border-b border-gray-200 ">
+			<p className="block text-sm antialiased font-semibold leading-none text-gray-600">
 				{name}
 			</p>
 		</th>

@@ -34,9 +34,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 				{path != "/login" ? (
 					<>
 						{/* <Header /> */}
-						<main className="flex-grow flex flex-row">
+						<main className="p-2 flex-grow flex flex-row gap-2 bg-page">
 							<Sidebar />
-							<div className="flex-grow flex flex-col bg-page">{children}</div>
+							{children}
 						</main>
 						<Footer />
 					</>

@@ -14,7 +14,7 @@ export default function Sidebar() {
 		<div
 			className={`layout flex flex-col gap-6 ${
 				show ? "min-w-[12rem] md:min-w-[16rem]" : "w-fit"
-			} min-h-screen duration-200`}
+			} min-h-screen rounded-xl bg-white duration-200`}
 		>
 			<section
 				className={`flex flex-row ${
