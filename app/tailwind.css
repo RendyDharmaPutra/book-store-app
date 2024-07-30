@@ -27,6 +27,14 @@
 		@apply btn text-white bg-primary darker-hover;
 	}
 
+	/* .btn-secondary {
+		@apply btn font-semibold text-primary border-2 border-primary hover:bg-primary hover:text-white darker-hover;
+	} */
+
+	.btn-secondary {
+		@apply p-2 py-1 text-center outline-none font-medium border border-primary rounded-md hover:bg-primary hover:text-white duration-200;
+	}
+
 	.input-primary {
 		@apply px-3 py-2 text-gray-600 outline-none rounded-xl border border-gray-300 focus:border-secondary bg-white hover:bg-gray-200 focus:bg-white duration-200;
 	}

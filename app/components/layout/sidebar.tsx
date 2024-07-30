@@ -1,8 +1,9 @@
-import { Link } from "@remix-run/react";
+import { Link, useLocation } from "@remix-run/react";
 import { useState } from "react";
 
 export default function Sidebar() {
 	const [show, setShow] = useState<boolean>(false);
+	const path = useLocation().pathname;
 
 	const routes = [
 		{ route: "/", page: "Buku" },
@@ -55,10 +56,16 @@ export default function Sidebar() {
 						route={element.route}
 						page={element.page}
 						show={show}
+						path={path}
 					/>
 				))}
 			</section>
-			<Link to={"/"} className="nav-item cursor-pointer">
+			<Link
+				to={"/user"}
+				className={`nav-item ${path === "/user" && "bg-secondary"} ${
+					!show && "justify-center"
+				}`}
+			>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					fill="none"
@@ -86,10 +93,12 @@ function NavItem({
 	route,
 	page,
 	show,
+	path,
 }: {
 	route: string;
 	page: string;
 	show: boolean;
+	path: string;
 }) {
 	let pattern: string;
 
@@ -120,7 +129,12 @@ function NavItem({
 	}
 
 	return (
-		<Link to={route} className="nav-item">
+		<Link
+			to={route}
+			className={`nav-item ${path === route && "bg-secondary"} ${
+				!show && "justify-center"
+			}`}
+		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				fill="none"
