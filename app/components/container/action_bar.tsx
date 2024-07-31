@@ -12,10 +12,16 @@ export default function ActionBar({
 
 	const [query, setQuery] = useState<string>(searchParams.get("search") || "");
 
-	function updateQuery(newQuery: string): void {
+	function updateSearch(newQuery: string): void {
 		let params: URLSearchParams = new URLSearchParams(searchParams);
 
-		params.set("search", newQuery);
+		params.delete("page");
+
+		if (query.length > 0) {
+			params.set("search", newQuery);
+		} else {
+			params.delete("search");
+		}
 
 		setSearchParams(params);
 	}
@@ -31,7 +37,7 @@ export default function ActionBar({
 					className="w-full md:w-[20rem] input-primary"
 				/>
 				<button
-					onClick={() => updateQuery(query)}
+					onClick={() => updateSearch(query)}
 					className="flex flex-row justify-center items-center min-h-[2.5rem] btn-primary"
 				>
 					<svg

@@ -24,7 +24,7 @@
 	}
 
 	.btn {
-		@apply px-4 py-2 text-center outline-none rounded-xl;
+		@apply px-4 py-2 text-center outline-none rounded-lg;
 	}
 
 	.btn-primary {
@@ -40,7 +40,7 @@
 	}
 
 	.input-primary {
-		@apply px-3 py-2 text-gray-600 outline-none rounded-xl border border-gray-300 focus:border-secondary bg-white hover:bg-gray-200 focus:bg-white duration-200;
+		@apply px-3 py-2 text-gray-600 outline-none rounded-lg border border-gray-300 focus:border-secondary bg-white hover:bg-gray-200 focus:bg-white duration-200;
 	}
 
 	.tcol {
@@ -72,7 +72,7 @@
 	}
 
 	.nav-item {
-		@apply px-4 py-2 flex flex-row items-center gap-2 md:w-fit text-gray-800 rounded-lg hover:bg-gray-200 duration-200;
+		@apply px-4 py-2 flex flex-row items-center gap-2 md:w-fit text-gray-800 rounded-lg md:rounded-full hover:bg-gray-200 duration-200;
 	}
 
 	.nav-icon {

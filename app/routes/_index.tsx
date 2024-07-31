@@ -7,7 +7,11 @@ import Pagination from "~/components/container/pagination";
 import Table from "~/components/container/table";
 
 export async function loader({ request }: LoaderFunctionArgs) {
-	const books = getBook();
+	const url: URL = new URL(request.url);
+	const search: string = url.searchParams.get("search") || "";
+	const page: number = Number(url.searchParams.get("page") || "1");
+
+	const books = getBook(search, page);
 
 	return defer({
 		books,

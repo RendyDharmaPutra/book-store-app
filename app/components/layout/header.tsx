@@ -4,8 +4,6 @@ import { useState } from "react";
 export default function Header(): JSX.Element {
 	const [show, setShow] = useState<boolean>(false);
 
-	console.log(show);
-
 	return (
 		<div className="p-layout flex flex-col md:flex-row justify-between gap-4 md:gap-0 w-full">
 			<div className="flex flex-row gap-4 ">
