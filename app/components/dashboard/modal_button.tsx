@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Modal from "./modal";
+import { AnimatePresence } from "framer-motion";
 
 export default function ModalButton({
 	id,
@@ -16,7 +17,6 @@ export default function ModalButton({
 				onClick={() => {
 					setShow(true);
 				}}
-				type="submit"
 				className="ml-2 tbutton inline text-danger"
 			>
 				Hapus

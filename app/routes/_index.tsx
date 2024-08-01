@@ -1,7 +1,7 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
-import { Await, defer, useLoaderData } from "@remix-run/react";
+import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import { Await, defer, redirect, useLoaderData } from "@remix-run/react";
 import { Suspense } from "react";
-import { getBook } from "utils/db/queries";
+import { deleteBook, getBook } from "utils/db/queries";
 import ActionBar from "~/components/container/action_bar";
 import Pagination from "~/components/container/pagination";
 import Table from "~/components/container/table";
@@ -33,4 +33,13 @@ export default function Dashboard() {
 			<Pagination />
 		</div>
 	);
+}
+
+export async function action({ request }: ActionFunctionArgs) {
+	const body: FormData = await request.formData();
+	const idBook: number = Number(body.get("idBook"));
+
+	const result = await deleteBook(idBook);
+
+	if (result) return redirect("/");
 }

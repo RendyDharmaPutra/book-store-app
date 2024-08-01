@@ -1,4 +1,5 @@
 import { Link, useLocation } from "@remix-run/react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
 export default function Header(): JSX.Element {
@@ -121,11 +122,18 @@ function Profile({ path }: { path: string }) {
 					/>
 				</svg>
 			</section>
-			{show && (
-				<div className="absolute top-52 right-4 md:top-16 md:right-5">
-					<ProfileMenu />
-				</div>
-			)}
+			<AnimatePresence mode="wait">
+				{show && (
+					<motion.div
+						initial={{ transitionDuration: "0.5", opacity: 0 }}
+						animate={{ transitionDuration: "0.5", opacity: 1 }}
+						exit={{ transitionDuration: "0.5", opacity: 0 }}
+						className="absolute top-52 right-4 md:top-16 md:right-5"
+					>
+						<ProfileMenu />
+					</motion.div>
+				)}
+			</AnimatePresence>
 		</>
 	);
 }

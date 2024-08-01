@@ -26,6 +26,12 @@ export default function ActionBar({
 		setSearchParams(params);
 	}
 
+	function enter(key: string): void {
+		if (key == "Enter") {
+			updateSearch(query);
+		}
+	}
+
 	return (
 		<section className="row-section md:justify-between gap-4">
 			<div className="flex flex-row gap-2">
@@ -33,6 +39,7 @@ export default function ActionBar({
 					type="text"
 					placeholder={`Cari Judul atau Penulis ${route}`}
 					onChange={(e) => setQuery(e.target.value)}
+					onKeyDown={(e) => enter(e.key)}
 					defaultValue={query}
 					className="w-full md:w-[20rem] input-primary"
 				/>

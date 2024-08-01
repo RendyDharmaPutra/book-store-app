@@ -26,3 +26,9 @@ export const getBook = async (search: string, page: number) => {
 
 	return data;
 };
+
+export const deleteBook = async (idBook: number) => {
+	const result = await db.delete(Book).where(eq(Book.id, idBook));
+
+	return result;
+};
