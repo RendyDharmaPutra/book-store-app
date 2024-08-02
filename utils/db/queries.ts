@@ -27,8 +27,26 @@ export const getBook = async (search: string, page: number) => {
 	return data;
 };
 
+export const insertBook = async (data: bookData) => {
+	const result = await db.insert(Book).values(data);
+
+	return result;
+};
+
 export const deleteBook = async (idBook: number) => {
 	const result = await db.delete(Book).where(eq(Book.id, idBook));
 
 	return result;
+};
+
+export const getCategories = async () => {
+	const data = await db.select().from(Categories).orderBy(asc(Categories.name));
+
+	return data;
+};
+
+export const getPublishers = async () => {
+	const data = await db.select().from(Publishers).orderBy(asc(Publishers.name));
+
+	return data;
 };

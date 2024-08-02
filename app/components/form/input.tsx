@@ -6,12 +6,14 @@ export default function Input({
 	label,
 	type,
 	data,
+	error,
 }: {
 	name: string;
-	label: string;
 	defaultValue: string | number;
+	label: string;
 	type: string;
 	data: foreign[] | null;
+	error: string[] | null;
 }): JSX.Element {
 	return (
 		<div key={name} className={`flex flex-col gap-1 w-full sm:w-[24rem]`}>
@@ -28,13 +30,9 @@ export default function Input({
 					className="w-full input-primary"
 				/>
 			) : (
-				<Select
-					defaultValue={defaultValue}
-					label={label}
-					name={name}
-					datas={data!}
-				/>
+				<Select defaultValue={defaultValue} name={name} datas={data!} />
 			)}
+			{error && <p className="text-sm text-danger">{error}</p>}
 		</div>
 	);
 }

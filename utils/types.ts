@@ -35,10 +35,11 @@ interface editBook {
 
 interface bookData {
 	title: string;
+	writer: string;
 	year: number;
-	categoryId: number;
-	writerId: number;
-	publisherId: number;
+	price: number;
+	publisher_id: number;
+	category_id: number;
 }
 
 interface bookDataEdit extends bookData {

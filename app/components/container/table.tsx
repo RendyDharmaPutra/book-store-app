@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
-import ModalButton from "../dashboard/modal_button";
-import NotFound from "../dashboard/not_found";
+import ModalButton from "../modal/modal_button";
+import NotFound from "../boundary/not_found";
 
 export default function Table({ books }: { books: book[] }): JSX.Element {
 	return (
