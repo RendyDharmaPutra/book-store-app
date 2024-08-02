@@ -131,7 +131,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
 	console.log(validate.data);
 
-	const result = insertBook(validate.data);
+	const result = await insertBook(validate.data);
 
-	return redirect("/");
+	if (result) return redirect("/");
 }
