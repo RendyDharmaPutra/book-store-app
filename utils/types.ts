@@ -13,10 +13,11 @@ interface book {
 	title: string;
 	writer: string;
 	year: number;
-	price: number;
+	price: string;
 	category: string;
 	publisher: string;
 }
+
 
 interface editBook {
 	id: number;
