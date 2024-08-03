@@ -2,7 +2,7 @@ import { asc, eq, like, or } from "drizzle-orm";
 import { db } from ".";
 import { Book, Categories, Publishers } from "./schema";
 
-export const getBook = async (search: string, page: number) => {
+export const getBooks = async (search: string, page: number) => {
 	const data = await db
 		.select({
 			id: Book.id,
@@ -27,8 +27,20 @@ export const getBook = async (search: string, page: number) => {
 	return data;
 };
 
+export const getBook = async (idBook: number) => {
+	const data = await db.select().from(Book).where(eq(Book.id, idBook));
+
+	return data[0];
+};
+
 export const insertBook = async (data: bookData) => {
 	const result = await db.insert(Book).values(data);
+
+	return result;
+};
+
+export const updateBook = async (idBook: number, data: bookData) => {
+	const result = await db.update(Book).set(data).where(eq(Book.id, idBook));
 
 	return result;
 };

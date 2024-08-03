@@ -129,8 +129,6 @@ export async function action({ request }: ActionFunctionArgs) {
 		return json(validate.error.flatten().fieldErrors, { status: 400 });
 	}
 
-	console.log(validate.data);
-
 	const result = await insertBook(validate.data);
 
 	if (result) return redirect("/");

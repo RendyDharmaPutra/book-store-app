@@ -1,7 +1,7 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Await, defer, redirect, useLoaderData } from "@remix-run/react";
 import { Suspense } from "react";
-import { deleteBook, getBook } from "utils/db/queries";
+import { deleteBook, getBooks } from "utils/db/queries";
 import ActionBar from "~/components/container/action_bar";
 import Pagination from "~/components/container/pagination";
 import Table from "~/components/container/table";
@@ -11,7 +11,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 	const search: string = url.searchParams.get("search") || "";
 	const page: number = Number(url.searchParams.get("page") || "1");
 
-	const books = getBook(search, page);
+	const books = getBooks(search, page);
 
 	return defer({
 		books,

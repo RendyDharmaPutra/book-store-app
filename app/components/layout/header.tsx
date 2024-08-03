@@ -144,7 +144,7 @@ function ProfileMenu() {
 			<Link
 				replace
 				prefetch="viewport"
-				to={"/user"}
+				to={"/profile"}
 				className="p-1 flex flex-row items-center justify-start gap-1 md:gap-2 w-full rounded-lg hover:bg-gray-100 duration-200"
 			>
 				<svg

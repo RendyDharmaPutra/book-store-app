@@ -21,16 +21,11 @@ interface book {
 interface editBook {
 	id: number;
 	title: string;
-	writer: {
-		id: number;
-	};
-	publisher: {
-		id: number;
-	};
-	category: {
-		id: number;
-	};
+	writer: string;
 	year: number;
+	price: number;
+	publisher_id: number;
+	category_id: number;
 }
 
 interface bookData {
