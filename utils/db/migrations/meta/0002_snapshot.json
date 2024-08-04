@@ -1,6 +1,6 @@
 {
-  "id": "b53405db-c4f3-4ea4-8372-7c413eb19680",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "ad79fc11-e8d1-41e3-818f-9f35042cb762",
+  "prevId": "d658dd19-1d82-4b66-9025-f788c7142be2",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -204,8 +204,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "address": {
-          "name": "address",
+        "amount": {
+          "name": "amount",
           "type": "integer",
           "primaryKey": false,
           "notNull": true
@@ -266,13 +266,25 @@
         },
         "address": {
           "name": "address",
-          "type": "smallint",
+          "type": "varchar(100)",
           "primaryKey": false,
           "notNull": true
         },
         "birth_date": {
           "name": "birth_date",
-          "type": "timestamp",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "year": {
+          "name": "year",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "admin": {
+          "name": "admin",
+          "type": "boolean",
           "primaryKey": false,
           "notNull": true
         }

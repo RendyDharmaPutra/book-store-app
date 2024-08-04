@@ -3,13 +3,15 @@ import ModalButton from "../modal/modal_button";
 import NotFound from "../boundary/not_found";
 
 export default function Table({
+  route,
   heads,
   values,
   datas,
 }: {
+  route: string;
   heads: string[];
   values: string[];
-  datas: book[];
+  datas: book[] | transactionTable[];
 }): JSX.Element {
   return (
     <div className="flex flex-col w-[95%] sm:w-full h-[36rem] sm:h-[32rem] overflow-auto rounded-lg text-gray-800 bg-zinc-50">
@@ -27,7 +29,7 @@ export default function Table({
           </thead>
           <tbody>
             {datas.map((data) => (
-              <TBody key={data.id} heads={values} data={data} />
+              <TBody key={data.id} heads={values} data={data} route={route} />
             ))}
           </tbody>
         </table>
@@ -46,7 +48,23 @@ function THead({ name }: { name: string }): JSX.Element {
   );
 }
 
-function TBody({ heads, data }: { heads: string[]; data: book }): JSX.Element {
+function TBody({
+  route,
+  heads,
+  data,
+}: {
+  route: string;
+  heads: string[];
+  data: book | transactionTable;
+}): JSX.Element {
+  let modalInfo: string;
+
+  if ("title" in data) {
+    modalInfo = data.title;
+  } else {
+    modalInfo = data.time;
+  }
+
   return (
     <tr>
       {heads.map((head) => (
@@ -55,12 +73,12 @@ function TBody({ heads, data }: { heads: string[]; data: book }): JSX.Element {
       <td className="p-4 flex flex-col md:flex-row gap-2 border-b border-gray-50">
         <Link
           prefetch="viewport"
-          to={`/${data.id}`}
+          to={`${data.id}`}
           className="tbutton text-primary"
         >
-          Ubah
+          Detail
         </Link>
-        <ModalButton id={data.id} title={data.title} />
+        <ModalButton id={data.id} title={modalInfo} />
       </td>
     </tr>
   );

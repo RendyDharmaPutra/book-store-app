@@ -1,4 +1,4 @@
-import { Link, useLocation } from "@remix-run/react";
+import { Link, redirect, useLocation } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
@@ -149,6 +149,10 @@ function Profile({ path }: { path: string }) {
 }
 
 function ProfileMenu() {
+  const logout = () => {
+    redirect("/login");
+  };
+
   return (
     <section
       className={`p-1 flex flex-col w-[10rem] rounded-xl bg-white border bordder-gray-200`}
@@ -176,7 +180,10 @@ function ProfileMenu() {
 
         <h2 className="nav-text">User</h2>
       </Link>
-      <button className="p-2 flex flex-row items-center justify-start gap-1 md:gap-2 w-full rounded-lg hover:bg-red-100 duration-200">
+      <button
+        onClick={logout}
+        className="p-2 flex flex-row items-center justify-start gap-1 md:gap-2 w-full rounded-lg hover:bg-red-100 duration-200"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

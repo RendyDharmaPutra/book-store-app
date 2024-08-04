@@ -1,7 +1,7 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Await, defer, redirect, useLoaderData } from "@remix-run/react";
 import { Suspense } from "react";
-import { deleteBook, getBooks } from "utils/db/queries";
+import { deleteTransaction, getTransaction } from "utils/db/queries";
 import ActionBar from "~/components/container/action_bar";
 import Pagination from "~/components/container/pagination";
 import Table from "~/components/container/table";
@@ -11,35 +11,32 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const search: string = url.searchParams.get("search") || "";
   const page: number = Number(url.searchParams.get("page") || "1");
 
-  const books = getBooks(search, page);
+  const transactions = getTransaction(search, page);
 
   return defer({
-    books,
+    transactions,
   });
 }
 
-export default function Dashboard() {
-  const { books } = useLoaderData<typeof loader>();
-  const heads = [
-    "Judul",
-    "Kategori",
-    "Penulis",
-    "Penerbit",
-    "Tahun Terbit",
-    "Harga",
-  ];
+export default function Transaction() {
+  const { transactions } = useLoaderData<typeof loader>();
+  const heads = ["Waktu", "Total Harga", "Kasir"];
 
-  const values = ["title", "category", "writer", "publisher", "year", "price"];
-
+  const values = ["time", "amount", "user"];
   return (
     <div className="page">
-      <h1 className="title">Daftar Buku</h1>
-      <ActionBar route="Buku" addRoute="addBook" />
+      <h1 className="title">Daftar Transaksi</h1>
+      <ActionBar route="Transaksi" addRoute="addTransaction" />
       <section className="flex flex-col w-full items-center sm:items-start">
         <Suspense fallback={<h1>Loading...</h1>}>
-          <Await resolve={books}>
-            {(books) => (
-              <Table route="book" heads={heads} values={values} datas={books} />
+          <Await resolve={transactions}>
+            {(transaction) => (
+              <Table
+                route="transaction"
+                heads={heads}
+                values={values}
+                datas={transaction}
+              />
             )}
           </Await>
         </Suspense>
@@ -53,7 +50,7 @@ export async function action({ request }: ActionFunctionArgs) {
   const body: FormData = await request.formData();
   const idBook: number = Number(body.get("idBook"));
 
-  const result = await deleteBook(idBook);
+  const result = await deleteTransaction(idBook);
 
-  if (result) return redirect("/");
+  if (result) return redirect("/transaction");
 }

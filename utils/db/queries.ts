@@ -1,13 +1,13 @@
 import { asc, eq, ilike, or } from "drizzle-orm";
 import { db } from ".";
-import { Book, Categories, Publishers } from "./schema";
+import { Book, Categories, Publishers, Transaction, User } from "./schema";
+
+let idr = new Intl.NumberFormat("id-ID", {
+  style: "currency",
+  currency: "IDR",
+});
 
 export const getBooks = async (search: string, page: number) => {
-  let idr = new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-  });
-
   const data = await db
     .select({
       id: Book.id,
@@ -55,8 +55,8 @@ export const updateBook = async (idBook: number, data: bookData) => {
   return result;
 };
 
-export const deleteBook = async (idBook: number) => {
-  const result = await db.delete(Book).where(eq(Book.id, idBook));
+export const deleteBook = async (id: number) => {
+  const result = await db.delete(Book).where(eq(Book.id, id));
 
   return result;
 };
@@ -71,4 +71,40 @@ export const getPublishers = async () => {
   const data = await db.select().from(Publishers).orderBy(asc(Publishers.name));
 
   return data;
+};
+
+export const getTransaction = async (search: string, page: number) => {
+  const data = await db
+    .select({
+      id: Transaction.id,
+      time: Transaction.time,
+      amount: Transaction.amount,
+      user: User.name,
+    })
+    .from(Transaction)
+    .innerJoin(User, eq(Transaction.user_id, User.id))
+    .where(
+      or(
+        // ilike(Transaction.time, `%${search}%`),
+        ilike(User.name, `%${search}%`)
+      )
+    )
+    .orderBy(Transaction.time)
+    .limit(10)
+    .offset((page - 1) * 10)
+    .execute();
+
+  const result = data.map((transaction) => ({
+    ...transaction,
+    amount: idr.format(transaction.amount),
+    time: String(transaction.time).slice(0, -34),
+  }));
+
+  return result;
+};
+
+export const deleteTransaction = async (id: number) => {
+  const result = await db.delete(Transaction).where(eq(Transaction.id, id));
+
+  return result;
 };

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Modal from "./modal";
-import { AnimatePresence } from "framer-motion";
 
 export default function ModalButton({
   id,
