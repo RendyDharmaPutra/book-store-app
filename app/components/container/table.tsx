@@ -21,15 +21,15 @@ export default function Table({
         <table className="text-left table-auto md:table-fixed">
           <thead className="bg-zinc-100">
             <tr>
-              {heads.map((head) => (
-                <THead name={head} />
+              {heads.map((head, index) => (
+                <THead key={index} name={head} />
               ))}
               <THead name="Aksi" />
             </tr>
           </thead>
           <tbody>
-            {datas.map((data) => (
-              <TBody key={data.id} heads={values} data={data} route={route} />
+            {datas.map((data, index) => (
+              <TBody key={index} heads={values} data={data} route={route} />
             ))}
           </tbody>
         </table>
@@ -67,8 +67,8 @@ function TBody({
 
   return (
     <tr>
-      {heads.map((head) => (
-        <TCol content={data[head as keyof typeof data]} />
+      {heads.map((head, index) => (
+        <TCol key={index} content={data[head as keyof typeof data]} />
       ))}
       <td className="p-4 flex flex-col md:flex-row gap-2 border-b border-gray-50">
         <Link
