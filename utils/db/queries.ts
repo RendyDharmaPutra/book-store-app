@@ -1,4 +1,4 @@
-import { asc, eq, like, or } from "drizzle-orm";
+import { asc, eq, ilike, or } from "drizzle-orm";
 import { db } from ".";
 import { Book, Categories, Publishers } from "./schema";
 
@@ -22,7 +22,7 @@ export const getBooks = async (search: string, page: number) => {
     .innerJoin(Categories, eq(Book.category_id, Categories.id))
     .innerJoin(Publishers, eq(Book.publisher_id, Publishers.id))
     .where(
-      or(like(Book.title, `%${search}%`), like(Book.writer, `%${search}%`))
+      or(ilike(Book.title, `%${search}%`), ilike(Book.writer, `%${search}%`))
     )
     .orderBy(asc(Book.title))
     .limit(10)

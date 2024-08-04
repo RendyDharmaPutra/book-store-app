@@ -126,21 +126,15 @@ function Profile({ path }: { path: string }) {
         {show && (
           <motion.div
             initial={{
-              transitionDuration: "0.5",
               opacity: 0,
-              //   translateY: "-50vh",
               scaleY: 0,
             }}
             animate={{
-              transitionDuration: "0.5",
               opacity: 1,
-              //   translateY: "0vh",
               scaleY: 1,
             }}
             exit={{
-              transitionDuration: "0.5",
               opacity: 0,
-              //   translateY: "-50vh",
               scaleY: 0,
             }}
             style={{ originY: 0 }}

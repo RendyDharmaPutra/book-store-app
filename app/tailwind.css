@@ -3,83 +3,83 @@
 @tailwind utilities;
 
 @layer components {
-	.p-layout {
-		@apply p-4 lg:p-5 xl:p-6;
-	}
+  .p-layout {
+    @apply p-4 lg:p-5 xl:p-6;
+  }
 
-	.layout {
-		@apply p-layout flex flex-col;
-	}
+  .layout {
+    @apply p-layout flex flex-col;
+  }
 
-	.page {
-		@apply flex-grow layout gap-6 w-full rounded-xl bg-white;
-	}
+  .page {
+    @apply flex-grow layout gap-6 w-full rounded-xl bg-white;
+  }
 
-	.center {
-		@apply justify-center items-center;
-	}
+  .center {
+    @apply justify-center items-center;
+  }
 
-	.row-section {
-		@apply flex flex-col md:flex-row;
-	}
+  .row-section {
+    @apply flex flex-col md:flex-row;
+  }
 
-	.btn {
-		@apply px-4 py-2 text-center outline-none rounded-lg;
-	}
+  .btn {
+    @apply px-4 py-2 text-center outline-none rounded-lg;
+  }
 
-	.btn-primary {
-		@apply btn text-white bg-primary darker-hover;
-	}
+  .btn-primary {
+    @apply btn text-white bg-primary darker-hover;
+  }
 
-	/* .btn-secondary {
+  /* .btn-secondary {
 		@apply btn font-semibold text-primary border-2 border-primary hover:bg-primary hover:text-white darker-hover;
 	} */
 
-	.btn-secondary {
-		@apply p-2 py-1 text-sm md:text-base text-center outline-none border border-secondary rounded-md hover:bg-primary hover:text-white duration-200;
-	}
+  .btn-secondary {
+    @apply p-2 py-1 text-sm md:text-base text-center outline-none border text-gray-800 border-primary rounded-md hover:bg-primary hover:text-white duration-200;
+  }
 
-	.input-primary {
-		@apply px-3 py-2 text-gray-600 outline-none rounded-lg border border-gray-300 focus:border-secondary bg-white hover:bg-gray-200 focus:bg-white duration-200;
-	}
+  .input-primary {
+    @apply px-3 py-2 text-gray-600 outline-none rounded-lg border border-gray-300 focus:border-secondary bg-white hover:bg-gray-200 focus:bg-white duration-200;
+  }
 
-	.tcol {
-		@apply p-4 border-b border-gray-50;
-	}
+  .tcol {
+    @apply p-4 border-b border-gray-50;
+  }
 
-	.tbutton {
-		@apply text-sm antialiased font-medium leading-normal hover:brightness-50 duration-200;
-	}
+  .tbutton {
+    @apply text-sm antialiased font-medium leading-normal hover:brightness-50 duration-200;
+  }
 
-	.bold {
-		@apply font-bold text-gray-900;
-	}
+  .bold {
+    @apply font-bold text-gray-900;
+  }
 
-	.headline {
-		@apply bold text-2xl lg:text-3xl;
-	}
+  .headline {
+    @apply bold text-2xl lg:text-3xl;
+  }
 
-	.title {
-		@apply bold text-xl md:text-2xl;
-	}
+  .title {
+    @apply bold text-xl md:text-2xl;
+  }
 
-	.hamburger-item {
-		@apply w-[1rem] h-[.15rem] rounded-xl bg-gray-800 group-hover:brightness-90 duration-200;
-	}
+  .hamburger-item {
+    @apply w-[1rem] h-[.15rem] rounded-xl bg-gray-800 group-hover:brightness-90 duration-200;
+  }
 
-	.darker-hover {
-		@apply hover:brightness-90 active:brightness-100 duration-200;
-	}
+  .darker-hover {
+    @apply hover:brightness-90 active:brightness-100 duration-200;
+  }
 
-	.nav-item {
-		@apply px-4 py-2 flex flex-row items-center gap-2 md:w-fit text-gray-800 rounded-lg md:rounded-full hover:bg-gray-200 duration-200;
-	}
+  .nav-item {
+    @apply px-4 py-2 flex flex-row items-center gap-2 md:w-fit text-gray-800 rounded-lg md:rounded-full hover:bg-gray-200 duration-200;
+  }
 
-	.nav-icon {
-		@apply size-4 md:size-5 text-gray-600;
-	}
+  .nav-icon {
+    @apply size-4 md:size-5 text-gray-600;
+  }
 
-	.nav-text {
-		@apply md:block text-sm md:text-base text-gray-600;
-	}
+  .nav-text {
+    @apply md:block text-sm md:text-base text-gray-600;
+  }
 }

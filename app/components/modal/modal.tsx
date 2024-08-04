@@ -21,6 +21,15 @@ export default function Modal({
     <AnimatePresence mode="wait">
       {isOpen && (
         <motion.div
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          exit={{
+            opacity: 0,
+          }}
           onClick={() => setShow(false)}
           className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center z-50"
         >

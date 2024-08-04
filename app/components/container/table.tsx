@@ -69,7 +69,7 @@ function TBody({ heads, data }: { heads: string[]; data: book }): JSX.Element {
 function TCol({ content }: { content: string | number }): JSX.Element {
   return (
     <td className="p-4 border-b border-gray-50">
-      <p className="block text-sm antialiased font-normal leading-normal text-gray-900">
+      <p className="block text-sm antialiased font-normal leading-normal text-gray-800">
         {content}
       </p>
     </td>
