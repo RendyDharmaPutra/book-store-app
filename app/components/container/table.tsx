@@ -3,12 +3,10 @@ import ModalButton from "../modal/modal_button";
 import NotFound from "../boundary/not_found";
 
 export default function Table({
-  route,
   heads,
   values,
   datas,
 }: {
-  route: string;
   heads: string[];
   values: string[];
   datas: book[] | transactionTable[];
@@ -29,7 +27,7 @@ export default function Table({
           </thead>
           <tbody>
             {datas.map((data, index) => (
-              <TBody key={index} heads={values} data={data} route={route} />
+              <TBody key={index} heads={values} data={data} />
             ))}
           </tbody>
         </table>
@@ -49,11 +47,9 @@ function THead({ name }: { name: string }): JSX.Element {
 }
 
 function TBody({
-  route,
   heads,
   data,
 }: {
-  route: string;
   heads: string[];
   data: book | transactionTable;
 }): JSX.Element {

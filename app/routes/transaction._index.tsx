@@ -31,12 +31,7 @@ export default function Transaction() {
         <Suspense fallback={<h1>Loading...</h1>}>
           <Await resolve={transactions}>
             {(transaction) => (
-              <Table
-                route="transaction"
-                heads={heads}
-                values={values}
-                datas={transaction}
-              />
+              <Table heads={heads} values={values} datas={transaction} />
             )}
           </Await>
         </Suspense>

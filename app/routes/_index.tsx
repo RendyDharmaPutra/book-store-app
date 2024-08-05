@@ -38,9 +38,7 @@ export default function Dashboard() {
       <section className="flex flex-col w-full items-center sm:items-start">
         <Suspense fallback={<h1>Loading...</h1>}>
           <Await resolve={books}>
-            {(books) => (
-              <Table route="book" heads={heads} values={values} datas={books} />
-            )}
+            {(books) => <Table heads={heads} values={values} datas={books} />}
           </Await>
         </Suspense>
       </section>

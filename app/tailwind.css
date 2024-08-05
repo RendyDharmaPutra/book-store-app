@@ -40,7 +40,7 @@
   }
 
   .input-primary {
-    @apply px-3 py-2 text-gray-600 outline-none rounded-lg border border-gray-300 focus:border-secondary bg-white hover:bg-gray-200 focus:bg-white duration-200;
+    @apply px-3 py-2 text-gray-700 outline-none rounded-lg border border-gray-200 focus:border-secondary bg-white hover:bg-gray-200 focus:bg-white duration-200;
   }
 
   .tcol {
@@ -61,6 +61,10 @@
 
   .title {
     @apply bold text-xl md:text-2xl;
+  }
+
+  .subtitle {
+    @apply text-gray-600 text-sm;
   }
 
   .hamburger-item {
