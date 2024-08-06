@@ -9,12 +9,13 @@ import {
   useLoaderData,
   useNavigation,
 } from "@remix-run/react";
-import { Suspense } from "react";
-import { getCategories, getPublishers, insertBook } from "utils/db/queries";
-import { BookSchema } from "utils/validation";
-import BookList from "~/components/container/book_list";
-import AddButton from "~/components/form/add_button";
+import { memo, Suspense, useState } from "react";
+import { idr } from "utils/currency";
+import { getBooks } from "utils/db/queries/transaction";
+import { TransactionSchema } from "utils/validation";
+import BookDisplay from "~/components/container/book_display";
 import Input from "~/components/form/input";
+import SheetButton from "~/components/modal/sheet_button";
 
 function getCurrentDateTimeLocal() {
   const now = new Date();
@@ -29,20 +30,43 @@ function getCurrentDateTimeLocal() {
 
 export async function loader() {
   // AKSES AKUN USER DARI COOKIE
-  const publishers = getPublishers();
+  const books = getBooks();
 
   return defer({
-    publishers,
+    books,
   });
 }
 
 export default function AddBook() {
   // MENDAPATKAN AKUN USER DARI COOKIE
-  const { publishers } = useLoaderData<typeof loader>();
+  const { books } = useLoaderData<typeof loader>();
   const errors = useActionData<typeof action>();
+
+  const [selectedBooks, selectBook] = useState<selectedBook[]>([]);
+  const [amount, setAmount] = useState<number>(0);
 
   const { state } = useNavigation();
   const pending = state != "idle";
+
+  const getSelectedBooks = () => {
+    return JSON.stringify(selectedBooks);
+  };
+
+  const Amount = memo(({ amount }: { amount: number }) => {
+    return (
+      <>
+        <input type="hidden" name="amount" value={amount} />
+        <Input
+          defaultValue={idr.format(amount)}
+          name="amountDisplay"
+          label="Total Harga"
+          type="text"
+          data={null}
+          error={errors?.amount || null}
+        />
+      </>
+    );
+  });
 
   return (
     <Form method="post" className="page">
@@ -54,46 +78,41 @@ export default function AddBook() {
           label="Waktu"
           type="datetime-local"
           data={null}
-          error={errors?.title || null}
+          error={errors?.time || null}
         />
+        <input type="hidden" name="user" value={"3"} />
         <Input
-          defaultValue=""
-          name="amount"
-          label="Total Harga"
-          type="number"
+          defaultValue="Nama Kasir"
+          name="userDisplay"
+          label="Kasir"
+          type="text"
           data={null}
-          error={errors?.writer || null}
+          error={errors?.user || null}
         />
         <Suspense fallback={<h1>Loading...</h1>}>
-          <Await resolve={publishers}>
-            {(publishers) => (
-              <Input
-                defaultValue="Nama Kasir"
-                name="user"
-                label="Kasir"
-                type="text"
-                data={null}
-                error={errors?.publisher_id || null}
-              />
+          <Await resolve={books}>
+            {(books) => (
+              <section className="flex flex-col items-center gap-2 ">
+                <BookDisplay books={books} selectedBooks={selectedBooks} />
+                <SheetButton
+                  books={books}
+                  selected={selectedBooks}
+                  setAmount={setAmount}
+                  select={selectBook}
+                />
+              </section>
             )}
           </Await>
         </Suspense>
-        <button
-          type="button"
-          onClick={() => console.log("Open Dialog")}
-          className="flex flex-col justify-center items-center w-full sm:w-[24rem] h-[3rem] border border-gray-200 rounded-lg bg-white darker-hover"
-        >
-          <h1 className="font-medium text-lg md:text-xl text-gray-800">
-            Tambah Buku
-          </h1>
-        </button>
+        <Amount amount={amount} />
+        <input type="hidden" name="detail" value={getSelectedBooks()} />
       </div>
       <button
         type="submit"
         disabled={pending}
         aria-disabled={pending}
         className={`self-end w-full md:w-fit ${
-          pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
+          pending ? "bg-gray-50 text-gray-600 btn" : "btn-primary"
         } h-[2.5rem] `}
       >
         {pending ? "Menyimpan..." : "Simpan"}
@@ -104,21 +123,29 @@ export default function AddBook() {
 
 export async function action({ request }: ActionFunctionArgs) {
   const body = await request.formData();
+  const time = String(body.get("time"));
 
-  const book: bookData = {
-    title: String(body.get("title")),
-    writer: String(body.get("writer")),
-    year: Number(body.get("year")),
-    price: Number(body.get("price")),
-    category_id: Number(body.get("category")),
-    publisher_id: Number(body.get("publisher")),
+  const details: selectedBook[] = JSON.parse(String(body.get("detail")));
+
+  details.map((detail) => console.log(detail));
+
+  const transaction = {
+    user: Number(body.get("user")),
+    time: time.slice(0, 10) + " " + time.slice(11),
+    amount: Number(body.get("amount")),
   };
 
-  const validate = BookSchema.safeParse(book);
+  console.log(transaction);
+
+  const validate = TransactionSchema.safeParse(transaction);
 
   if (!validate.success) {
     return json(validate.error.flatten().fieldErrors, { status: 400 });
   }
+
+  return null;
+
+  // console.log(body);
 
   // const result = await insertBook(validate.data);
 

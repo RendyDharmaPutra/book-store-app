@@ -1,0 +1,195 @@
+import { Dispatch, SetStateAction, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import Input from "../form/input";
+
+export default function Sheet({
+  books,
+  selected,
+  isOpen,
+  setShow,
+  setAmount,
+  select,
+}: {
+  books: bookTransaction[];
+  selected: selectedBook[];
+  isOpen: boolean;
+  setShow: Dispatch<SetStateAction<boolean>>;
+  setAmount: Dispatch<SetStateAction<number>>;
+  select: Dispatch<SetStateAction<selectedBook[]>>;
+}) {
+  const [book, setBook] = useState<selectedBook>({
+    id: String(books[0].id),
+    quantity: "1",
+  });
+
+  const handleInputChange = ({
+    name,
+    value,
+  }: {
+    name: string;
+    value: string;
+  }) => {
+    setBook({
+      ...book,
+      [name]: value,
+    });
+  };
+
+  const save = () => {
+    if (Number(book.quantity) > 0) {
+      const duplicate = selected.find(
+        (bookSelected) => bookSelected.id === book.id
+      );
+
+      const submitedBook = books.find(
+        (singleBook) => singleBook.id === Number(book.id)
+      );
+
+      if (duplicate === undefined) {
+        select((prevItems) => [...prevItems, book]);
+
+        setAmount(
+          (prevItems) =>
+            (prevItems += submitedBook!.price * Number(book.quantity))
+        );
+      } else {
+        const newSelected = selected.filter(
+          (bookSelected) => bookSelected.id != book.id
+        );
+
+        setAmount(
+          (prevItems) =>
+            (prevItems -= submitedBook!.price * Number(duplicate.quantity))
+        );
+
+        book.quantity = String(
+          Number(book.quantity) + Number(duplicate.quantity)
+        );
+
+        setAmount(
+          (prevItems) =>
+            (prevItems += submitedBook!.price * Number(book.quantity))
+        );
+
+        select([...newSelected, book]);
+      }
+
+      setBook({
+        id: String(books[0].id),
+        quantity: "1",
+      });
+
+      setShow(false);
+    }
+  };
+
+  return (
+    <AnimatePresence mode="wait">
+      {isOpen && (
+        <motion.div
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          exit={{
+            opacity: 0,
+          }}
+          onClick={() => setShow(false)}
+          className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-start justify-end z-50"
+        >
+          <motion.div
+            onClick={(e) => e.stopPropagation()}
+            initial={{
+              opacity: 0,
+              translateX: "50vh",
+            }}
+            animate={{
+              opacity: 1,
+              translateX: "0vh",
+            }}
+            exit={{
+              opacity: 0,
+              translateX: "50vh",
+            }}
+            className="layout w-3/4 md:w-1/4 h-full shadow bg-white"
+          >
+            <section className="mb-4 flex flex-row items-center justify-between ">
+              <h2 className="title">Pilih Buku</h2>
+              <button
+                type="button"
+                onClick={() => setShow(false)}
+                className="p-[2px] rounded-full text-gray-800 border border-gray-300"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18 18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+            </section>
+            <section className="flex flex-col items-center gap-3 ">
+              <div className={`flex flex-col gap-1 w-full sm:w-[24rem]`}>
+                <label htmlFor="book" className="font-medium text-gray-700">
+                  Buku
+                </label>
+                <select
+                  required
+                  onChange={(e) => handleInputChange(e.target)}
+                  key="id"
+                  defaultValue={book.id}
+                  id="id"
+                  name="id"
+                  className="w-full max-h-[10rem] overflow-y-auto input-primary focus:bg-page"
+                >
+                  {books.map((book) => {
+                    return (
+                      <option
+                        key={book.id}
+                        value={book.id}
+                        className="flex flex-col h-[6rem] text-gray-700 bg-white duration-200"
+                      >
+                        {book.title}
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+              <div className={`flex flex-col gap-1 w-full sm:w-[24rem]`}>
+                <label htmlFor="quantity" className="font-medium text-gray-700">
+                  Kuantitas
+                </label>
+                <input
+                  required
+                  onChange={(e) => handleInputChange(e.target)}
+                  id="quantity"
+                  name="quantity"
+                  type="number"
+                  defaultValue={book.quantity}
+                  className="w-full input-primary"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={save}
+                className={`mt-4 md:mr-5 self-end w-full md:w-fit btn-primary h-[2.5rem]`}
+              >
+                Simpan
+              </button>
+            </section>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}

@@ -1,11 +1,7 @@
 import { asc, eq, ilike, or } from "drizzle-orm";
 import { db } from ".";
 import { Book, Categories, Publishers, Transaction, User } from "./schema";
-
-let idr = new Intl.NumberFormat("id-ID", {
-  style: "currency",
-  currency: "IDR",
-});
+import { idr } from "utils/currency";
 
 export const getBooks = async (search: string, page: number) => {
   const data = await db

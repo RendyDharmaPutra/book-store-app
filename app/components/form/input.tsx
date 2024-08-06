@@ -26,7 +26,7 @@ export default function Input({
           id={name}
           name={name}
           type={type}
-          disabled={name == "user"}
+          disabled={name == "userDisplay" || name == "amountDisplay"}
           defaultValue={defaultValue}
           className="w-full input-primary"
         />
