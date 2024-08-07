@@ -1,7 +1,7 @@
 import { asc, eq, ilike, or } from "drizzle-orm";
 import { db } from ".";
 import { Book, Categories, Publishers, Transaction, User } from "./schema";
-import { idr } from "utils/currency";
+import { idr } from "utils/methods";
 
 export const getBooks = async (search: string, page: number) => {
   const data = await db

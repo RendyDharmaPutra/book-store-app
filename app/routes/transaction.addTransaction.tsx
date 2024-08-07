@@ -10,23 +10,16 @@ import {
   useNavigation,
 } from "@remix-run/react";
 import { memo, Suspense, useState } from "react";
-import { idr } from "utils/currency";
-import { getBooks } from "utils/db/queries/transaction";
+import { getCurrentDateTimeLocal, idr } from "utils/methods";
+import {
+  getBooks,
+  insertDetail,
+  insertTransaction,
+} from "utils/db/queries/transaction";
 import { TransactionSchema } from "utils/validation";
 import BookDisplay from "~/components/container/book_display";
 import Input from "~/components/form/input";
 import SheetButton from "~/components/modal/sheet_button";
-
-function getCurrentDateTimeLocal() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-  const hours = String(now.getHours()).padStart(2, "0");
-  const minutes = String(now.getMinutes()).padStart(2, "0");
-
-  return `${year}-${month}-${day}T${hours}:${minutes}`;
-}
 
 export async function loader() {
   // AKSES AKUN USER DARI COOKIE
@@ -43,7 +36,7 @@ export default function AddBook() {
   const errors = useActionData<typeof action>();
 
   const [selectedBooks, selectBook] = useState<selectedBook[]>([]);
-  const [amount, setAmount] = useState<number>(0);
+  const [amount, setAmount] = useState(0);
 
   const { state } = useNavigation();
   const pending = state != "idle";
@@ -80,6 +73,7 @@ export default function AddBook() {
           data={null}
           error={errors?.time || null}
         />
+        {/* Akses User Disini */}
         <input type="hidden" name="user" value={"3"} />
         <Input
           defaultValue="Nama Kasir"
@@ -87,7 +81,7 @@ export default function AddBook() {
           label="Kasir"
           type="text"
           data={null}
-          error={errors?.user || null}
+          error={errors?.user_id || null}
         />
         <Suspense fallback={<h1>Loading...</h1>}>
           <Await resolve={books}>
@@ -123,31 +117,35 @@ export default function AddBook() {
 
 export async function action({ request }: ActionFunctionArgs) {
   const body = await request.formData();
-  const time = String(body.get("time"));
 
   const details: selectedBook[] = JSON.parse(String(body.get("detail")));
 
-  details.map((detail) => console.log(detail));
+  if (details.length >= 1) {
+    const transaction = {
+      time: String(body.get("time")),
+      amount: Number(body.get("amount")),
+      user_id: Number(body.get("user")),
+    };
 
-  const transaction = {
-    user: Number(body.get("user")),
-    time: time.slice(0, 10) + " " + time.slice(11),
-    amount: Number(body.get("amount")),
-  };
+    const validate = TransactionSchema.safeParse(transaction);
 
-  console.log(transaction);
+    if (!validate.success) {
+      return json(validate.error.flatten().fieldErrors, { status: 400 });
+    }
 
-  const validate = TransactionSchema.safeParse(transaction);
+    const result = await insertTransaction(validate.data!);
 
-  if (!validate.success) {
-    return json(validate.error.flatten().fieldErrors, { status: 400 });
+    details.map(async (detail) => {
+      const data = {
+        quantity: Number(detail.quantity),
+        book_id: Number(detail.id),
+        transaction_id: Number(result),
+      };
+      await insertDetail(data);
+    });
+
+    if (result) return redirect("/transaction");
   }
 
   return null;
-
-  // console.log(body);
-
-  // const result = await insertBook(validate.data);
-
-  // if (result) return redirect("/");
 }

@@ -12,9 +12,22 @@ export const BookSchema = z.object({
 export type Book = z.infer<typeof BookSchema>;
 
 export const TransactionSchema = z.object({
-  user: z.number().min(1, "User tidak boleh kosong"),
-  time: z.string().min(16, "Format Waktu tidak tepat"),
-  amount: z.number().nonnegative("Total Harga tidak boleh Negatif"),
+  time: z.string().transform((dateString, ctx) => {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Format Waktu tidak sesuai",
+      });
+      return z.NEVER;
+    }
+    return date;
+  }),
+  amount: z
+    .number()
+    .nonnegative("Total Harga tidak boleh Negatif")
+    .max(2147483647, "Total Harga terlalu besar"),
+  user_id: z.number().min(1, "User tidak boleh kosong"),
 });
 
 export type Transaction = z.infer<typeof TransactionSchema>;

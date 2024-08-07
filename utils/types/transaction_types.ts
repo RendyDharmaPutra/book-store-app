@@ -17,3 +17,15 @@ interface selectedBook {
   id: string;
   quantity: string;
 }
+
+interface transaction {
+  time: Date;
+  amount: number;
+  user_id: number;
+}
+
+interface detailTransaction {
+  quantity: number;
+  book_id: number;
+  transaction_id: number;
+}

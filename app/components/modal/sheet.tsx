@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import Input from "../form/input";
 
 export default function Sheet({
   books,
@@ -36,40 +35,28 @@ export default function Sheet({
   };
 
   const save = () => {
-    if (Number(book.quantity) > 0) {
+    const id = Number(book.id);
+    const quantity = Number(book.quantity);
+
+    if (quantity > 0) {
       const duplicate = selected.find(
-        (bookSelected) => bookSelected.id === book.id
+        (bookSelected) => Number(bookSelected.id) === id
       );
 
-      const submitedBook = books.find(
-        (singleBook) => singleBook.id === Number(book.id)
-      );
+      const submitedBook = books.find((singleBook) => singleBook.id === id);
 
       if (duplicate === undefined) {
         select((prevItems) => [...prevItems, book]);
 
-        setAmount(
-          (prevItems) =>
-            (prevItems += submitedBook!.price * Number(book.quantity))
-        );
+        setAmount((prevItems) => (prevItems += submitedBook!.price * quantity));
       } else {
         const newSelected = selected.filter(
-          (bookSelected) => bookSelected.id != book.id
+          (bookSelected) => Number(bookSelected.id) != id
         );
 
-        setAmount(
-          (prevItems) =>
-            (prevItems -= submitedBook!.price * Number(duplicate.quantity))
-        );
+        setAmount((prevItems) => (prevItems += submitedBook!.price * quantity));
 
-        book.quantity = String(
-          Number(book.quantity) + Number(duplicate.quantity)
-        );
-
-        setAmount(
-          (prevItems) =>
-            (prevItems += submitedBook!.price * Number(book.quantity))
-        );
+        book.quantity = String(quantity + Number(duplicate.quantity));
 
         select([...newSelected, book]);
       }
