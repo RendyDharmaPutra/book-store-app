@@ -3,16 +3,23 @@ import { idr } from "utils/methods";
 
 const BookList = memo(
   ({
+    id,
     title,
     writer,
     price,
     qty,
+    deleteItem,
   }: {
+    id: string;
     title: string;
     writer: string;
     price: number;
     qty: number;
+    deleteItem: (id: string, price: number, qty: number) => void;
   }) => {
+    console.log(title);
+    // Gunakan Cara ini untuk menghapus data buku yang dipesan
+    // setItems((prevItems) => prevItems.filter((_, index) => index !== indexToRemove));
     return (
       <div className="px-3 py-2 flex flex-col gap-4 w-full sm:w-[24rem] border border-gray-200 rounded-lg bg-white">
         <div className="flex flex-row justify-between ">
@@ -22,7 +29,8 @@ const BookList = memo(
           </section>
           <button
             type="button"
-            className="mt-1 p-[2px] w-fit h-fit rounded-full text-gray-600 hover:text-white border border-gray-300 hover:border-red-300 hover:bg-red-500 duration-200"
+            onClick={() => deleteItem(id, price, qty)}
+            className="mt-1 p-[2px] w-fit h-fit rounded-full text-gray-600 hover:text-white border border-gray-300 hover:border-danger hover:bg-danger duration-200"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

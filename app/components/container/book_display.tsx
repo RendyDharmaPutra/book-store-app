@@ -4,28 +4,32 @@ import BookList from "./book_list";
 const BookDisplay = memo(
   ({
     books,
-    selectedBooks,
+    cart,
+    deleteItem,
   }: {
     books: bookTransaction[];
-    selectedBooks: selectedBook[];
+    cart: selectedBook[];
+    deleteItem: (id: string, price: number, qty: number) => void;
   }) => {
     return (
       <>
-        {selectedBooks.length < 1 ? (
+        {cart.length < 1 ? (
           <h1 className="text-lg md:text-xl text-gray-600">
             Belum memilih Buku
           </h1>
         ) : (
-          selectedBooks.map((selected, index) => {
+          cart.map((selected, index) => {
             const book = books.find((book) => book.id == Number(selected.id));
 
             return (
               <BookList
                 key={index}
+                id={selected.id}
                 title={book!.title}
                 writer={book!.writer}
                 price={book!.price}
                 qty={Number(selected.quantity)}
+                deleteItem={deleteItem}
               />
             );
           })

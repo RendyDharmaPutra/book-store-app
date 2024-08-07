@@ -9,7 +9,7 @@ import {
   useLoaderData,
   useNavigation,
 } from "@remix-run/react";
-import { memo, Suspense, useState } from "react";
+import { memo, Suspense, useCallback, useState } from "react";
 import { getCurrentDateTimeLocal, idr } from "utils/methods";
 import {
   getBooks,
@@ -31,18 +31,26 @@ export async function loader() {
 }
 
 export default function AddBook() {
+  // TODOS : BUAT MEMO COMPONENT HANYA DIRENDER ULANG KETIKA QUANTITY NYA BERUBAH, GUNAKAN MEMOIZE DENGAN CONDITIONAL RENDERING
+  // TODOS : GUNAKAN CONTEXT UNTUK STATE PADA MEMO COMPONENT SUPAYA PARENT TIDAK TERKENA RERENDER KETIKA MEMO COMPONENT DIRERENDER
+  // TODOS : PERBAIKI LAYOUT FORM
   // MENDAPATKAN AKUN USER DARI COOKIE
   const { books } = useLoaderData<typeof loader>();
   const errors = useActionData<typeof action>();
 
-  const [selectedBooks, selectBook] = useState<selectedBook[]>([]);
+  const [cart, setCart] = useState<selectedBook[]>([]);
   const [amount, setAmount] = useState(0);
 
   const { state } = useNavigation();
   const pending = state != "idle";
 
-  const getSelectedBooks = () => {
-    return JSON.stringify(selectedBooks);
+  const deleteItem = useCallback((id: string, price: number, qty: number) => {
+    setCart((prevItems) => prevItems.filter((item) => item.id != id));
+    setAmount((prevItems) => (prevItems -= price * qty));
+  }, []);
+
+  const getcart = () => {
+    return JSON.stringify(cart);
   };
 
   const Amount = memo(({ amount }: { amount: number }) => {
@@ -60,6 +68,8 @@ export default function AddBook() {
       </>
     );
   });
+
+  console.log("Parent");
 
   return (
     <Form method="post" className="page">
@@ -87,19 +97,23 @@ export default function AddBook() {
           <Await resolve={books}>
             {(books) => (
               <section className="flex flex-col items-center gap-2 ">
-                <BookDisplay books={books} selectedBooks={selectedBooks} />
+                <BookDisplay
+                  books={books}
+                  cart={cart}
+                  deleteItem={deleteItem}
+                />
                 <SheetButton
                   books={books}
-                  selected={selectedBooks}
+                  selected={cart}
                   setAmount={setAmount}
-                  select={selectBook}
+                  select={setCart}
                 />
               </section>
             )}
           </Await>
         </Suspense>
         <Amount amount={amount} />
-        <input type="hidden" name="detail" value={getSelectedBooks()} />
+        <input type="hidden" name="detail" value={getcart()} />
       </div>
       <button
         type="submit"

@@ -36,11 +36,11 @@ export default function Sheet({
 
   const save = () => {
     const id = Number(book.id);
-    const quantity = Number(book.quantity);
+    let quantity: number = Number(book.quantity);
 
     if (quantity > 0) {
       const duplicate = selected.find(
-        (bookSelected) => Number(bookSelected.id) === id
+        (bookSelected) => bookSelected.id === book.id
       );
 
       const submitedBook = books.find((singleBook) => singleBook.id === id);
@@ -50,15 +50,15 @@ export default function Sheet({
 
         setAmount((prevItems) => (prevItems += submitedBook!.price * quantity));
       } else {
-        const newSelected = selected.filter(
-          (bookSelected) => Number(bookSelected.id) != id
-        );
-
         setAmount((prevItems) => (prevItems += submitedBook!.price * quantity));
 
         book.quantity = String(quantity + Number(duplicate.quantity));
 
-        select([...newSelected, book]);
+        select((prevItems) =>
+          prevItems.map((item) =>
+            item.id === book.id ? { ...item, quantity: book.quantity } : item
+          )
+        );
       }
 
       setBook({
@@ -107,7 +107,7 @@ export default function Sheet({
               <button
                 type="button"
                 onClick={() => setShow(false)}
-                className="p-[2px] rounded-full text-gray-800 border border-gray-300"
+                className="p-[2px] rounded-full text-gray-800 hover:text-white border border-gray-300 hover:border-danger hover:bg-danger duration-200"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
