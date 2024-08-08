@@ -50,6 +50,8 @@ export const Transaction = pgTable("Transaction", {
 export const Detail_Transaction = pgTable("Detail_Transaction", {
   id: serial("id").primaryKey(),
   quantity: integer("quantity").notNull(),
-  book_id: integer("book_id").references(() => Book.id),
+  book_id: integer("book_id").references(() => Book.id, {
+    onDelete: "set null",
+  }),
   transaction_id: integer("transaction_id").references(() => Transaction.id),
 });

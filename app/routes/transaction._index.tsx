@@ -1,7 +1,12 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Await, defer, redirect, useLoaderData } from "@remix-run/react";
+import { QueryResult } from "pg";
 import { Suspense } from "react";
-import { deleteTransaction, getTransaction } from "utils/db/queries";
+import {
+  deleteDetail,
+  deleteTransaction,
+  getTransaction,
+} from "utils/db/queries/transaction";
 import ActionBar from "~/components/container/action_bar";
 import Pagination from "~/components/container/pagination";
 import Table from "~/components/container/table";
@@ -43,9 +48,13 @@ export default function Transaction() {
 
 export async function action({ request }: ActionFunctionArgs) {
   const body: FormData = await request.formData();
-  const idBook: number = Number(body.get("idBook"));
+  const id: number = Number(body.get("idBook"));
 
-  const result = await deleteTransaction(idBook);
+  let result: QueryResult<never>;
+  const resultDetail = await deleteDetail(id);
+  if (resultDetail) {
+    result = await deleteTransaction(id);
+  }
 
-  if (result) return redirect("/transaction");
+  if (result!) return redirect("/transaction");
 }

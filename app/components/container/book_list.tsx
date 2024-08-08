@@ -17,9 +17,6 @@ const BookList = memo(
     qty: number;
     deleteItem: (id: string, price: number, qty: number) => void;
   }) => {
-    console.log(title);
-    // Gunakan Cara ini untuk menghapus data buku yang dipesan
-    // setItems((prevItems) => prevItems.filter((_, index) => index !== indexToRemove));
     return (
       <div className="px-3 py-2 flex flex-col gap-4 w-full sm:w-[24rem] min-h-[8rem] h-fit border border-gray-200 rounded-lg bg-white">
         <div className="flex flex-row justify-between ">
@@ -61,7 +58,8 @@ const BookList = memo(
         </section>
       </div>
     );
-  }
+  },
+  (prevProps, nextProps) => prevProps.qty === nextProps.qty
 );
 
 export default BookList;

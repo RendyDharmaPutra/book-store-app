@@ -63,14 +63,6 @@ export default function AddBook() {
             {idr.format(amount)}
           </h3>
         </div>
-        {/* <Input
-          defaultValue={idr.format(amount)}
-          name="amountDisplay"
-          label="Total Harga"
-          type="text"
-          data={null}
-          error={errors?.amount || null}
-        /> */}
       </>
     );
   });
@@ -96,14 +88,6 @@ export default function AddBook() {
             </h2>
             <h3 className="text-gray-600 text-base md:text-lg">Nama Kasir</h3>
           </div>
-          {/* <Input
-          defaultValue="Nama Kasir"
-          name="userDisplay"
-          label="Kasir"
-          type="text"
-          data={null}
-          error={errors?.user_id || null}
-        /> */}
           <Amount amount={amount} />
         </section>
         <section className="flex flex-col items-center justify-center gap-2 w-full md:w-[50rem] ">

@@ -1,6 +1,6 @@
 {
-  "id": "ad79fc11-e8d1-41e3-818f-9f35042cb762",
-  "prevId": "d658dd19-1d82-4b66-9025-f788c7142be2",
+  "id": "c840858b-d1ba-4d13-8072-901b2b1f2d0c",
+  "prevId": "ad79fc11-e8d1-41e3-818f-9f35042cb762",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -146,7 +146,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "set null",
           "onUpdate": "no action"
         },
         "Detail_Transaction_transaction_id_Transaction_id_fk": {
