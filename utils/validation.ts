@@ -26,6 +26,7 @@ export const TransactionSchema = z.object({
   amount: z
     .number()
     .nonnegative("Total Harga tidak boleh Negatif")
+    .min(1, "Belum ada barang yang dipilih")
     .max(2147483647, "Total Harga terlalu besar"),
   user_id: z.number().min(1, "User tidak boleh kosong"),
 });

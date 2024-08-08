@@ -57,62 +57,76 @@ export default function AddBook() {
     return (
       <>
         <input type="hidden" name="amount" value={amount} />
-        <Input
+        <div className="md:self-end flex flex-row justify-start md:justify-center items-start  md:items-center gap-3  ">
+          <h2 className=" text-gray-800 text-lg md:text-2xl">Total Harga : </h2>
+          <h3 className="font-medium text-gray-800 text-lg md:text-2xl">
+            {idr.format(amount)}
+          </h3>
+        </div>
+        {/* <Input
           defaultValue={idr.format(amount)}
           name="amountDisplay"
           label="Total Harga"
           type="text"
           data={null}
           error={errors?.amount || null}
-        />
+        /> */}
       </>
     );
   });
 
-  console.log("Parent");
-
   return (
     <Form method="post" className="page">
       <h1 className="title">Tambah Transaksi</h1>
-      <div className="row-section flex-wrap gap-6 md:gap-4">
-        <Input
-          defaultValue={getCurrentDateTimeLocal()}
-          name="time"
-          label="Waktu"
-          type="datetime-local"
-          data={null}
-          error={errors?.time || null}
-        />
-        {/* Akses User Disini */}
-        <input type="hidden" name="user" value={"3"} />
-        <Input
+      <div className=" row-section gap-8 md:justify-between w-full h-[38rem] ">
+        <section className="md:px-4 flex flex-col md:justify-normal items-start gap-8 md:gap-10 md:w-1/2 h-full ">
+          <Input
+            defaultValue={getCurrentDateTimeLocal()}
+            name="time"
+            label="Waktu"
+            type="datetime-local"
+            data={null}
+            error={errors?.time || null}
+          />
+          {/* Akses User Disini */}
+          <input type="hidden" name="user" value={"3"} />
+          <div className="flex flex-row justify-start md:justify-center items-start  md:items-center gap-3  ">
+            <h2 className="font-medium text-gray-800 text-base md:text-lg">
+              Kasir :{" "}
+            </h2>
+            <h3 className="text-gray-600 text-base md:text-lg">Nama Kasir</h3>
+          </div>
+          {/* <Input
           defaultValue="Nama Kasir"
           name="userDisplay"
           label="Kasir"
           type="text"
           data={null}
           error={errors?.user_id || null}
-        />
-        <Suspense fallback={<h1>Loading...</h1>}>
-          <Await resolve={books}>
-            {(books) => (
-              <section className="flex flex-col items-center gap-2 ">
-                <BookDisplay
-                  books={books}
-                  cart={cart}
-                  deleteItem={deleteItem}
-                />
-                <SheetButton
-                  books={books}
-                  selected={cart}
-                  setAmount={setAmount}
-                  select={setCart}
-                />
-              </section>
-            )}
-          </Await>
-        </Suspense>
-        <Amount amount={amount} />
+        /> */}
+          <Amount amount={amount} />
+        </section>
+        <section className="flex flex-col items-center justify-center gap-2 w-full md:w-[50rem] ">
+          <Suspense fallback={<h1>Loading...</h1>}>
+            <Await resolve={books}>
+              {(books) => (
+                <>
+                  <BookDisplay
+                    books={books}
+                    cart={cart}
+                    deleteItem={deleteItem}
+                  />
+                  <SheetButton
+                    books={books}
+                    selected={cart}
+                    setAmount={setAmount}
+                    select={setCart}
+                  />
+                </>
+              )}
+            </Await>
+          </Suspense>
+        </section>
         <input type="hidden" name="detail" value={getcart()} />
       </div>
       <button
@@ -134,32 +148,30 @@ export async function action({ request }: ActionFunctionArgs) {
 
   const details: selectedBook[] = JSON.parse(String(body.get("detail")));
 
-  if (details.length >= 1) {
-    const transaction = {
-      time: String(body.get("time")),
-      amount: Number(body.get("amount")),
-      user_id: Number(body.get("user")),
-    };
+  const transaction = {
+    time: String(body.get("time")),
+    amount: Number(body.get("amount")),
+    user_id: Number(body.get("user")),
+  };
 
-    const validate = TransactionSchema.safeParse(transaction);
+  const validate = TransactionSchema.safeParse(transaction);
 
-    if (!validate.success) {
-      return json(validate.error.flatten().fieldErrors, { status: 400 });
-    }
-
-    const result = await insertTransaction(validate.data!);
-
-    details.map(async (detail) => {
-      const data = {
-        quantity: Number(detail.quantity),
-        book_id: Number(detail.id),
-        transaction_id: Number(result),
-      };
-      await insertDetail(data);
-    });
-
-    if (result) return redirect("/transaction");
+  if (!validate.success) {
+    return json(validate.error.flatten().fieldErrors, { status: 400 });
   }
+
+  const result = await insertTransaction(validate.data!);
+
+  details.map(async (detail) => {
+    const data = {
+      quantity: Number(detail.quantity),
+      book_id: Number(detail.id),
+      transaction_id: Number(result),
+    };
+    await insertDetail(data);
+  });
+
+  if (result) return redirect("/transaction");
 
   return null;
 }

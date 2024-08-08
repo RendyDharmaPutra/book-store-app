@@ -1,4 +1,4 @@
-import { asc, eq, ilike, or } from "drizzle-orm";
+import { asc, desc, eq, ilike, or } from "drizzle-orm";
 import { db } from ".";
 import { Book, Categories, Publishers, Transaction, User } from "./schema";
 import { idr } from "utils/methods";
@@ -85,7 +85,7 @@ export const getTransaction = async (search: string, page: number) => {
         ilike(User.name, `%${search}%`)
       )
     )
-    .orderBy(Transaction.time)
+    .orderBy(desc(Transaction.time))
     .limit(10)
     .offset((page - 1) * 10)
     .execute();

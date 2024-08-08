@@ -74,7 +74,7 @@ function TBody({
         >
           Detail
         </Link>
-        <ModalButton id={data.id} title={modalInfo} />
+        <ModalButton key={data.id} id={data.id} title={modalInfo} />
       </td>
     </tr>
   );
