@@ -1,42 +1,9 @@
 import { Link } from "@remix-run/react";
 import ModalButton from "../modal/modal_button";
 import NotFound from "../boundary/not_found";
+import { memo } from "react";
 
-export default function Table({
-  heads,
-  values,
-  datas,
-}: {
-  heads: string[];
-  values: string[];
-  datas: book[] | transactionTable[];
-}): JSX.Element {
-  return (
-    <div className="flex flex-col w-[95%] sm:w-full h-[36rem] sm:h-[32rem] overflow-auto rounded-lg text-gray-800 bg-zinc-50">
-      {datas.length == 0 ? (
-        <NotFound />
-      ) : (
-        <table className="text-left table-auto md:table-fixed">
-          <thead className="bg-zinc-100">
-            <tr>
-              {heads.map((head, index) => (
-                <THead key={index} name={head} />
-              ))}
-              <THead name="Aksi" />
-            </tr>
-          </thead>
-          <tbody>
-            {datas.map((data, index) => (
-              <TBody key={index} heads={values} data={data} />
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
-  );
-}
-
-function THead({ name }: { name: string }): JSX.Element {
+const THead = memo(({ name }: { name: string }): JSX.Element => {
   return (
     <th className="p-4 border-b border-gray-200">
       <p className="block text-sm antialiased font-semibold leading-none text-gray-600">
@@ -44,7 +11,7 @@ function THead({ name }: { name: string }): JSX.Element {
       </p>
     </th>
   );
-}
+});
 
 function TBody({
   heads,
@@ -89,3 +56,42 @@ function TCol({ content }: { content: string | number }): JSX.Element {
     </td>
   );
 }
+
+const Table = memo(
+  ({
+    heads,
+    values,
+    datas,
+  }: {
+    heads: string[];
+    values: string[];
+    datas: book[] | transactionTable[];
+  }): JSX.Element => {
+    return (
+      <div className="flex flex-col w-[95%] sm:w-full h-[36rem] sm:h-[32rem] overflow-auto rounded-lg text-gray-800 bg-zinc-50">
+        {datas.length == 0 ? (
+          <NotFound />
+        ) : (
+          <table className="text-left table-auto md:table-fixed">
+            <thead className="bg-zinc-100">
+              <tr>
+                {heads.map((head, index) => (
+                  <THead key={index} name={head} />
+                ))}
+                <THead name="Aksi" />
+              </tr>
+            </thead>
+            <tbody>
+              {datas.map((data, index) => (
+                <TBody key={index} heads={values} data={data} />
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
+    );
+  },
+  (prevProps, nextProps) => prevProps.datas === nextProps.datas
+);
+
+export default Table;
