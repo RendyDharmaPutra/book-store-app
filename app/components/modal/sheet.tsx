@@ -134,7 +134,7 @@ export default function Sheet({
                   required
                   onChange={(e) => handleInputChange(e.target)}
                   key="id"
-                  defaultValue={book.id}
+                  defaultValue={String(book.id)}
                   id="id"
                   name="id"
                   className="w-full max-h-[10rem] overflow-y-auto input-primary focus:bg-page"

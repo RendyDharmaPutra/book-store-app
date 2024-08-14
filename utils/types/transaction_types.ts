@@ -14,7 +14,7 @@ interface bookTransaction {
 }
 
 interface selectedBook {
-  id: string;
+  id: string | null;
   quantity: string;
 }
 

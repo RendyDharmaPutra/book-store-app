@@ -9,7 +9,7 @@ const BookDisplay = memo(
   }: {
     books: bookTransaction[];
     cart: selectedBook[];
-    deleteItem: (id: string, price: number, qty: number) => void;
+    deleteItem: ((id: string, price: number, qty: number) => void) | null;
   }) => {
     return (
       <div className="row-section md:flex-wrap justify-evenly gap-y-2 w-full max-h-[18rem] md:max-h-[32rem]  overflow-auto ">
@@ -24,7 +24,7 @@ const BookDisplay = memo(
             return (
               <BookList
                 key={index}
-                id={selected.id}
+                id={String(selected.id)}
                 title={book!.title}
                 writer={book!.writer}
                 price={book!.price}

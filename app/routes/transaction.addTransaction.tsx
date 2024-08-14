@@ -18,8 +18,9 @@ import {
 } from "utils/db/queries/transaction";
 import { TransactionSchema } from "utils/validation";
 import BookDisplay from "~/components/container/book_display";
-import Input from "~/components/form/input";
 import SheetButton from "~/components/modal/sheet_button";
+import TextBox from "~/components/form/text_box";
+import Amount from "~/components/form/amount";
 
 export async function loader() {
   // AKSES AKUN USER DARI COOKIE
@@ -52,31 +53,16 @@ export default function AddBook() {
     return JSON.stringify(cart);
   };
 
-  const Amount = memo(({ amount }: { amount: number }) => {
-    return (
-      <>
-        <input type="hidden" name="amount" value={amount} />
-        <div className="md:self-end flex flex-row justify-start md:justify-center items-start  md:items-center gap-3  ">
-          <h2 className=" text-gray-800 text-lg md:text-2xl">Total Harga : </h2>
-          <h3 className="font-medium text-gray-800 text-lg md:text-2xl">
-            {idr.format(amount)}
-          </h3>
-        </div>
-      </>
-    );
-  });
-
   return (
     <Form method="post" className="page">
       <h1 className="title">Tambah Transaksi</h1>
       <div className=" row-section gap-8 md:justify-between w-full h-[38rem] ">
         <section className="md:px-4 flex flex-col md:justify-normal items-start gap-8 md:gap-10 md:w-1/2 h-full ">
-          <Input
+          <TextBox
             defaultValue={getCurrentDateTimeLocal()}
             name="time"
             label="Waktu"
             type="datetime-local"
-            data={null}
             error={errors?.time || null}
           />
           {/* Akses User Disini */}

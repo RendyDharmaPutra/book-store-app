@@ -40,6 +40,28 @@ export const getTransaction = async (search: string, page: number) => {
   return result;
 };
 
+export const getTransactionDetail = async (id: number) => {
+  const data = await db
+    .select({
+      id: Transaction.id,
+      time: Transaction.time,
+      amount: Transaction.amount,
+      user_id: User.id,
+      user_name: User.name,
+    })
+    .from(Transaction)
+    .innerJoin(User, eq(Transaction.user_id, User.id))
+    .where(eq(Transaction.id, id))
+    .execute();
+
+  const result = data.map((transaction) => ({
+    ...transaction,
+    time: String(transaction.time).slice(0, -34),
+  }));
+
+  return result[0];
+};
+
 export const getBooks = async () => {
   const data = await db
     .select({
@@ -63,6 +85,24 @@ export const insertTransaction = async (data: transaction) => {
     .returning({ id: Transaction.id });
 
   return result[0].id;
+};
+
+export const getDetailTransaction = async (id: number) => {
+  const data = await db
+    .select({
+      id: Detail_Transaction.book_id,
+      quantity: Detail_Transaction.quantity,
+    })
+    .from(Detail_Transaction)
+    .where(eq(Detail_Transaction.transaction_id, id));
+
+  const result = data.map((transaction) => ({
+    ...transaction,
+    id: String(transaction.id),
+    quantity: String(transaction.quantity),
+  }));
+
+  return result;
 };
 
 export const insertDetail = async (data: detailTransaction) => {
