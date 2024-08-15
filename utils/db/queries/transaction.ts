@@ -1,13 +1,6 @@
 import { asc, desc, eq, ilike, or } from "drizzle-orm";
 import { db } from "../.";
-import {
-  Book,
-  Categories,
-  Detail_Transaction,
-  Publishers,
-  Transaction,
-  User,
-} from "../schema";
+import { Book, Detail_Transaction, Transaction, User } from "../schema";
 import { idr } from "utils/methods";
 
 export const getTransaction = async (search: string, page: number) => {
@@ -87,6 +80,12 @@ export const insertTransaction = async (data: transaction) => {
   return result[0].id;
 };
 
+export const deleteTransaction = async (id: number) => {
+  const result = await db.delete(Transaction).where(eq(Transaction.id, id));
+
+  return result;
+};
+
 export const getDetailTransaction = async (id: number) => {
   const data = await db
     .select({
@@ -107,12 +106,6 @@ export const getDetailTransaction = async (id: number) => {
 
 export const insertDetail = async (data: detailTransaction) => {
   const result = await db.insert(Detail_Transaction).values(data);
-
-  return result;
-};
-
-export const deleteTransaction = async (id: number) => {
-  const result = await db.delete(Transaction).where(eq(Transaction.id, id));
 
   return result;
 };

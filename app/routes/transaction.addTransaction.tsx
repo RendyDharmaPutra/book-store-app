@@ -9,8 +9,8 @@ import {
   useLoaderData,
   useNavigation,
 } from "@remix-run/react";
-import { memo, Suspense, useCallback, useState } from "react";
-import { getCurrentDateTimeLocal, idr } from "utils/methods";
+import { Suspense, useCallback, useState } from "react";
+import { getCurrentDateTimeLocal } from "utils/methods";
 import {
   getBooks,
   insertDetail,

@@ -18,12 +18,14 @@ function TBody({
   data,
 }: {
   heads: string[];
-  data: book | transactionTable;
+  data: book | transactionTable | userTable;
 }): JSX.Element {
   let modalInfo: string;
 
   if ("title" in data) {
     modalInfo = data.title;
+  } else if ("name" in data) {
+    modalInfo = data.name;
   } else {
     modalInfo = data.time;
   }
@@ -65,7 +67,7 @@ const Table = memo(
   }: {
     heads: string[];
     values: string[];
-    datas: book[] | transactionTable[];
+    datas: book[] | transactionTable[] | userTable[];
   }): JSX.Element => {
     return (
       <div className="flex flex-col w-[95%] sm:w-full h-[36rem] sm:h-[32rem] overflow-auto rounded-lg text-gray-800 bg-zinc-50">

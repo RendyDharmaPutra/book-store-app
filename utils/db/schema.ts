@@ -44,7 +44,9 @@ export const Transaction = pgTable("Transaction", {
   id: serial("id").primaryKey(),
   time: timestamp("time").notNull(),
   amount: integer("amount").notNull(),
-  user_id: integer("user_id").references(() => User.id),
+  user_id: integer("user_id").references(() => User.id, {
+    onDelete: "set null",
+  }),
 });
 
 export const Detail_Transaction = pgTable("Detail_Transaction", {

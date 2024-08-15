@@ -1,27 +1,12 @@
-import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import {
-  Await,
-  defer,
-  Form,
-  json,
-  redirect,
-  useActionData,
-  useLoaderData,
-  useNavigation,
-} from "@remix-run/react";
-import { memo, Suspense, useCallback, useState } from "react";
-import { getCurrentDateTimeLocal, idr } from "utils/methods";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { Await, defer, useLoaderData } from "@remix-run/react";
+import { Suspense } from "react";
 import {
   getBooks,
   getDetailTransaction,
   getTransactionDetail,
-  insertDetail,
-  insertTransaction,
 } from "utils/db/queries/transaction";
-import { TransactionSchema } from "utils/validation";
 import BookDisplay from "~/components/container/book_display";
-import SheetButton from "~/components/modal/sheet_button";
-import TextBox from "~/components/form/text_box";
 import Amount from "~/components/form/amount";
 
 export async function loader({ params }: LoaderFunctionArgs) {
@@ -42,9 +27,6 @@ export default function AddBook() {
   // MENDAPATKAN AKUN USER DARI COOKIE
   const { books, transaction, detail_transaction } =
     useLoaderData<typeof loader>();
-
-  const { state } = useNavigation();
-  const pending = state != "idle";
 
   return (
     <div className="page">
