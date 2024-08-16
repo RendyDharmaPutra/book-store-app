@@ -32,3 +32,44 @@ export const TransactionSchema = z.object({
 });
 
 export type Transaction = z.infer<typeof TransactionSchema>;
+
+export const UserSchema = z.object({
+  username: z
+    .string()
+    .min(3, "Username minimal 3 karakter")
+    .max(15, "Username maksimal 15 karakter"),
+  password: z
+    .string()
+    .min(3, "Password minimal 3 karakter")
+    .max(15, "Password maksimal 12 karakter"),
+  name: z
+    .string()
+    .min(3, "Nama minimal 3 karakter")
+    .max(256, "Nama maksimal 12 karakter"),
+  address: z
+    .string()
+    .min(3, "Alamat minimal 3 karakter")
+    .max(256, "Alamat maksimal 12 karakter"),
+  birth_date: z.string().transform((dateString, ctx) => {
+    const date = new Date(dateString);
+    if (isNaN(date.getDate())) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Format Waktu tidak sesuai",
+      });
+      return z.NEVER;
+    }
+    return date.toDateString();
+  }),
+  year: z
+    .number()
+    .nonnegative("Tahun Bergabung tidak boleh Negatif")
+    .min(1000, "Tahun Bergabung harus 4 angka")
+    .max(2147483647, "Tahun Bergabung terlalu besar"),
+  admin: z.boolean({
+    required_error: "Masukkan role yang dipilih",
+    invalid_type_error: "Role yang diberikan tidak valid",
+  }),
+});
+
+export type User = z.infer<typeof UserSchema>;

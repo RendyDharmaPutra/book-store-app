@@ -29,6 +29,12 @@ export const getUsers = async (search: string, page: number) => {
   return result;
 };
 
+export const insertUser = async (data: insertUser) => {
+  const result = await db.insert(User).values(data).returning({ id: User.id });
+
+  return result[0].id;
+};
+
 export const deleteUser = async (id: number) => {
   const result = await db.delete(User).where(eq(User.id, id));
 

@@ -19,6 +19,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function Users() {
+  // TODO : FIX ERROR SAAT HAPUS DATA USER
   const { users } = useLoaderData<typeof loader>();
   const heads = [
     "Username",

@@ -21,6 +21,18 @@ const BookDisplay = memo(
           cart.map((selected, index) => {
             const book = books.find((book) => book.id == Number(selected.id));
 
+            console.log(`Buku : ${book}`);
+
+            if (book === undefined) {
+              return (
+                <div className="px-3 py-2 flex flex-col items-center justify-center w-full sm:w-[24rem] h-fit border border-gray-200 rounded-lg bg-white">
+                  <h1 className="font-semibold text-lg text-gray-800">
+                    Buku telah dihapus
+                  </h1>
+                </div>
+              );
+            }
+
             return (
               <BookList
                 key={index}

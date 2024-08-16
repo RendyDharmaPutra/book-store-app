@@ -1,0 +1,128 @@
+import { ActionFunctionArgs } from "@remix-run/node";
+import {
+  Await,
+  defer,
+  Form,
+  json,
+  redirect,
+  useActionData,
+  useLoaderData,
+  useNavigation,
+} from "@remix-run/react";
+import { Suspense } from "react";
+import { getCategories, getPublishers, insertBook } from "utils/db/queries";
+import { BookSchema, UserSchema } from "utils/validation";
+import TextBox from "~/components/form/text_box";
+import Select from "~/components/form/select";
+import { insertUser } from "utils/db/queries/users";
+
+// export async function loader() {}
+
+export default function AddBook() {
+  const errors = useActionData<typeof action>();
+
+  const { state } = useNavigation();
+  const pending = state != "idle";
+
+  const roles = [
+    { id: 1, name: "Admin" },
+    { id: 2, name: "Non-Admin" },
+  ];
+
+  return (
+    <Form method="post" className="page">
+      <h1 className="title">Tambah Buku</h1>
+      <div className="row-section flex-wrap gap-6 md:gap-4">
+        <TextBox
+          defaultValue=""
+          name="username"
+          label="Username"
+          type="text"
+          error={errors?.username || null}
+        />
+        <TextBox
+          defaultValue=""
+          name="password"
+          label="Password"
+          type="password"
+          error={errors?.password || null}
+        />
+        <TextBox
+          defaultValue=""
+          name="name"
+          label="Nama Lengkap"
+          type="text"
+          error={errors?.name || null}
+        />
+        <TextBox
+          defaultValue=""
+          name="address"
+          label="Alamat"
+          type="text"
+          error={errors?.address || null}
+        />
+        <TextBox
+          defaultValue=""
+          name="birth_date"
+          label="Tanggal Lahir"
+          type="date"
+          error={errors?.birth_date || null}
+        />
+        <TextBox
+          defaultValue=""
+          name="year"
+          label="Tahun Bergabung"
+          type="number"
+          error={errors?.year || null}
+        />
+        <Select
+          defaultValue=""
+          name="role"
+          label="Role"
+          datas={roles}
+          error={errors?.admin || null}
+        />
+      </div>
+      <button
+        type="submit"
+        disabled={pending}
+        aria-disabled={pending}
+        className={`self-end w-full md:w-fit ${
+          pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
+        } h-[2.5rem] `}
+      >
+        {pending ? "Menyimpan..." : "Simpan"}
+      </button>
+    </Form>
+  );
+}
+
+export async function action({ request }: ActionFunctionArgs) {
+  const body = await request.formData();
+
+  // console.log(body);
+
+  const role = Number(body.get("role"));
+
+  const user = {
+    username: String(body.get("username")),
+    password: String(body.get("password")),
+    name: String(body.get("name")),
+    address: String(body.get("address")),
+    birth_date: String(body.get("birth_date")),
+    year: Number(body.get("year")),
+    admin: role === 1 ? true : false,
+  };
+
+  const validate = UserSchema.safeParse(user);
+
+  if (!validate.success) {
+    return json(validate.error.flatten().fieldErrors, { status: 400 });
+  }
+
+  console.log(validate.data);
+
+  const result = await insertUser(validate.data);
+
+  if (result) return redirect("/users");
+}
