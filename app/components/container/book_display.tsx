@@ -21,8 +21,6 @@ const BookDisplay = memo(
           cart.map((selected, index) => {
             const book = books.find((book) => book.id == Number(selected.id));
 
-            console.log(`Buku : ${book}`);
-
             if (book === undefined) {
               return (
                 <div className="px-3 py-2 flex flex-col items-center justify-center w-full sm:w-[24rem] h-fit border border-gray-200 rounded-lg bg-white">
@@ -35,7 +33,7 @@ const BookDisplay = memo(
 
             return (
               <BookList
-                key={index}
+                key={selected.id}
                 id={String(selected.id)}
                 title={book!.title}
                 writer={book!.writer}

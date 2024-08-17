@@ -1,22 +1,15 @@
 import { ActionFunctionArgs } from "@remix-run/node";
 import {
-  Await,
-  defer,
   Form,
   json,
   redirect,
   useActionData,
-  useLoaderData,
   useNavigation,
 } from "@remix-run/react";
-import { Suspense } from "react";
-import { getCategories, getPublishers, insertBook } from "utils/db/queries";
-import { BookSchema, UserSchema } from "utils/validation";
+import { UserSchema } from "utils/validation";
 import TextBox from "~/components/form/text_box";
 import Select from "~/components/form/select";
 import { insertUser } from "utils/db/queries/users";
-
-// export async function loader() {}
 
 export default function AddBook() {
   const errors = useActionData<typeof action>();
@@ -100,8 +93,6 @@ export default function AddBook() {
 export async function action({ request }: ActionFunctionArgs) {
   const body = await request.formData();
 
-  // console.log(body);
-
   const role = Number(body.get("role"));
 
   const user = {
@@ -119,8 +110,6 @@ export async function action({ request }: ActionFunctionArgs) {
   if (!validate.success) {
     return json(validate.error.flatten().fieldErrors, { status: 400 });
   }
-
-  console.log(validate.data);
 
   const result = await insertUser(validate.data);
 
