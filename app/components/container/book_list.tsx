@@ -17,8 +17,6 @@ const BookList = memo(
     qty: number;
     deleteItem: ((id: string, price: number, qty: number) => void) | null;
   }) => {
-    console.log(`${id} : ${title}`);
-
     return (
       <div className="px-3 py-2 flex flex-col gap-4 w-full sm:w-[24rem] min-h-[8rem] h-fit border border-gray-200 rounded-lg bg-white">
         <div className="flex flex-row justify-between ">

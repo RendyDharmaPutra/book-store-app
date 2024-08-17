@@ -22,7 +22,7 @@ export const getUsers = async (search: string, page: number) => {
 
   const result = data.map((user) => ({
     ...user,
-    birthDate: String(user.birthDate).slice(0, 10),
+    birthDate: String(user.birthDate),
     role: user.role ? "Admin" : "Non-admin",
   }));
 

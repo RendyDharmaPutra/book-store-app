@@ -1,7 +1,7 @@
 import { asc, desc, eq, ilike, or } from "drizzle-orm";
 import { db } from "../.";
 import { Book, Detail_Transaction, Transaction, User } from "../schema";
-import { idr } from "utils/methods";
+import { idr, timeFormat } from "utils/methods";
 
 export const getTransaction = async (search: string, page: number) => {
   const data = await db
@@ -13,12 +13,7 @@ export const getTransaction = async (search: string, page: number) => {
     })
     .from(Transaction)
     .innerJoin(User, eq(Transaction.user_id, User.id))
-    .where(
-      or(
-        // ilike(Transaction.time, `%${search}%`),
-        ilike(User.name, `%${search}%`)
-      )
-    )
+    .where(or(ilike(User.name, `%${search}%`)))
     .orderBy(desc(Transaction.time))
     .limit(10)
     .offset((page - 1) * 10)
@@ -27,7 +22,7 @@ export const getTransaction = async (search: string, page: number) => {
   const result = data.map((transaction) => ({
     ...transaction,
     amount: idr.format(transaction.amount),
-    time: String(transaction.time).slice(0, -34),
+    time: timeFormat(String(transaction.time)),
   }));
 
   return result;

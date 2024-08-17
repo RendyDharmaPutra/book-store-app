@@ -2,9 +2,11 @@ import { useState } from "react";
 import Modal from "./modal";
 
 export default function ModalButton({
+  headline,
   id,
   title,
 }: {
+  headline: string;
   id: number;
   title: string;
 }): JSX.Element {
@@ -20,7 +22,13 @@ export default function ModalButton({
       >
         Hapus
       </button>
-      <Modal idBook={id} title={title} isOpen={show} setShow={setShow} />
+      <Modal
+        headline={headline}
+        idBook={id}
+        title={title}
+        isOpen={show}
+        setShow={setShow}
+      />
     </>
   );
 }

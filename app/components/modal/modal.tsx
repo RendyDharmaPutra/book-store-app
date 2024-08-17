@@ -5,11 +5,13 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const Modal = memo(
   ({
+    headline,
     idBook,
     title,
     isOpen,
     setShow,
   }: {
+    headline: string;
     idBook: number;
     title: string;
     isOpen: boolean;
@@ -17,6 +19,16 @@ const Modal = memo(
   }) => {
     const { state } = useNavigation();
     const pending = state != "idle";
+
+    let type: string;
+
+    if (headline === "Buku") {
+      type = "berjudul";
+    } else if (headline === "Transaksi") {
+      type = "pada waktu";
+    } else {
+      type = "bernama";
+    }
 
     return (
       <AnimatePresence mode="wait">
@@ -50,9 +62,9 @@ const Modal = memo(
               }}
               className="bg-white layout rounded-lg shadow-lg w-3/4 md:w-1/3"
             >
-              <h2 className="mb-4 title">Hapus Buku</h2>
+              <h2 className="mb-4 title">Hapus {headline}</h2>
               <p className="mb-4 text-gray-600">
-                Hapus buku berjudul{" "}
+                Hapus {headline} {type}{" "}
                 <span className="font-medium text-gray-800">{title}</span>?
               </p>
               <div className="flex flex-row items-end justify-end gap-4">
