@@ -29,6 +29,28 @@ export const getUsers = async (search: string, page: number) => {
   return result;
 };
 
+export const getUser = async (id: number) => {
+  const data = await db.select().from(User).where(eq(User.id, id));
+
+  const result = data.map((user) => ({
+    ...user,
+    birth_date: String(user.birth_date),
+    admin: user.admin ? "1" : "0",
+  }));
+
+  return result[0];
+};
+
+export const updateUser = async (id: number, data: insertUser) => {
+  const result = await db
+    .update(User)
+    .set(data)
+    .where(eq(User.id, id))
+    .returning();
+
+  return result;
+};
+
 export const insertUser = async (data: insertUser) => {
   const result = await db.insert(User).values(data).returning({ id: User.id });
 
