@@ -28,6 +28,7 @@ export default function Transaction() {
   const heads = ["Waktu", "Total Harga", "Kasir"];
 
   const values = ["time", "amount", "user"];
+
   return (
     <div className="page">
       <h1 className="title">Daftar Transaksi</h1>

@@ -1,15 +1,14 @@
 import { useState } from "react";
 import Modal from "./modal";
 
-export default function ModalButton({
-  headline,
-  id,
-  title,
-}: {
+type ModalButtonProps = {
   headline: string;
+  type: string;
   id: number;
   title: string;
-}): JSX.Element {
+};
+
+export default function ModalButton(props: ModalButtonProps): JSX.Element {
   const [show, setShow] = useState<boolean>(false);
 
   return (
@@ -23,9 +22,10 @@ export default function ModalButton({
         Hapus
       </button>
       <Modal
-        headline={headline}
-        idBook={id}
-        title={title}
+        idBook={props.id}
+        headline={props.headline}
+        type={props.type}
+        title={props.title}
         isOpen={show}
         setShow={setShow}
       />
