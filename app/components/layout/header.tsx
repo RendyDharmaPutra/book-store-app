@@ -53,7 +53,11 @@ function NavTitle() {
 }
 
 function NavContent({ show }: { show: boolean }) {
-  const path = useLocation().pathname;
+  const pathname = useLocation().pathname;
+
+  const path = pathname.split("/");
+
+  console.log(path);
 
   const routes = [
     { route: "/", page: "Buku" },
@@ -73,11 +77,11 @@ function NavContent({ show }: { show: boolean }) {
             key={element.page}
             route={element.route}
             page={element.page}
-            path={path}
+            path={path[1]}
           />
         ))}
       </section>
-      <Profile path={path} />
+      <Profile path={path[1]} />
     </div>
   );
 }
@@ -246,7 +250,7 @@ function NavItem({
       replace
       prefetch="viewport"
       to={route}
-      className={`nav-item ${path === route && "bg-gray-100"}`}
+      className={`nav-item ${path === route.slice(1) && "bg-gray-100"}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

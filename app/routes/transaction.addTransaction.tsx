@@ -56,8 +56,8 @@ export default function AddBook() {
   return (
     <Form method="post" className="page">
       <h1 className="title">Tambah Transaksi</h1>
-      <div className=" row-section gap-8 md:justify-between w-full h-[38rem] ">
-        <section className="md:px-4 flex flex-col md:justify-normal items-start gap-8 md:gap-10 md:w-1/2 h-full ">
+      <div className=" row-section gap-5 md:justify-between w-full h-[38rem] ">
+        <section className="md:px-4 flex flex-col md:justify-normal items-start gap-8 md:gap-10 md:w-1/2 ">
           <TextBox
             defaultValue={getCurrentDateTimeLocal()}
             name="time"

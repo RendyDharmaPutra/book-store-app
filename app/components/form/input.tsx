@@ -11,7 +11,7 @@ export default function Input({
 }): JSX.Element {
   return (
     <div key={name} className={`flex flex-col gap-1 w-full sm:w-[24rem]`}>
-      <label htmlFor={name} className="font-medium text-gray-700">
+      <label htmlFor={name} className="text-sm text-gray-600">
         {label}
       </label>
       {children}

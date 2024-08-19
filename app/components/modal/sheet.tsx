@@ -107,7 +107,7 @@ export default function Sheet({
               <button
                 type="button"
                 onClick={() => setShow(false)}
-                className="p-[2px] rounded-full text-gray-800 hover:text-white border border-gray-300 hover:border-danger hover:bg-danger duration-200"
+                className="p-[2px] rounded-full text-gray-500 hover:text-white border border-gray-300 hover:border-danger hover:bg-danger duration-200"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -115,7 +115,7 @@ export default function Sheet({
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="size-5"
+                  className="size-4"
                 >
                   <path
                     strokeLinecap="round"
@@ -125,8 +125,8 @@ export default function Sheet({
                 </svg>
               </button>
             </section>
-            <section className="flex flex-col items-center gap-3 ">
-              <div className={`flex flex-col gap-1 w-full sm:w-[24rem]`}>
+            <section className="flex flex-col items-center gap-3">
+              <div className={`flex flex-col gap-1 w-full`}>
                 <label htmlFor="book" className="font-medium text-gray-700">
                   Buku
                 </label>
@@ -137,7 +137,7 @@ export default function Sheet({
                   defaultValue={String(book.id)}
                   id="id"
                   name="id"
-                  className="w-full max-h-[10rem] overflow-y-auto input-primary focus:bg-page"
+                  className="w-full max-h-[10rem] overflow-y-auto input-primary focus:bg-page cursor-pointer"
                 >
                   {books.map((book) => {
                     return (
@@ -152,7 +152,7 @@ export default function Sheet({
                   })}
                 </select>
               </div>
-              <div className={`flex flex-col gap-1 w-full sm:w-[24rem]`}>
+              <div className={`flex flex-col gap-1 w-full`}>
                 <label htmlFor="quantity" className="font-medium text-gray-700">
                   Kuantitas
                 </label>
@@ -169,7 +169,7 @@ export default function Sheet({
               <button
                 type="button"
                 onClick={save}
-                className={`mt-4 md:mr-5 self-end w-full md:w-fit btn-primary h-[2.5rem]`}
+                className={`mt-4  self-end w-full md:w-fit btn-primary h-[2.5rem]`}
               >
                 Simpan
               </button>
