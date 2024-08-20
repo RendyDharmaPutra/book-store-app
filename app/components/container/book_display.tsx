@@ -14,11 +14,13 @@ const BookDisplay = memo(
     return (
       <div className="row-section md:flex-wrap justify-evenly gap-y-3 w-full max-h-[20rem] md:max-h-[32rem] overflow-auto ">
         {cart.length < 1 ? (
-          <h1 className="self-center text-lg md:text-xl text-gray-600">
-            Belum memilih Buku
-          </h1>
+          <div className="flex center w-full h-[20rem] md:h-[32rem] ">
+            <h1 className="text-lg md:text-xl text-gray-600 ">
+              Belum memilih Buku
+            </h1>
+          </div>
         ) : (
-          cart.map((selected, index) => {
+          cart.map((selected) => {
             const book = books.find((book) => book.id == Number(selected.id));
 
             if (book === undefined) {

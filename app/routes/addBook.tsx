@@ -14,6 +14,7 @@ import { getCategories, getPublishers, insertBook } from "utils/db/queries";
 import { BookSchema } from "utils/validation";
 import TextBox from "~/components/form/text_box";
 import Select from "~/components/form/select";
+import Divider from "~/components/container/divider";
 
 export async function loader() {
   const categories = getCategories();
@@ -35,7 +36,7 @@ export default function AddBook() {
   return (
     <Form method="post" className="page">
       <h1 className="title">Tambah Buku</h1>
-      <div className="px-4 row-section justify-between ">
+      <div className="px-4 row-section justify-between gap-6">
         <section className="row-section flex-wrap gap-6 md:gap-4 md:w-1/2 ">
           <TextBox
             defaultValue=""
@@ -66,6 +67,7 @@ export default function AddBook() {
             error={errors?.price || null}
           />
         </section>
+        <Divider />
         <section className="row-section flex-wrap gap-6 md:gap-4 md:w-1/2 ">
           <Suspense fallback={<h1>Loading...</h1>}>
             <Await resolve={publishers}>
@@ -100,7 +102,7 @@ export default function AddBook() {
         type="submit"
         disabled={pending}
         aria-disabled={pending}
-        className={`self-end w-full md:w-fit ${
+        className={`mt-auto md:mt-0 self-end w-full md:w-fit ${
           pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
         } h-[2.5rem] `}
       >
