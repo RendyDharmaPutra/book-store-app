@@ -68,10 +68,10 @@
   }
 
   .nav-icon {
-    @apply size-4 md:size-5 text-gray-600;
+    @apply size-4 lg:size-5 text-gray-600;
   }
 
   .nav-text {
-    @apply md:block text-sm md:text-base text-gray-600;
+    @apply md:block text-sm lg:text-base text-gray-600;
   }
 }

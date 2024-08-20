@@ -142,7 +142,7 @@ function Profile({ path }: { path: string }) {
               scaleY: 0,
             }}
             style={{ originY: 0 }}
-            className="absolute top-52 right-4 md:top-16 md:right-5"
+            className="absolute top-60 right-4 md:top-16 md:right-5"
           >
             <ProfileMenu />
           </motion.div>
@@ -186,7 +186,7 @@ function ProfileMenu() {
       </Link>
       <button
         onClick={logout}
-        className="p-2 flex flex-row items-center justify-start gap-1 md:gap-2 w-full rounded-lg hover:bg-red-100 duration-200"
+        className="p-2 flex flex-row items-center justify-start gap-1 lg:gap-2 w-full rounded-lg hover:bg-red-100 duration-200"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
