@@ -24,57 +24,62 @@ export default function AddBook() {
 
   return (
     <Form method="post" className="page">
-      <h1 className="title">Tambah Buku</h1>
-      <div className="row-section flex-wrap gap-6 md:gap-4">
-        <TextBox
-          defaultValue=""
-          name="username"
-          label="Username"
-          type="text"
-          error={errors?.username || null}
-        />
-        <TextBox
-          defaultValue=""
-          name="password"
-          label="Password"
-          type="password"
-          error={errors?.password || null}
-        />
-        <TextBox
-          defaultValue=""
-          name="name"
-          label="Nama Lengkap"
-          type="text"
-          error={errors?.name || null}
-        />
-        <TextBox
-          defaultValue=""
-          name="address"
-          label="Alamat"
-          type="text"
-          error={errors?.address || null}
-        />
-        <TextBox
-          defaultValue=""
-          name="birth_date"
-          label="Tanggal Lahir"
-          type="date"
-          error={errors?.birth_date || null}
-        />
-        <TextBox
-          defaultValue=""
-          name="year"
-          label="Tahun Bergabung"
-          type="number"
-          error={errors?.year || null}
-        />
-        <Select
-          defaultValue=""
-          name="role"
-          label="Role"
-          datas={roles}
-          error={errors?.admin || null}
-        />
+      <h1 className="title">Tambah Karyawan</h1>
+      <div className="px-4 row-section justify-between ">
+        <section className="row-section flex-wrap gap-6 md:gap-4 md:w-1/2 ">
+          <TextBox
+            defaultValue=""
+            name="username"
+            label="Username"
+            type="text"
+            error={errors?.username || null}
+          />
+          <TextBox
+            defaultValue=""
+            name="password"
+            label="Password"
+            type="password"
+            error={errors?.password || null}
+          />
+          <TextBox
+            defaultValue=""
+            name="name"
+            label="Nama Lengkap"
+            type="text"
+            error={errors?.name || null}
+          />
+          <TextBox
+            defaultValue=""
+            name="address"
+            label="Alamat"
+            type="text"
+            error={errors?.address || null}
+          />
+
+          <TextBox
+            defaultValue=""
+            name="year"
+            label="Tahun Bergabung"
+            type="number"
+            error={errors?.year || null}
+          />
+        </section>
+        <section className="row-section flex-wrap gap-6 md:gap-4 ">
+          <TextBox
+            defaultValue=""
+            name="birth_date"
+            label="Tanggal Lahir"
+            type="date"
+            error={errors?.birth_date || null}
+          />
+          <Select
+            defaultValue=""
+            name="role"
+            label="Role"
+            datas={roles}
+            error={errors?.admin || null}
+          />
+        </section>
       </div>
       <button
         type="submit"

@@ -67,7 +67,7 @@ export default function AddBook() {
           />
           {/* Akses User Disini */}
           <input type="hidden" name="user" value={"3"} />
-          <div className="flex flex-row justify-start md:justify-center items-start  md:items-center gap-3  ">
+          <div className="flex flex-row justify-start md:justify-center items-start md:items-center gap-3  ">
             <h2 className="font-medium text-gray-800 text-base md:text-lg">
               Kasir :{" "}
             </h2>
@@ -75,7 +75,7 @@ export default function AddBook() {
           </div>
           <Amount amount={amount} />
         </section>
-        <section className="flex flex-col items-center justify-center gap-2 w-full md:w-[50rem] ">
+        <section className="flex flex-col items-center justify-between w-full md:w-[50rem] h-full ">
           <Suspense fallback={<h1>Loading...</h1>}>
             <Await resolve={books}>
               {(books) => (

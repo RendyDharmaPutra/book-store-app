@@ -35,62 +35,67 @@ export default function AddBook() {
   return (
     <Form method="post" className="page">
       <h1 className="title">Tambah Buku</h1>
-      <div className="row-section flex-wrap gap-6 md:gap-4">
-        <TextBox
-          defaultValue=""
-          name="title"
-          label="Judul Buku"
-          type="text"
-          error={errors?.title || null}
-        />
-        <TextBox
-          defaultValue=""
-          name="writer"
-          label="Penulis"
-          type="text"
-          error={errors?.writer || null}
-        />
-        <TextBox
-          defaultValue=""
-          name="year"
-          label="Tahun Terbit"
-          type="number"
-          error={errors?.year || null}
-        />
-        <TextBox
-          defaultValue=""
-          name="price"
-          label="Harga"
-          type="number"
-          error={errors?.price || null}
-        />
-        <Suspense fallback={<h1>Loading...</h1>}>
-          <Await resolve={publishers}>
-            {(publishers) => (
-              <Select
-                defaultValue=""
-                name="publisher"
-                label="Penerbit"
-                datas={publishers}
-                error={errors?.publisher_id || null}
-              />
-            )}
-          </Await>
-        </Suspense>
-        <Suspense fallback={<h1>Loading...</h1>}>
-          <Await resolve={categories}>
-            {(categories) => (
-              <Select
-                defaultValue=""
-                name="category"
-                label="Kategori"
-                datas={categories}
-                error={errors?.category_id || null}
-              />
-            )}
-          </Await>
-        </Suspense>
+      <div className="px-4 row-section justify-between ">
+        <section className="row-section flex-wrap gap-6 md:gap-4 md:w-1/2 ">
+          <TextBox
+            defaultValue=""
+            name="title"
+            label="Judul Buku"
+            type="text"
+            error={errors?.title || null}
+          />
+          <TextBox
+            defaultValue=""
+            name="writer"
+            label="Penulis"
+            type="text"
+            error={errors?.writer || null}
+          />
+          <TextBox
+            defaultValue=""
+            name="year"
+            label="Tahun Terbit"
+            type="number"
+            error={errors?.year || null}
+          />
+          <TextBox
+            defaultValue=""
+            name="price"
+            label="Harga"
+            type="number"
+            error={errors?.price || null}
+          />
+        </section>
+        <section className="row-section flex-wrap gap-6 md:gap-4 md:w-1/2 ">
+          <Suspense fallback={<h1>Loading...</h1>}>
+            <Await resolve={publishers}>
+              {(publishers) => (
+                <Select
+                  defaultValue=""
+                  name="publisher"
+                  label="Penerbit"
+                  datas={publishers}
+                  error={errors?.publisher_id || null}
+                />
+              )}
+            </Await>
+          </Suspense>
+          <Suspense fallback={<h1>Loading...</h1>}>
+            <Await resolve={categories}>
+              {(categories) => (
+                <Select
+                  defaultValue=""
+                  name="category"
+                  label="Kategori"
+                  datas={categories}
+                  error={errors?.category_id || null}
+                />
+              )}
+            </Await>
+          </Suspense>
+        </section>
       </div>
+
       <button
         type="submit"
         disabled={pending}

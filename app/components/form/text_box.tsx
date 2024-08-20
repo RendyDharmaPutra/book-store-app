@@ -22,7 +22,9 @@ export default function TextBox({
         type={type}
         disabled={name == "userDisplay" || name == "amountDisplay"}
         defaultValue={defaultValue}
-        className="w-full input-primary"
+        className={`${
+          type.includes("date") && "h-[3rem] cursor-pointer"
+        } input-primary`}
       />
     </Input>
   );

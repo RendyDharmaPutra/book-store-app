@@ -23,7 +23,7 @@ export default function Select({
         defaultValue={defaultValue}
         id={name}
         name={name}
-        className="w-full max-h-[10rem] overflow-y-auto input-primary focus:bg-page"
+        className="w-full h-[3rem] overflow-y-auto input-primary focus:bg-page cursor-pointer"
       >
         {datas.map((data) => {
           return (

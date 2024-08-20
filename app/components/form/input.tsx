@@ -10,7 +10,7 @@ export default function Input({
   children: React.ReactNode;
 }): JSX.Element {
   return (
-    <div key={name} className={`flex flex-col gap-1 w-full sm:w-[24rem]`}>
+    <div key={name} className={`flex flex-col gap-1  w-full sm:w-[24rem]`}>
       <label htmlFor={name} className="text-sm text-gray-600">
         {label}
       </label>
