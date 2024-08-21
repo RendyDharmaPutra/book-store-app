@@ -73,7 +73,7 @@ function NavContent({ show }: { show: boolean }) {
   return (
     <>
       {isMobile ? (
-        <>
+        <AnimatePresence mode="popLayout">
           {show && (
             <motion.div
               initial={{
@@ -89,8 +89,7 @@ function NavContent({ show }: { show: boolean }) {
                 scaleY: 0,
               }}
               style={{ originY: 0 }}
-              className={`"flex"
-         flex-col  gap-4 `}
+              className="flex flex-col gap-4"
             >
               <section className="flex flex-col gap-2 w-full ">
                 {routes.map((element) => (
@@ -105,9 +104,9 @@ function NavContent({ show }: { show: boolean }) {
               <Profile path={path[1]} />
             </motion.div>
           )}
-        </>
+        </AnimatePresence>
       ) : (
-        <div className={`flex flex-row justify-between gap-12 w-fit `}>
+        <div className="flex flex-row justify-between gap-12 w-fit ">
           <section className="flex flex-row gap-2 w-full ">
             {routes.map((element) => (
               <NavItem
