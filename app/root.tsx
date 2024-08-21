@@ -1,16 +1,22 @@
 import {
+  Await,
+  defer,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
   useLocation,
 } from "@remix-run/react";
 import "./tailwind.css";
-import { MetaFunction } from "@remix-run/node";
+import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import Header from "./components/layout/header";
 import Footer from "./components/layout/footer";
 import Back from "./components/layout/back_button";
+import { getAuth } from "utils/db/queries/authenticate";
+import { Suspense } from "react";
+import Restricted from "./components/boundary/restricted";
 
 export const meta: MetaFunction = () => {
   return [
@@ -19,7 +25,15 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export async function loader({ request }: LoaderFunctionArgs) {
+  const auth = getAuth(request);
+
+  return defer({ auth });
+}
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  const { auth } = useLoaderData<typeof loader>();
+
   const path = useLocation().pathname;
   const hasnum = /\d/;
 
@@ -31,15 +45,33 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="flex flex-col min-h-screen">
+      <body className="flex flex-col min-h-screen ">
         {path != "/login" ? (
           <>
-            <Header />
-            {(path.includes("add") || hasnum.test(path)) && <Back />}
-            <main className="flex-grow p-2 flex flex-row bg-page">
-              {children}
-            </main>
-            <Footer />
+            <Suspense>
+              <Await resolve={auth}>
+                {(auth) => (
+                  <>
+                    {auth ? (
+                      <>
+                        <Header />
+                        {(path.includes("add") || hasnum.test(path)) && (
+                          <Back />
+                        )}
+                        <main className="flex-grow p-2 flex flex-row bg-page">
+                          {children}
+                        </main>
+                        <Footer />
+                      </>
+                    ) : (
+                      <div className="flex flex-col center w-full h-screen bg-page">
+                        <Restricted />
+                      </div>
+                    )}
+                  </>
+                )}
+              </Await>
+            </Suspense>
           </>
         ) : (
           <main className="flex-grow layout flex flex-col justify-center items-center bg-page">

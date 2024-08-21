@@ -1,4 +1,4 @@
-import { Link, redirect, useLocation } from "@remix-run/react";
+import { Form, Link } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import useRoute from "utils/hooks/route_hooks";
@@ -169,20 +169,35 @@ function Profile({ path }: { path: string }) {
           <motion.div
             initial={{
               opacity: 0,
-              scaleY: 0,
             }}
             animate={{
               opacity: 1,
-              scaleY: 1,
             }}
             exit={{
               opacity: 0,
-              scaleY: 0,
             }}
-            style={{ originY: 0 }}
-            className="absolute top-60 right-4 md:top-[68px] md:right-5"
+            onClick={() => setShow(false)}
+            className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50"
           >
-            <ProfileMenu />
+            <motion.div
+              onClick={(e) => e.stopPropagation()}
+              initial={{
+                opacity: 0,
+                scaleY: 0,
+              }}
+              animate={{
+                opacity: 1,
+                scaleY: 1,
+              }}
+              exit={{
+                opacity: 0,
+                scaleY: 0,
+              }}
+              style={{ originY: 0 }}
+              className="absolute top-60 right-4 md:top-[68px] md:right-5"
+            >
+              <ProfileMenu />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -191,10 +206,6 @@ function Profile({ path }: { path: string }) {
 }
 
 function ProfileMenu() {
-  const logout = () => {
-    redirect("/login");
-  };
-
   return (
     <section
       className={`p-1 flex flex-col w-[10rem] rounded-xl bg-white border bordder-gray-200`}
@@ -222,27 +233,29 @@ function ProfileMenu() {
 
         <h2 className="nav-text">User</h2>
       </Link>
-      <button
-        onClick={logout}
-        className="p-2 flex flex-row items-center justify-start gap-1 lg:gap-2 w-full rounded-lg hover:bg-red-100 duration-200"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="nav-icon text-danger"
+      <Form method="post" action={"/logout"} className="">
+        <button
+          type="submit"
+          className="p-2 flex flex-row items-center justify-start gap-1 lg:gap-2 w-full rounded-lg hover:bg-red-100 duration-200"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
-          />
-        </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="nav-icon text-danger"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
+            />
+          </svg>
 
-        <h2 className="nav-text text-danger">Logout</h2>
-      </button>
+          <h2 className="nav-text text-danger">Logout</h2>
+        </button>
+      </Form>
     </section>
   );
 }

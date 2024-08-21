@@ -14,7 +14,7 @@ const BookDisplay = memo((props: BookDisplayType) => {
       className={`row-section md:flex-wrap justify-evenly gap-y-3 w-full ${props.height} md:max-h-[32rem] overflow-auto `}
     >
       {props.cart.length < 1 ? (
-        <div className="flex center w-full h-[20rem] md:h-[32rem] ">
+        <div className="flex center md:items-end w-full h-[20rem] md:h-[32rem] ">
           <h1 className="text-lg md:text-xl text-gray-600 ">
             Belum memilih Buku
           </h1>

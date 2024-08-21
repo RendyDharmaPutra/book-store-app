@@ -1,5 +1,18 @@
 import { z } from "zod";
 
+export const UserLogSchema = z.object({
+  username: z
+    .string()
+    .min(3, "Masukkan username yang valid")
+    .max(15, "Masukkan username yang valid"),
+  password: z
+    .string()
+    .min(3, "Masukkan password yang valid")
+    .max(15, "Masukkan password yang valid"),
+});
+
+export type UserLog = z.infer<typeof UserSchema>;
+
 export const BookSchema = z.object({
   title: z.string().min(1, "Judul tidak boleh kosong"),
   writer: z.string().min(1, "Penulis tidak boleh kosong"),

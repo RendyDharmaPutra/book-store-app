@@ -1,4 +1,4 @@
-import { ActionFunctionArgs } from "@remix-run/node";
+import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import {
   Await,
   defer,
@@ -21,19 +21,20 @@ import BookDisplay from "~/components/container/book_display";
 import SheetButton from "~/components/modal/sheet_button";
 import TextBox from "~/components/form/text_box";
 import Amount from "~/components/form/amount";
+import { getAccount } from "utils/db/queries/authenticate";
 
-export async function loader() {
-  // AKSES AKUN USER DARI COOKIE
+export async function loader({ request }: LoaderFunctionArgs) {
+  const account = getAccount(request);
   const books = getBooks();
 
   return defer({
+    account,
     books,
   });
 }
 
 export default function AddBook() {
-  // MENDAPATKAN AKUN USER DARI COOKIE
-  const { books } = useLoaderData<typeof loader>();
+  const { account, books } = useLoaderData<typeof loader>();
   const errors = useActionData<typeof action>();
 
   const [cart, setCart] = useState<selectedBook[]>([]);
@@ -63,14 +64,23 @@ export default function AddBook() {
             type="datetime-local"
             error={errors?.time || null}
           />
-          {/* Akses User Disini */}
-          <input type="hidden" name="user" value={"3"} />
-          <div className="flex flex-row justify-start md:justify-center items-start md:items-center gap-3  ">
-            <h2 className="font-medium text-gray-800 text-base md:text-lg">
-              Kasir :{" "}
-            </h2>
-            <h3 className="text-gray-600 text-base md:text-lg">Nama Kasir</h3>
-          </div>
+          <Suspense>
+            <Await resolve={account}>
+              {(account) => (
+                <>
+                  <input type="hidden" name="user" value={account.id} />
+                  <div className="flex flex-row justify-start md:justify-center items-start md:items-center gap-3  ">
+                    <h2 className="font-medium text-gray-800 text-base md:text-lg">
+                      Kasir :{" "}
+                    </h2>
+                    <h3 className="text-gray-600 text-base md:text-lg">
+                      {account.name}
+                    </h3>
+                  </div>
+                </>
+              )}
+            </Await>
+          </Suspense>
           <Amount amount={amount} />
         </section>
         <section className="flex flex-col items-center justify-between w-full md:w-[50rem] h-full ">

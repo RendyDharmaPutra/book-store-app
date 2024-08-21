@@ -1,4 +1,4 @@
-import { desc, eq, ilike, or } from "drizzle-orm";
+import { asc, desc, eq, ilike, or } from "drizzle-orm";
 import { db } from "..";
 import { User } from "../schema";
 
@@ -15,7 +15,7 @@ export const getUsers = async (search: string, page: number) => {
     })
     .from(User)
     .where(or(ilike(User.name, `%${search}%`)))
-    .orderBy(desc(User.name))
+    .orderBy(asc(User.name))
     .limit(10)
     .offset((page - 1) * 10)
     .execute();
