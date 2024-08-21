@@ -40,7 +40,7 @@ export default function AddBook() {
   const [amount, setAmount] = useState(0);
 
   const { state } = useNavigation();
-  const pending = state !== "submitting";
+  const pending = state === "submitting";
 
   const deleteItem = useCallback((id: string, price: number, qty: number) => {
     setCart((prevItems) => prevItems.filter((item) => item.id != id));
