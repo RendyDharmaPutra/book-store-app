@@ -1,5 +1,11 @@
 import { ActionFunctionArgs } from "@remix-run/node";
-import { Form, json, redirect, useActionData } from "@remix-run/react";
+import {
+  Form,
+  json,
+  redirect,
+  useActionData,
+  useNavigation,
+} from "@remix-run/react";
 import { authCookie } from "utils/auth";
 import { login } from "utils/db/queries/authenticate";
 import { UserLogSchema } from "utils/validation";
@@ -7,6 +13,9 @@ import TextBox from "~/components/form/text_box";
 
 export default function Login() {
   const errors = useActionData<typeof action>();
+
+  const { state } = useNavigation();
+  const pending = state === "submitting";
 
   return (
     <div className="layout self-center flex flex-col items-center gap-4 sm:gap-6 w-full sm:w-fit rounded-2xl bg-white">
@@ -28,7 +37,14 @@ export default function Login() {
           type="password"
           error={errors?.password || null}
         />
-        <button type="submit" className="mt-4 btn-primary">
+        <button
+          type="submit"
+          disabled={pending}
+          aria-disabled={pending}
+          className={`mt-4 ${
+            pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
+          }`}
+        >
           Login
         </button>
       </Form>
