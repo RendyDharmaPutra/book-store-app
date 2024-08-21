@@ -1,6 +1,7 @@
 import { Link, redirect, useLocation } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import useRoute from "utils/hooks/route_hooks";
 
 export default function Header(): JSX.Element {
   const [show, setShow] = useState<boolean>(false);
@@ -53,34 +54,74 @@ function NavTitle() {
 }
 
 function NavContent({ show }: { show: boolean }) {
-  const pathname = useLocation().pathname;
+  const { path, routes } = useRoute();
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
-  const path = pathname.split("/");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
 
-  const routes = [
-    { route: "/", page: "Buku" },
-    { route: "/transaction", page: "Transaksi" },
-    { route: "/users", page: "Karyawan" },
-  ];
+      handleResize();
+
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }
+  }, []);
 
   return (
-    <div
-      className={`${
-        show ? "flex" : "hidden"
-      } flex-col md:flex md:flex-row md:justify-between gap-4 lg:gap-12 md:w-fit`}
-    >
-      <section className="flex flex-col md:flex-row gap-2 w-full ">
-        {routes.map((element) => (
-          <NavItem
-            key={element.page}
-            route={element.route}
-            page={element.page}
-            path={path[1]}
-          />
-        ))}
-      </section>
-      <Profile path={path[1]} />
-    </div>
+    <>
+      {isMobile ? (
+        <>
+          {show && (
+            <motion.div
+              initial={{
+                opacity: 0,
+                scaleY: 0,
+              }}
+              animate={{
+                opacity: 1,
+                scaleY: 1,
+              }}
+              exit={{
+                opacity: 0,
+                scaleY: 0,
+              }}
+              style={{ originY: 0 }}
+              className={`"flex"
+         flex-col  gap-4 `}
+            >
+              <section className="flex flex-col gap-2 w-full ">
+                {routes.map((element) => (
+                  <NavItem
+                    key={element.page}
+                    route={element.route}
+                    page={element.page}
+                    path={path[1]}
+                  />
+                ))}
+              </section>
+              <Profile path={path[1]} />
+            </motion.div>
+          )}
+        </>
+      ) : (
+        <div className={`flex flex-row justify-between gap-12 w-fit `}>
+          <section className="flex flex-row gap-2 w-full ">
+            {routes.map((element) => (
+              <NavItem
+                key={element.page}
+                route={element.route}
+                page={element.page}
+                path={path[1]}
+              />
+            ))}
+          </section>
+          <Profile path={path[1]} />
+        </div>
+      )}
+    </>
   );
 }
 
@@ -140,7 +181,7 @@ function Profile({ path }: { path: string }) {
               scaleY: 0,
             }}
             style={{ originY: 0 }}
-            className="absolute top-60 right-4 md:top-16 md:right-5"
+            className="absolute top-56 right-4 md:top-16 md:right-5"
           >
             <ProfileMenu />
           </motion.div>
