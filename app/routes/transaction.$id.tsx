@@ -35,8 +35,8 @@ export default function AddBook() {
         <Suspense fallback={<h1>Loading...</h1>}>
           <Await resolve={transaction}>
             {(transaction) => (
-              <section className="md:px-4 flex flex-col md:justify-normal items-start gap-8 md:gap-10 md:w-1/2 h-full ">
-                <h1 className="font-semibold text-lg md:text-xl text-gray-800">
+              <section className="md:px-4 flex flex-col md:justify-normal items-start gap-8 md:gap-10 md:w-1/2 ">
+                <h1 className="font-medium text-lg md:text-xl text-gray-800">
                   {transaction.time}
                 </h1>
                 {/* Akses User Disini */}
@@ -54,7 +54,7 @@ export default function AddBook() {
             )}
           </Await>
         </Suspense>
-        <section className="flex flex-col gap-2 w-full md:w-[50rem] ">
+        <section className="flex flex-col items-center justify-between w-full md:w-[50rem] h-full ">
           <Suspense fallback={<h1>Loading...</h1>}>
             <Await resolve={detail_transaction}>
               {(detail_transaction) => (
@@ -62,6 +62,7 @@ export default function AddBook() {
                   {(books) => (
                     <>
                       <BookDisplay
+                        height="max-h-[26rem] "
                         books={books}
                         cart={detail_transaction}
                         deleteItem={null}

@@ -180,7 +180,7 @@ function Profile({ path }: { path: string }) {
               scaleY: 0,
             }}
             style={{ originY: 0 }}
-            className="absolute top-56 right-4 md:top-16 md:right-5"
+            className="absolute top-60 right-4 md:top-[68px] md:right-5"
           >
             <ProfileMenu />
           </motion.div>

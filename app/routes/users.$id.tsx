@@ -30,7 +30,7 @@ export default function EditUser() {
   const errors = useActionData<typeof action>();
 
   const { state } = useNavigation();
-  const pending = state != "idle";
+  const pending = state === "submitting";
 
   const roles = [
     { id: 1, name: "Admin" },

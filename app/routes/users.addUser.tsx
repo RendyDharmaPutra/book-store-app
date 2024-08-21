@@ -1,14 +1,22 @@
 import { ActionFunctionArgs } from "@remix-run/node";
-import { Form, json, redirect, useActionData } from "@remix-run/react";
+import {
+  Form,
+  json,
+  redirect,
+  useActionData,
+  useNavigation,
+} from "@remix-run/react";
 import { UserSchema } from "utils/validation";
 import TextBox from "~/components/form/text_box";
 import Select from "~/components/form/select";
 import { insertUser } from "utils/db/queries/users";
 import Divider from "~/components/container/divider";
-import SubmitButton from "~/components/form/submit_button";
 
 export default function AddBook() {
   const errors = useActionData<typeof action>();
+
+  const { state } = useNavigation();
+  const pending = state === "submitting";
 
   const roles = [
     { id: 1, name: "Admin" },
@@ -75,7 +83,16 @@ export default function AddBook() {
           />
         </section>
       </div>
-      <SubmitButton />
+      <button
+        type="submit"
+        disabled={pending}
+        aria-disabled={pending}
+        className={`self-end mt-auto md:mt-0 w-full md:w-fit ${
+          pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
+        } h-[2.5rem]`}
+      >
+        {pending ? "Menyimpan..." : "Simpan"}
+      </button>
     </Form>
   );
 }

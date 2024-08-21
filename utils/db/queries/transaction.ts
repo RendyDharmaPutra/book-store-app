@@ -44,7 +44,7 @@ export const getTransactionDetail = async (id: number) => {
 
   const result = data.map((transaction) => ({
     ...transaction,
-    time: String(transaction.time).slice(0, -34),
+    time: timeFormat(String(transaction.time)),
   }));
 
   return result[0];

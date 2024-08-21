@@ -39,7 +39,7 @@ export default function EditBook() {
   const errors = useActionData<typeof action>();
 
   const { state } = useNavigation();
-  const pending = state != "idle";
+  const pending = state === "submitting";
 
   return (
     <Form method="post" className="page">
