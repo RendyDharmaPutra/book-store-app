@@ -28,7 +28,7 @@ type TColProps = {
 const THead = memo((props: THeadProps) => {
   return (
     <th className="p-4 border-b border-gray-200 ">
-      <p className="block text-sm antialiased font-semibold leading-none text-gray-600">
+      <p className="block text-sm antialiased font-medium leading-none text-gray-500">
         {props.name}
       </p>
     </th>

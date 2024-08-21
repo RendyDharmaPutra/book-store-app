@@ -37,7 +37,7 @@ export default function AddBook() {
     <Form method="post" className="page">
       <h1 className="title">Tambah Buku</h1>
       <div className="px-4 row-section justify-between gap-6">
-        <section className="row-section flex-wrap gap-6 md:gap-4 md:w-1/2 ">
+        <section className="form-section">
           <TextBox
             defaultValue=""
             name="title"
@@ -68,7 +68,7 @@ export default function AddBook() {
           />
         </section>
         <Divider />
-        <section className="row-section flex-wrap gap-6 md:gap-4 md:w-1/2 ">
+        <section className="form-section">
           <Suspense fallback={<h1>Loading...</h1>}>
             <Await resolve={publishers}>
               {(publishers) => (

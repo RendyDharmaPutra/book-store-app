@@ -23,6 +23,10 @@
     @apply flex flex-col md:flex-row;
   }
 
+  .form-section {
+    @apply row-section flex-wrap gap-6 md:gap-4 md:w-1/2;
+  }
+
   .btn {
     @apply px-4 py-2 text-center outline-none rounded-lg;
   }

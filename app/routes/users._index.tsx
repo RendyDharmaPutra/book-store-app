@@ -34,7 +34,7 @@ export default function Users() {
 
   return (
     <div className="page">
-      <h1 className="title">Daftar Buku</h1>
+      <h1 className="title">Daftar Karyawan</h1>
       <ActionBar route="Karyawan" addRoute="addUser" />
       <section className="flex flex-col w-full items-center sm:items-start">
         <Suspense fallback={<h1>Loading...</h1>}>

@@ -40,10 +40,10 @@ function NavTitle() {
       <svg
         className="w-8 h-8"
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 448 512"
+        viewBox="0 0 24 24"
       >
         <path
-          d="M96 0C43 0 0 43 0 96V416c0 53 43 96 96 96H384h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V384c17.7 0 32-14.3 32-32V32c0-17.7-14.3-32-32-32H384 96zm0 384H352v64H96c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zm16 48H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16s7.2-16 16-16z"
+          d="M12 11.55C9.64 9.35 6.48 8 3 8v11c3.48 0 6.64 1.35 9 3.55 2.36-2.19 5.52-3.55 9-3.55V8c-3.48 0-6.64 1.35-9 3.55zM12 8c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3z"
           fill="#00a499"
         ></path>
       </svg>
@@ -57,8 +57,6 @@ function NavContent({ show }: { show: boolean }) {
 
   const path = pathname.split("/");
 
-  console.log(path);
-
   const routes = [
     { route: "/", page: "Buku" },
     { route: "/transaction", page: "Transaksi" },
@@ -69,9 +67,9 @@ function NavContent({ show }: { show: boolean }) {
     <div
       className={`${
         show ? "flex" : "hidden"
-      } flex-col md:flex md:flex-row md:justify-between gap-4 md:gap-0 md:w-[32rem]`}
+      } flex-col md:flex md:flex-row md:justify-between gap-4 lg:gap-12 md:w-fit`}
     >
-      <section className="flex flex-col md:flex-row gap-2 w-full">
+      <section className="flex flex-col md:flex-row gap-2 w-full ">
         {routes.map((element) => (
           <NavItem
             key={element.page}

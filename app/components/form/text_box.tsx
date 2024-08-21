@@ -24,7 +24,7 @@ export default function TextBox({
         defaultValue={defaultValue}
         className={`${
           type.includes("date") && "h-[3rem] cursor-pointer"
-        } input-primary`}
+        } w-full input-primary`}
       />
     </Input>
   );

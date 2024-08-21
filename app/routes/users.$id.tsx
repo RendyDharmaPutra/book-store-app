@@ -12,6 +12,8 @@ import {
 import { Suspense } from "react";
 import { getUser, updateUser } from "utils/db/queries/users";
 import { BookSchema, UserSchema } from "utils/validation";
+import ErrorCard from "~/components/boundary/error_card";
+import Divider from "~/components/container/divider";
 import Select from "~/components/form/select";
 import TextBox from "~/components/form/text_box";
 
@@ -23,7 +25,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
   });
 }
 
-export default function Edituser() {
+export default function EditUser() {
   const { user } = useLoaderData<typeof loader>();
   const errors = useActionData<typeof action>();
 
@@ -38,62 +40,67 @@ export default function Edituser() {
   return (
     <Form method="post" className="page">
       <h1 className="title">Tambah Buku</h1>
-      <div className="row-section flex-wrap gap-6 md:gap-4">
+      <div className="px-4 row-section justify-between gap-6">
         <Suspense>
           <Await resolve={user}>
             {(user) => {
               return (
                 <>
                   <input type="hidden" name="id" value={user.id} />
-                  <TextBox
-                    defaultValue={user.username}
-                    name="username"
-                    label="Username"
-                    type="text"
-                    error={errors?.username || null}
-                  />
-                  <TextBox
-                    defaultValue={user.password}
-                    name="password"
-                    label="Password"
-                    type="text"
-                    error={errors?.password || null}
-                  />
-                  <TextBox
-                    defaultValue={user.name}
-                    name="name"
-                    label="Nama Lengkap"
-                    type="text"
-                    error={errors?.name || null}
-                  />
-                  <TextBox
-                    defaultValue={user.address}
-                    name="address"
-                    label="Alamat"
-                    type="text"
-                    error={errors?.address || null}
-                  />
-                  <TextBox
-                    defaultValue={user.birth_date}
-                    name="birth_date"
-                    label="Tanggal Lahir"
-                    type="date"
-                    error={errors?.birth_date || null}
-                  />
-                  <TextBox
-                    defaultValue={user.year}
-                    name="year"
-                    label="Tahun Bergabung"
-                    type="number"
-                    error={errors?.year || null}
-                  />
-                  <Select
-                    defaultValue={user.admin}
-                    name="role"
-                    label="Role"
-                    datas={roles}
-                    error={errors?.admin || null}
-                  />
+                  <section className="form-section">
+                    <TextBox
+                      defaultValue={user.username}
+                      name="username"
+                      label="Username"
+                      type="text"
+                      error={errors?.username || null}
+                    />
+                    <TextBox
+                      defaultValue={user.password}
+                      name="password"
+                      label="Password"
+                      type="text"
+                      error={errors?.password || null}
+                    />
+                    <TextBox
+                      defaultValue={user.name}
+                      name="name"
+                      label="Nama Lengkap"
+                      type="text"
+                      error={errors?.name || null}
+                    />
+                    <TextBox
+                      defaultValue={user.address}
+                      name="address"
+                      label="Alamat"
+                      type="text"
+                      error={errors?.address || null}
+                    />
+                    <TextBox
+                      defaultValue={user.year}
+                      name="year"
+                      label="Tahun Bergabung"
+                      type="number"
+                      error={errors?.year || null}
+                    />
+                  </section>
+                  <Divider />
+                  <section className="form-section md:w-fit">
+                    <TextBox
+                      defaultValue={user.birth_date}
+                      name="birth_date"
+                      label="Tanggal Lahir"
+                      type="date"
+                      error={errors?.birth_date || null}
+                    />
+                    <Select
+                      defaultValue={user.admin}
+                      name="role"
+                      label="Role"
+                      datas={roles}
+                      error={errors?.admin || null}
+                    />
+                  </section>
                 </>
               );
             }}
@@ -104,7 +111,7 @@ export default function Edituser() {
         type="submit"
         disabled={pending}
         aria-disabled={pending}
-        className={`self-end w-full md:w-fit ${
+        className={`mt-auto md:mt-0 self-end w-full md:w-fit ${
           pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
         } h-[2.5rem] `}
       >
@@ -138,4 +145,8 @@ export async function action({ request }: ActionFunctionArgs) {
   const result = await updateUser(Number(body.get("id")), validate.data);
 
   if (result) return redirect("/users");
+}
+
+export function ErrorBoundary() {
+  return <ErrorCard name="Karyawan" />;
 }

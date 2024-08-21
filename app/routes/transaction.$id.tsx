@@ -6,6 +6,7 @@ import {
   getDetailTransaction,
   getTransactionDetail,
 } from "utils/db/queries/transaction";
+import ErrorCard from "~/components/boundary/error_card";
 import BookDisplay from "~/components/container/book_display";
 import Amount from "~/components/form/amount";
 
@@ -23,7 +24,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
 }
 
 export default function AddBook() {
-  // TODOS : PERBAIKI LAYOUT FORM
   // MENDAPATKAN AKUN USER DARI COOKIE
   const { books, transaction, detail_transaction } =
     useLoaderData<typeof loader>();
@@ -76,4 +76,8 @@ export default function AddBook() {
       </div>
     </div>
   );
+}
+
+export function ErrorBoundary() {
+  return <ErrorCard name="Transaksi" />;
 }
