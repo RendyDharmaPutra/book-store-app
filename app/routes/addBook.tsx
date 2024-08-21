@@ -7,7 +7,6 @@ import {
   redirect,
   useActionData,
   useLoaderData,
-  useNavigation,
 } from "@remix-run/react";
 import { Suspense } from "react";
 import { getCategories, getPublishers, insertBook } from "utils/db/queries";
@@ -15,6 +14,7 @@ import { BookSchema } from "utils/validation";
 import TextBox from "~/components/form/text_box";
 import Select from "~/components/form/select";
 import Divider from "~/components/container/divider";
+import SubmitButton from "~/components/form/submit_button";
 
 export async function loader() {
   const categories = getCategories();
@@ -29,9 +29,6 @@ export async function loader() {
 export default function AddBook() {
   const { categories, publishers } = useLoaderData<typeof loader>();
   const errors = useActionData<typeof action>();
-
-  const { state } = useNavigation();
-  const pending = state != "idle";
 
   return (
     <Form method="post" className="page">
@@ -97,17 +94,7 @@ export default function AddBook() {
           </Suspense>
         </section>
       </div>
-
-      <button
-        type="submit"
-        disabled={pending}
-        aria-disabled={pending}
-        className={`mt-auto md:mt-0 self-end w-full md:w-fit ${
-          pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
-        } h-[2.5rem] `}
-      >
-        {pending ? "Menyimpan..." : "Simpan"}
-      </button>
+      <SubmitButton />
     </Form>
   );
 }

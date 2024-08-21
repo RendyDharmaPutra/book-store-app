@@ -1,22 +1,14 @@
 import { ActionFunctionArgs } from "@remix-run/node";
-import {
-  Form,
-  json,
-  redirect,
-  useActionData,
-  useNavigation,
-} from "@remix-run/react";
+import { Form, json, redirect, useActionData } from "@remix-run/react";
 import { UserSchema } from "utils/validation";
 import TextBox from "~/components/form/text_box";
 import Select from "~/components/form/select";
 import { insertUser } from "utils/db/queries/users";
 import Divider from "~/components/container/divider";
+import SubmitButton from "~/components/form/submit_button";
 
 export default function AddBook() {
   const errors = useActionData<typeof action>();
-
-  const { state } = useNavigation();
-  const pending = state != "idle";
 
   const roles = [
     { id: 1, name: "Admin" },
@@ -27,7 +19,7 @@ export default function AddBook() {
     <Form method="post" className="page">
       <h1 className="title">Tambah Karyawan</h1>
       <div className="px-4 row-section justify-between gap-6">
-        <section className="row-section flex-wrap gap-6 md:gap-4 md:w-1/2 ">
+        <section className="form-section ">
           <TextBox
             defaultValue=""
             name="username"
@@ -66,7 +58,7 @@ export default function AddBook() {
           />
         </section>
         <Divider />
-        <section className="row-section flex-wrap gap-6 md:gap-4 ">
+        <section className="form-section ">
           <TextBox
             defaultValue=""
             name="birth_date"
@@ -83,16 +75,7 @@ export default function AddBook() {
           />
         </section>
       </div>
-      <button
-        type="submit"
-        disabled={pending}
-        aria-disabled={pending}
-        className={`mt-auto md:mt-0 self-end w-full md:w-fit ${
-          pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
-        } h-[2.5rem] `}
-      >
-        {pending ? "Menyimpan..." : "Simpan"}
-      </button>
+      <SubmitButton />
     </Form>
   );
 }

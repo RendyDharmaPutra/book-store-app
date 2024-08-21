@@ -152,5 +152,5 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export function ErrorBoundary() {
-  return <ErrorCard name="Buku" />;
+  return <ErrorCard name="Buku" route="/" />;
 }

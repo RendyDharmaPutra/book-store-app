@@ -79,5 +79,5 @@ export default function AddBook() {
 }
 
 export function ErrorBoundary() {
-  return <ErrorCard name="Transaksi" />;
+  return <ErrorCard name="Transaksi" route="/transaction" />;
 }

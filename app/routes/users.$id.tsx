@@ -148,5 +148,5 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export function ErrorBoundary() {
-  return <ErrorCard name="Karyawan" />;
+  return <ErrorCard name="Karyawan" route="/users" />;
 }

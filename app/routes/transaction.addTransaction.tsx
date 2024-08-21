@@ -32,8 +32,6 @@ export async function loader() {
 }
 
 export default function AddBook() {
-  // TODOS : GUNAKAN CONTEXT UNTUK STATE PADA MEMO COMPONENT SUPAYA PARENT TIDAK TERKENA RERENDER KETIKA MEMO COMPONENT DIRERENDER
-  // TODOS : PERBAIKI LAYOUT FORM
   // MENDAPATKAN AKUN USER DARI COOKIE
   const { books } = useLoaderData<typeof loader>();
   const errors = useActionData<typeof action>();
@@ -42,7 +40,7 @@ export default function AddBook() {
   const [amount, setAmount] = useState(0);
 
   const { state } = useNavigation();
-  const pending = state != "idle";
+  const pending = state !== "submitting";
 
   const deleteItem = useCallback((id: string, price: number, qty: number) => {
     setCart((prevItems) => prevItems.filter((item) => item.id != id));
@@ -103,7 +101,7 @@ export default function AddBook() {
         disabled={pending}
         aria-disabled={pending}
         className={`self-end w-full md:w-fit ${
-          pending ? "bg-gray-50 text-gray-600 btn" : "btn-primary"
+          pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
         } h-[2.5rem] `}
       >
         {pending ? "Menyimpan..." : "Simpan"}
