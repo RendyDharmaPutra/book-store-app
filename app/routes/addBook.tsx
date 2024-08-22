@@ -15,6 +15,7 @@ import { BookSchema } from "utils/validation";
 import TextBox from "~/components/form/text_box";
 import Select from "~/components/form/select";
 import Divider from "~/components/container/divider";
+import Loading from "~/components/boundary/loading";
 
 export async function loader() {
   const categories = getCategories();
@@ -70,7 +71,7 @@ export default function AddBook() {
           </section>
           <Divider />
           <section className="form-section">
-            <Suspense fallback={<h1>Loading...</h1>}>
+            <Suspense fallback={<Loading />}>
               <Await resolve={publishers}>
                 {(publishers) => (
                   <Select
@@ -83,7 +84,7 @@ export default function AddBook() {
                 )}
               </Await>
             </Suspense>
-            <Suspense fallback={<h1>Loading...</h1>}>
+            <Suspense fallback={<Loading />}>
               <Await resolve={categories}>
                 {(categories) => (
                   <Select
@@ -106,7 +107,7 @@ export default function AddBook() {
             pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
           } h-[2.5rem]`}
         >
-          {pending ? "Menyimpan..." : "Simpan"}
+          {pending ? <Loading /> : "Simpan"}
         </button>
       </Form>
     </>

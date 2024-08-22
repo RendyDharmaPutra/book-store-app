@@ -9,6 +9,7 @@ import {
 import { authCookie } from "utils/auth";
 import { login } from "utils/db/queries/authenticate";
 import { UserLogSchema } from "utils/validation";
+import Loading from "~/components/boundary/loading";
 import TextBox from "~/components/form/text_box";
 
 export default function Login() {
@@ -45,7 +46,7 @@ export default function Login() {
             pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
           }`}
         >
-          Login
+          {pending ? <Loading /> : "Login"}
         </button>
       </Form>
     </div>

@@ -2,6 +2,7 @@ import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Await, defer, redirect, useLoaderData } from "@remix-run/react";
 import { Suspense } from "react";
 import { deleteUser, getUsers } from "utils/db/queries/users";
+import Loading from "~/components/boundary/loading";
 import ActionBar from "~/components/container/action_bar";
 import Pagination from "~/components/container/pagination";
 import Table from "~/components/container/table";
@@ -37,7 +38,7 @@ export default function Users() {
       <h1 className="title">Daftar Karyawan</h1>
       <ActionBar route="Karyawan" addRoute="addUser" />
       <section className="flex flex-col w-full items-center sm:items-start">
-        <Suspense fallback={<h1>Loading...</h1>}>
+        <Suspense fallback={<Loading />}>
           <Await resolve={users}>
             {(users) => <Table heads={heads} values={values} datas={users} />}
           </Await>

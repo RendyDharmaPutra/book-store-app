@@ -22,6 +22,7 @@ import SheetButton from "~/components/modal/sheet_button";
 import TextBox from "~/components/form/text_box";
 import Amount from "~/components/form/amount";
 import { getAccount } from "utils/db/queries/authenticate";
+import Loading from "~/components/boundary/loading";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const account = getAccount(request);
@@ -64,7 +65,7 @@ export default function AddBook() {
             type="datetime-local"
             error={errors?.time || null}
           />
-          <Suspense>
+          <Suspense fallback={<Loading />}>
             <Await resolve={account}>
               {(account) => (
                 <>
@@ -84,7 +85,7 @@ export default function AddBook() {
           <Amount amount={amount} />
         </section>
         <section className="flex flex-col items-center justify-between w-full md:w-[50rem] h-full ">
-          <Suspense fallback={<h1>Loading...</h1>}>
+          <Suspense fallback={<Loading />}>
             <Await resolve={books}>
               {(books) => (
                 <>
@@ -115,7 +116,7 @@ export default function AddBook() {
           pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
         } h-[2.5rem] `}
       >
-        {pending ? "Menyimpan..." : "Simpan"}
+        {pending ? <Loading /> : "Simpan"}
       </button>
     </Form>
   );

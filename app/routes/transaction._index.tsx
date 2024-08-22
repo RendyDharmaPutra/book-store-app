@@ -7,6 +7,7 @@ import {
   deleteTransaction,
   getTransaction,
 } from "utils/db/queries/transaction";
+import Loading from "~/components/boundary/loading";
 import ActionBar from "~/components/container/action_bar";
 import Pagination from "~/components/container/pagination";
 import Table from "~/components/container/table";
@@ -34,7 +35,7 @@ export default function Transaction() {
       <h1 className="title">Daftar Transaksi</h1>
       <ActionBar route="Transaksi" addRoute="addTransaction" />
       <section className="flex flex-col w-full items-center sm:items-start">
-        <Suspense fallback={<h1>Loading...</h1>}>
+        <Suspense fallback={<Loading />}>
           <Await resolve={transactions}>
             {(transaction) => (
               <Table heads={heads} values={values} datas={transaction} />

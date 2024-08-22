@@ -13,6 +13,7 @@ import { Suspense } from "react";
 import { getUser, updateUser } from "utils/db/queries/users";
 import { BookSchema, UserSchema } from "utils/validation";
 import ErrorCard from "~/components/boundary/error_card";
+import Loading from "~/components/boundary/loading";
 import Divider from "~/components/container/divider";
 import Select from "~/components/form/select";
 import TextBox from "~/components/form/text_box";
@@ -41,7 +42,7 @@ export default function EditUser() {
     <Form method="post" className="page">
       <h1 className="title">Tambah Buku</h1>
       <div className="px-4 row-section justify-between gap-6">
-        <Suspense>
+        <Suspense fallback={<Loading />}>
           <Await resolve={user}>
             {(user) => {
               return (

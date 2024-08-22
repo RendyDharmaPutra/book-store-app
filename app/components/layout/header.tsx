@@ -1,7 +1,8 @@
-import { Form, Link } from "@remix-run/react";
+import { Form, Link, useNavigation } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import useRoute from "utils/hooks/route_hooks";
+import Loading from "../boundary/loading";
 
 export default function Header(): JSX.Element {
   const [show, setShow] = useState<boolean>(false);
@@ -167,37 +168,23 @@ function Profile({ path }: { path: string }) {
       <AnimatePresence mode="wait">
         {show && (
           <motion.div
+            onClick={(e) => e.stopPropagation()}
             initial={{
               opacity: 0,
+              scaleY: 0,
             }}
             animate={{
               opacity: 1,
+              scaleY: 1,
             }}
             exit={{
               opacity: 0,
+              scaleY: 0,
             }}
-            onClick={() => setShow(false)}
-            className="fixed inset-0 bg-opacity-50 flex items-center justify-center z-50"
+            style={{ originY: 0 }}
+            className="absolute top-60 right-4 md:top-[68px] md:right-5"
           >
-            <motion.div
-              onClick={(e) => e.stopPropagation()}
-              initial={{
-                opacity: 0,
-                scaleY: 0,
-              }}
-              animate={{
-                opacity: 1,
-                scaleY: 1,
-              }}
-              exit={{
-                opacity: 0,
-                scaleY: 0,
-              }}
-              style={{ originY: 0 }}
-              className="absolute top-60 right-4 md:top-[68px] md:right-5"
-            >
-              <ProfileMenu />
-            </motion.div>
+            <ProfileMenu />
           </motion.div>
         )}
       </AnimatePresence>
@@ -206,6 +193,9 @@ function Profile({ path }: { path: string }) {
 }
 
 function ProfileMenu() {
+  const { state } = useNavigation();
+  const pending = state === "submitting";
+
   return (
     <section
       className={`p-1 flex flex-col w-[10rem] rounded-xl bg-white border bordder-gray-200`}
@@ -253,7 +243,9 @@ function ProfileMenu() {
             />
           </svg>
 
-          <h2 className="nav-text text-danger">Logout</h2>
+          <h2 className="nav-text text-danger">
+            {pending ? <Loading /> : "Logout"}
+          </h2>
         </button>
       </Form>
     </section>

@@ -18,6 +18,7 @@ import {
 } from "utils/db/queries";
 import { BookSchema } from "utils/validation";
 import ErrorCard from "~/components/boundary/error_card";
+import Loading from "~/components/boundary/loading";
 import Divider from "~/components/container/divider";
 import Select from "~/components/form/select";
 import TextBox from "~/components/form/text_box";
@@ -45,7 +46,7 @@ export default function EditBook() {
     <Form method="post" className="page">
       <h1 className="title">Tambah Buku</h1>
       <div className="px-4 row-section justify-between gap-6">
-        <Suspense>
+        <Suspense fallback={<Loading />}>
           <Await resolve={book}>
             {(book) => (
               <>
@@ -82,7 +83,7 @@ export default function EditBook() {
                 </section>
                 <Divider />
                 <section className="form-section">
-                  <Suspense fallback={<h1>Loading...</h1>}>
+                  <Suspense fallback={<Loading />}>
                     <Await resolve={publishers}>
                       {(publishers) => (
                         <Select
@@ -95,7 +96,7 @@ export default function EditBook() {
                       )}
                     </Await>
                   </Suspense>
-                  <Suspense fallback={<h1>Loading...</h1>}>
+                  <Suspense fallback={<Loading />}>
                     <Await resolve={categories}>
                       {(categories) => (
                         <Select
@@ -122,7 +123,7 @@ export default function EditBook() {
           pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
         } h-[2.5rem] `}
       >
-        {pending ? "Menyimpan..." : "Simpan"}
+        {pending ? <Loading /> : "Simpan"}
       </button>
     </Form>
   );

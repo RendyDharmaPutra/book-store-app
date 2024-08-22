@@ -7,11 +7,11 @@ import {
   getTransactionDetail,
 } from "utils/db/queries/transaction";
 import ErrorCard from "~/components/boundary/error_card";
+import Loading from "~/components/boundary/loading";
 import BookDisplay from "~/components/container/book_display";
 import Amount from "~/components/form/amount";
 
 export async function loader({ params }: LoaderFunctionArgs) {
-  // AKSES AKUN USER DARI COOKIE
   const books = getBooks();
   const transaction = getTransactionDetail(Number(params.id));
   const detail_transaction = getDetailTransaction(Number(params.id));
@@ -24,7 +24,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
 }
 
 export default function AddBook() {
-  // MENDAPATKAN AKUN USER DARI COOKIE
   const { books, transaction, detail_transaction } =
     useLoaderData<typeof loader>();
 
@@ -32,14 +31,13 @@ export default function AddBook() {
     <div className="page">
       <h1 className="title">Detail Transaksi</h1>
       <div className=" row-section gap-8 md:justify-between w-full h-[38rem] ">
-        <Suspense fallback={<h1>Loading...</h1>}>
+        <Suspense fallback={<Loading />}>
           <Await resolve={transaction}>
             {(transaction) => (
               <section className="md:px-4 flex flex-col md:justify-normal items-start gap-8 md:gap-10 md:w-1/2 ">
                 <h1 className="font-medium text-lg md:text-xl text-gray-800">
                   {transaction.time}
                 </h1>
-                {/* Akses User Disini */}
                 <input type="hidden" name="user" value={transaction.user_id} />
                 <div className="flex flex-row justify-start md:justify-center items-start  md:items-center gap-3  ">
                   <h2 className="font-medium text-gray-800 text-base md:text-lg">
@@ -55,7 +53,7 @@ export default function AddBook() {
           </Await>
         </Suspense>
         <section className="flex flex-col items-center justify-between w-full md:w-[50rem] h-full ">
-          <Suspense fallback={<h1>Loading...</h1>}>
+          <Suspense fallback={<Loading />}>
             <Await resolve={detail_transaction}>
               {(detail_transaction) => (
                 <Await resolve={books}>
