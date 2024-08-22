@@ -36,6 +36,10 @@ export const getAuth = async (request: Request) => {
 export const getAccount = async (request: Request) => {
   const auth = await getAuth(request);
 
+  if (auth === false) {
+    return false;
+  }
+
   const user = await getUser(auth);
 
   return user;

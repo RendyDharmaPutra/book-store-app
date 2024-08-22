@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
 
-export default function Restricted() {
+export default function Restricted({ redirect }: { redirect: string }) {
   return (
     <div className="flex flex-col center w-full bg-transparent">
       <div className="p-layout flex flex-col center gap-4 w-[22rem] md:w-[32rem] rounded-lg bg-white">
@@ -13,10 +13,10 @@ export default function Restricted() {
           </p>
         </section>
         <Link
-          to={"/login"}
+          to={redirect}
           className="text-center font-medium text-base md:text-lg text-primary darker-hover"
         >
-          Menuju halaman login
+          Menuju halaman {redirect === "/login" ? "login" : "awal"}
         </Link>
       </div>
     </div>

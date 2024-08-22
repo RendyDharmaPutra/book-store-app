@@ -44,7 +44,7 @@ export default function EditBook() {
 
   return (
     <Form method="post" className="page">
-      <h1 className="title">Tambah Buku</h1>
+      <h1 className="title">Edit Buku</h1>
       <div className="px-4 row-section justify-between gap-6">
         <Suspense fallback={<Loading />}>
           <Await resolve={book}>

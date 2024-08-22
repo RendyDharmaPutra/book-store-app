@@ -14,7 +14,7 @@ import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import Header from "./components/layout/header";
 import Footer from "./components/layout/footer";
 import Back from "./components/layout/back_button";
-import { getAuth } from "utils/db/queries/authenticate";
+import { getAccount, getAuth } from "utils/db/queries/authenticate";
 import { Suspense } from "react";
 import Restricted from "./components/boundary/restricted";
 
@@ -26,7 +26,7 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader({ request }: LoaderFunctionArgs) {
-  const auth = getAuth(request);
+  const auth = getAccount(request);
 
   return defer({ auth });
 }
@@ -36,6 +36,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   const path = useLocation().pathname;
   const hasnum = /\d/;
+
+  const isAdmin = (auth: account) => {
+    let restricted = true;
+
+    if (path.includes("users")) {
+      auth.admin !== "0" ? restricted : (restricted = false);
+    }
+
+    return restricted;
+  };
 
   return (
     <html lang="en">
@@ -50,26 +60,30 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <>
             <Suspense>
               <Await resolve={auth}>
-                {(auth) => (
-                  <>
-                    {auth ? (
-                      <>
-                        <Header />
-                        {(path.includes("add") || hasnum.test(path)) && (
-                          <Back />
-                        )}
-                        <main className="flex-grow p-2 flex flex-row bg-page">
-                          {children}
-                        </main>
-                        <Footer />
-                      </>
-                    ) : (
-                      <div className="flex flex-col center w-full h-screen bg-page">
-                        <Restricted />
-                      </div>
-                    )}
-                  </>
-                )}
+                {(auth: unknown) => {
+                  return (
+                    <>
+                      {auth && isAdmin(auth as account) ? (
+                        <>
+                          <Header />
+                          {(path.includes("add") || hasnum.test(path)) && (
+                            <Back />
+                          )}
+                          <main className="flex-grow p-2 flex flex-row bg-page">
+                            {children}
+                          </main>
+                          <Footer />
+                        </>
+                      ) : (
+                        <div className="flex flex-col center w-full h-screen bg-page">
+                          <Restricted
+                            redirect={auth === false ? "/login" : "/"}
+                          />
+                        </div>
+                      )}
+                    </>
+                  );
+                }}
               </Await>
             </Suspense>
           </>

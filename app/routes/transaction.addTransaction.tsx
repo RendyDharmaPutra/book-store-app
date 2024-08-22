@@ -67,15 +67,19 @@ export default function AddBook() {
           />
           <Suspense fallback={<Loading />}>
             <Await resolve={account}>
-              {(account) => (
+              {(account: unknown) => (
                 <>
-                  <input type="hidden" name="user" value={account.id} />
+                  <input
+                    type="hidden"
+                    name="user"
+                    value={(account as account).id}
+                  />
                   <div className="flex flex-row justify-start md:justify-center items-start md:items-center gap-3  ">
                     <h2 className="font-medium text-gray-800 text-base md:text-lg">
                       Kasir :{" "}
                     </h2>
                     <h3 className="text-gray-600 text-base md:text-lg">
-                      {account.name}
+                      {(account as account).name}
                     </h3>
                   </div>
                 </>

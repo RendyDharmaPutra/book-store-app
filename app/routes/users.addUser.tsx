@@ -11,6 +11,7 @@ import TextBox from "~/components/form/text_box";
 import Select from "~/components/form/select";
 import { insertUser } from "utils/db/queries/users";
 import Divider from "~/components/container/divider";
+import Loading from "~/components/boundary/loading";
 
 export default function AddBook() {
   const errors = useActionData<typeof action>();
@@ -91,7 +92,7 @@ export default function AddBook() {
           pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
         } h-[2.5rem]`}
       >
-        {pending ? "Menyimpan..." : "Simpan"}
+        {pending ? <Loading /> : "Simpan"}
       </button>
     </Form>
   );

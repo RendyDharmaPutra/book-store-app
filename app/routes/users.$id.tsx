@@ -40,7 +40,7 @@ export default function EditUser() {
 
   return (
     <Form method="post" className="page">
-      <h1 className="title">Tambah Buku</h1>
+      <h1 className="title">Edit Karyawan</h1>
       <div className="px-4 row-section justify-between gap-6">
         <Suspense fallback={<Loading />}>
           <Await resolve={user}>
@@ -116,7 +116,7 @@ export default function EditUser() {
           pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
         } h-[2.5rem] `}
       >
-        {pending ? "Menyimpan..." : "Simpan"}
+        {pending ? <Loading /> : "Simpan"}
       </button>
     </Form>
   );
@@ -140,8 +140,6 @@ export async function action({ request }: ActionFunctionArgs) {
   if (!validate.success) {
     return json(validate.error.flatten().fieldErrors, { status: 400 });
   }
-
-  console.log(validate.data);
 
   const result = await updateUser(Number(body.get("id")), validate.data);
 
