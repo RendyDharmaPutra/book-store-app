@@ -48,7 +48,7 @@
   }
 
   .bold {
-    @apply font-bold text-gray-900;
+    @apply font-semibold text-gray-900;
   }
 
   .headline {

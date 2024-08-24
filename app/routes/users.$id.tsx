@@ -11,7 +11,7 @@ import {
 } from "@remix-run/react";
 import { Suspense } from "react";
 import { getUser, updateUser } from "utils/db/queries/users";
-import { BookSchema, UserSchema } from "utils/validation";
+import { UserSchema } from "utils/validation";
 import ErrorCard from "~/components/boundary/error_card";
 import Loading from "~/components/boundary/loading";
 import Divider from "~/components/container/divider";
