@@ -1,6 +1,7 @@
 import { Dispatch, memo, SetStateAction } from "react";
 import { Form, useNavigation } from "@remix-run/react";
 import { AnimatePresence, motion } from "framer-motion";
+import Loading from "../boundary/loading";
 
 type ModalProps = {
   headline: string;
@@ -75,7 +76,7 @@ const Modal = memo((props: ModalProps) => {
                   aria-disabled={pending}
                   className="py-2 px-4"
                 >
-                  {pending ? "Menghapus..." : "Hapus"}
+                  {pending ? <Loading /> : "Hapus"}
                 </button>
               </Form>
             </div>

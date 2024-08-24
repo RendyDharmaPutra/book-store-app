@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import useRoute from "utils/hooks/route_hooks";
 import Loading from "../boundary/loading";
 
-export default function Header(): JSX.Element {
+export default function Header({ isAdmin }: { isAdmin: boolean }): JSX.Element {
   const [show, setShow] = useState<boolean>(false);
 
   return (
@@ -31,7 +31,7 @@ export default function Header(): JSX.Element {
         </section>
         <NavTitle />
       </div>
-      <NavContent show={show} />
+      <NavContent isAdmin={isAdmin} show={show} />
     </div>
   );
 }
@@ -54,7 +54,7 @@ function NavTitle() {
   );
 }
 
-function NavContent({ show }: { show: boolean }) {
+function NavContent({ isAdmin, show }: { isAdmin: boolean; show: boolean }) {
   const { path, routes, setRoutes } = useRoute();
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
@@ -72,9 +72,11 @@ function NavContent({ show }: { show: boolean }) {
   }, []);
 
   useEffect(() => {
-    setRoutes((prevItems) =>
-      prevItems.filter((prevItem) => prevItem.route !== "/users")
-    );
+    if (!isAdmin) {
+      setRoutes((prevItems) =>
+        prevItems.filter((prevItem) => prevItem.route !== "/users")
+      );
+    }
   }, []);
 
   return (

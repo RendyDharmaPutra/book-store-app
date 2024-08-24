@@ -37,11 +37,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const path = useLocation().pathname;
   const hasnum = /\d/;
 
-  const isAdmin = (auth: account) => {
+  const isAdmin = (admin: boolean) => {
+    // TODO : GANTI NAMA VARIABEL RESTRICTED
     let restricted = true;
 
     if (path.includes("users")) {
-      auth.admin !== "0" ? restricted : (restricted = false);
+      admin ? restricted : (restricted = false);
     }
 
     return restricted;
@@ -61,11 +62,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <Suspense>
               <Await resolve={auth}>
                 {(auth: unknown) => {
+                  const admin = (auth as account).admin === "0" ? false : true;
                   return (
                     <>
-                      {auth && isAdmin(auth as account) ? (
+                      {auth && isAdmin(admin) ? (
                         <>
-                          <Header />
+                          <Header isAdmin={admin} />
                           {(path.includes("add") || hasnum.test(path)) && (
                             <Back />
                           )}
