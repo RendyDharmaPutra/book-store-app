@@ -37,15 +37,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const path = useLocation().pathname;
   const hasnum = /\d/;
 
-  const isAdmin = (admin: boolean) => {
+  const isAllowed = (admin: boolean) => {
     // TODO : GANTI NAMA VARIABEL RESTRICTED
-    let restricted = true;
+    let allowed = true;
 
     if (path.includes("users")) {
-      admin ? restricted : (restricted = false);
+      admin ? allowed : (allowed = false);
     }
 
-    return restricted;
+    return allowed;
   };
 
   return (
@@ -65,7 +65,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   const admin = (auth as account).admin === "0" ? false : true;
                   return (
                     <>
-                      {auth && isAdmin(admin) ? (
+                      {auth && isAllowed(admin) ? (
                         <>
                           <Header isAdmin={admin} />
                           {(path.includes("add") || hasnum.test(path)) && (
