@@ -38,7 +38,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const hasnum = /\d/;
 
   const isAllowed = (admin: boolean) => {
-    // TODO : GANTI NAMA VARIABEL RESTRICTED
     let allowed = true;
 
     if (path.includes("users")) {
