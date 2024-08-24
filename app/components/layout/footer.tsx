@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react";
 
-export default function Footer(): JSX.Element {
+export default function Footer() {
   return (
     <div className="p-4 flex justify-center w-full bg-white">
       <p className="text-sm font-semibold">

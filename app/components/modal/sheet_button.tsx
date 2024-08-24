@@ -1,17 +1,14 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import Sheet from "./sheet";
 
-export default function SheetButton({
-  books,
-  selected,
-  setAmount,
-  select,
-}: {
+type SheetButtonType = {
   books: bookTransaction[];
   selected: selectedBook[];
   setAmount: Dispatch<SetStateAction<number>>;
   select: Dispatch<SetStateAction<selectedBook[]>>;
-}) {
+};
+
+export default function SheetButton(props: SheetButtonType) {
   const [show, setShow] = useState<boolean>(false);
 
   return (
@@ -24,11 +21,11 @@ export default function SheetButton({
         <h1 className="font-medium text-base md:text-lg">Pilih Buku</h1>
       </button>
       <Sheet
-        books={books}
-        selected={selected}
-        select={select}
+        books={props.books}
+        selected={props.selected}
+        select={props.select}
         isOpen={show}
-        setAmount={setAmount}
+        setAmount={props.setAmount}
         setShow={setShow}
       />
     </>

@@ -1,31 +1,27 @@
 import Input from "./input";
 
-export default function Select({
-  name,
-  label,
-  error,
-  datas,
-  defaultValue,
-}: {
+type SelectType = {
   name: string;
   label: string;
   error: string[] | null;
   datas: foreign[];
   defaultValue: string | number;
-}) {
-  defaultValue == "" ? (defaultValue = 1) : defaultValue;
+};
+
+export default function Select(props: SelectType) {
+  props.defaultValue == "" ? (props.defaultValue = 1) : props.defaultValue;
 
   return (
-    <Input name={name} label={label} error={error}>
+    <Input name={props.name} label={props.label} error={props.error}>
       <select
         required
-        key={name}
-        defaultValue={defaultValue}
-        id={name}
-        name={name}
+        key={props.name}
+        defaultValue={props.defaultValue}
+        id={props.name}
+        name={props.name}
         className="w-full h-[3rem] overflow-y-auto input-primary focus:bg-page cursor-pointer"
       >
-        {datas.map((data) => {
+        {props.datas.map((data) => {
           return (
             <option
               key={data.id}

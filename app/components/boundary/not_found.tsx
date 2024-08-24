@@ -1,8 +1,4 @@
-export default function NotFound({
-  headline,
-}: {
-  headline: string;
-}): JSX.Element {
+export default function NotFound({ headline }: { headline: string }) {
   return (
     <section className="w-full layout justify-center items-center">
       <div className="w-full sm:w-[24rem] layout justify-center items-center gap-4 rounded-lg border border-gray-200 bg-white">

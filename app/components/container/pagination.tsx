@@ -20,25 +20,6 @@ export default function Pagination() {
       <h2 className="font-medium text-sm md:text-base text-gray-800 ">
         Halaman {currentPage}
       </h2>
-      {/* <div className="flex flex-row overflow-hidden rounded-lg border-2 border-primary">
-				<button
-					disabled={currentPage === 1}
-					onClick={() => setPage(false)}
-					className={`${
-						currentPage === 1
-							? "px-2 py-1 text-center outline-none font-semibold text-gray-600"
-							: "px-2 py-1 text-center outline-none font-semibold text-primary hover:bg-primary hover:text-white "
-					}`}
-				>
-					Sebelumnya
-				</button>
-				<button
-					onClick={() => setPage(true)}
-					className="px-2 py-1 text-center outline-none font-semibold text-primary hover:bg-primary hover:text-white "
-				>
-					Selanjutnya
-				</button>
-			</div> */}
       <div className="flex flex-row gap-1 sm:gap-2">
         <button
           disabled={currentPage === 1}

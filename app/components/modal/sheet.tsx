@@ -1,23 +1,18 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-export default function Sheet({
-  books,
-  selected,
-  isOpen,
-  setShow,
-  setAmount,
-  select,
-}: {
+type SheetType = {
   books: bookTransaction[];
   selected: selectedBook[];
   isOpen: boolean;
   setShow: Dispatch<SetStateAction<boolean>>;
   setAmount: Dispatch<SetStateAction<number>>;
   select: Dispatch<SetStateAction<selectedBook[]>>;
-}) {
+};
+
+export default function Sheet(props: SheetType) {
   const [book, setBook] = useState<selectedBook>({
-    id: String(books[0].id),
+    id: String(props.books[0].id),
     quantity: "1",
   });
 
@@ -39,22 +34,28 @@ export default function Sheet({
     let quantity: number = Number(book.quantity);
 
     if (quantity > 0) {
-      const duplicate = selected.find(
+      const duplicate = props.selected.find(
         (bookSelected) => bookSelected.id === book.id
       );
 
-      const submitedBook = books.find((singleBook) => singleBook.id === id);
+      const submitedBook = props.books.find(
+        (singleBook) => singleBook.id === id
+      );
 
       if (duplicate === undefined) {
-        select((prevItems) => [...prevItems, book]);
+        props.select((prevItems) => [...prevItems, book]);
 
-        setAmount((prevItems) => (prevItems += submitedBook!.price * quantity));
+        props.setAmount(
+          (prevItems) => (prevItems += submitedBook!.price * quantity)
+        );
       } else {
-        setAmount((prevItems) => (prevItems += submitedBook!.price * quantity));
+        props.setAmount(
+          (prevItems) => (prevItems += submitedBook!.price * quantity)
+        );
 
         book.quantity = String(quantity + Number(duplicate.quantity));
 
-        select((prevItems) =>
+        props.select((prevItems) =>
           prevItems.map((item) =>
             item.id === book.id ? { ...item, quantity: book.quantity } : item
           )
@@ -62,17 +63,17 @@ export default function Sheet({
       }
 
       setBook({
-        id: String(books[0].id),
+        id: String(props.books[0].id),
         quantity: "1",
       });
 
-      setShow(false);
+      props.setShow(false);
     }
   };
 
   return (
     <AnimatePresence mode="wait">
-      {isOpen && (
+      {props.isOpen && (
         <motion.div
           initial={{
             opacity: 0,
@@ -83,7 +84,7 @@ export default function Sheet({
           exit={{
             opacity: 0,
           }}
-          onClick={() => setShow(false)}
+          onClick={() => props.setShow(false)}
           className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-start justify-end z-50"
         >
           <motion.div
@@ -106,7 +107,7 @@ export default function Sheet({
               <h2 className="title">Pilih Buku</h2>
               <button
                 type="button"
-                onClick={() => setShow(false)}
+                onClick={() => props.setShow(false)}
                 className="p-[2px] rounded-full text-gray-500 hover:text-white border border-gray-300 hover:border-danger hover:bg-danger duration-200"
               >
                 <svg
@@ -139,7 +140,7 @@ export default function Sheet({
                   name="id"
                   className="w-full max-h-[10rem] overflow-y-auto input-primary focus:bg-page cursor-pointer"
                 >
-                  {books.map((book) => {
+                  {props.books.map((book) => {
                     return (
                       <option
                         key={book.id}
@@ -152,7 +153,7 @@ export default function Sheet({
                   })}
                 </select>
               </div>
-              <div className={`flex flex-col gap-1 w-full`}>
+              <div className="flex flex-col gap-1 w-full">
                 <label htmlFor="quantity" className="font-medium text-gray-700">
                   Kuantitas
                 </label>

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import useRoute from "utils/hooks/route_hooks";
 import Loading from "../boundary/loading";
 
-export default function Header({ isAdmin }: { isAdmin: boolean }): JSX.Element {
+export default function Header({ isAdmin }: { isAdmin: boolean }) {
   const [show, setShow] = useState<boolean>(false);
 
   return (

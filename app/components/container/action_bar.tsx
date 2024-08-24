@@ -1,13 +1,12 @@
 import { Link, useSearchParams } from "@remix-run/react";
 import { useState } from "react";
 
-export default function ActionBar({
-  route,
-  addRoute,
-}: {
+type ActionBarType = {
   route: string;
   addRoute: string;
-}) {
+};
+
+export default function ActionBar({ route, addRoute }: ActionBarType) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [query, setQuery] = useState<string>(searchParams.get("search") || "");
