@@ -55,7 +55,7 @@ function NavTitle() {
 }
 
 function NavContent({ show }: { show: boolean }) {
-  const { path, routes } = useRoute();
+  const { path, routes, setRoutes } = useRoute();
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
@@ -69,6 +69,12 @@ function NavContent({ show }: { show: boolean }) {
       window.addEventListener("resize", handleResize);
       return () => window.removeEventListener("resize", handleResize);
     }
+  }, []);
+
+  useEffect(() => {
+    setRoutes((prevItems) =>
+      prevItems.filter((prevItem) => prevItem.route !== "/users")
+    );
   }, []);
 
   return (
