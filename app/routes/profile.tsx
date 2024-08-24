@@ -9,14 +9,14 @@ import {
   useLoaderData,
   useNavigation,
 } from "@remix-run/react";
-import { Suspense, useState } from "react";
+import { Suspense, useCallback, useState } from "react";
+import { motion } from "framer-motion";
 import { getAccount } from "utils/db/queries/authenticate";
-import { getUser, updateUser } from "utils/db/queries/users";
-import { BookSchema, UserSchema } from "utils/validation";
+import { updateUser } from "utils/db/queries/users";
+import { ProfileSchema, UserSchema } from "utils/validation";
 import ErrorCard from "~/components/boundary/error_card";
 import Loading from "~/components/boundary/loading";
 import Divider from "~/components/container/divider";
-import Input from "~/components/form/input";
 import Select from "~/components/form/select";
 import TextBox from "~/components/form/text_box";
 
@@ -35,10 +35,11 @@ export default function Profile() {
   const { state } = useNavigation();
   const pending = state === "submitting";
 
-  const [roles, setRoles] = useState([
-    { id: 1, name: "Admin" },
-    { id: 0, name: "Non-Admin" },
-  ]);
+  const [edited, setEdited] = useState(false);
+
+  const edit = useCallback(() => {
+    setEdited(true);
+  }, []);
 
   return (
     <Form method="post" className="page">
@@ -47,11 +48,6 @@ export default function Profile() {
         <Suspense fallback={<Loading />}>
           <Await resolve={account}>
             {(account: unknown) => {
-              setRoles((prevItems) =>
-                prevItems.filter(
-                  (item) => String(item.id) === (account as account).admin
-                )
-              );
               return (
                 <>
                   <input
@@ -66,6 +62,7 @@ export default function Profile() {
                       label="Username"
                       type="text"
                       error={errors?.username || null}
+                      edit={edit}
                     />
                     <TextBox
                       defaultValue={(account as account).password}
@@ -73,6 +70,7 @@ export default function Profile() {
                       label="Password"
                       type="text"
                       error={errors?.password || null}
+                      edit={edit}
                     />
                     <TextBox
                       defaultValue={(account as account).name}
@@ -80,6 +78,7 @@ export default function Profile() {
                       label="Nama Lengkap"
                       type="text"
                       error={errors?.name || null}
+                      edit={edit}
                     />
                     <TextBox
                       defaultValue={(account as account).address}
@@ -87,13 +86,7 @@ export default function Profile() {
                       label="Alamat"
                       type="text"
                       error={errors?.address || null}
-                    />
-                    <TextBox
-                      defaultValue={(account as account).year}
-                      name="year"
-                      label="Tahun Bergabung"
-                      type="number"
-                      error={errors?.year || null}
+                      edit={edit}
                     />
                   </section>
                   <Divider />
@@ -104,13 +97,15 @@ export default function Profile() {
                       label="Tanggal Lahir"
                       type="date"
                       error={errors?.birth_date || null}
+                      edit={edit}
                     />
-                    <Select
-                      defaultValue={(account as account).admin}
-                      name="role"
-                      label="Role"
-                      datas={roles}
-                      error={errors?.admin || null}
+                    <TextBox
+                      defaultValue={(account as account).year}
+                      name="year"
+                      label="Tahun Bergabung"
+                      type="number"
+                      error={errors?.year || null}
+                      edit={edit}
                     />
                   </section>
                 </>
@@ -119,16 +114,27 @@ export default function Profile() {
           </Await>
         </Suspense>
       </div>
-      <button
-        type="submit"
-        disabled={pending}
-        aria-disabled={pending}
-        className={`mt-auto md:mt-0 self-end w-full md:w-fit ${
-          pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
-        } h-[2.5rem] `}
-      >
-        {pending ? <Loading /> : "Simpan"}
-      </button>
+      {edited && (
+        <motion.button
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          exit={{
+            opacity: 0,
+          }}
+          type="submit"
+          disabled={pending}
+          aria-disabled={pending}
+          className={`mt-auto md:mt-0 self-end w-full md:w-fit ${
+            pending ? "btn-disabled" : "btn-primary"
+          } h-[2.5rem] `}
+        >
+          {pending ? <Loading /> : "Simpan"}
+        </motion.button>
+      )}
     </Form>
   );
 }
@@ -143,16 +149,13 @@ export async function action({ request }: ActionFunctionArgs) {
     address: String(body.get("address")),
     birth_date: String(body.get("birth_date")),
     year: Number(body.get("year")),
-    admin: Boolean(Number(body.get("role"))),
   };
 
-  const validate = UserSchema.safeParse(user);
+  const validate = ProfileSchema.safeParse(user);
 
   if (!validate.success) {
     return json(validate.error.flatten().fieldErrors, { status: 400 });
   }
-
-  console.log(validate.data.admin);
 
   const result = await updateUser(Number(body.get("id")), validate.data);
 

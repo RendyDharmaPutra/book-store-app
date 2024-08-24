@@ -41,7 +41,10 @@ export const getUser = async (id: number) => {
   return result[0];
 };
 
-export const updateUser = async (id: number, data: insertUser) => {
+export const updateUser = async (
+  id: number,
+  data: insertUser | insertProfile
+) => {
   const result = await db
     .update(User)
     .set(data)

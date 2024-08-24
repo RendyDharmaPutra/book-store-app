@@ -7,6 +7,7 @@ type TextBoxType = {
   label: string;
   type: string;
   error: string[] | null;
+  edit?: () => void;
 };
 
 export default function TextBox(props: TextBoxType) {
@@ -16,6 +17,7 @@ export default function TextBox(props: TextBoxType) {
     <Input label={props.label} name={props.name} error={props.error}>
       <input
         required
+        onChange={props.edit ?? undefined}
         id={props.name}
         name={props.name}
         type={type}

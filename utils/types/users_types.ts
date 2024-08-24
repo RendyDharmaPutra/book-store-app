@@ -16,3 +16,8 @@ type insertUser = user & {
   birth_date: string;
   admin: boolean;
 };
+
+type insertProfile = user & {
+  password: string;
+  birth_date: string;
+};

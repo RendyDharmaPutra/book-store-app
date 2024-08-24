@@ -117,7 +117,7 @@ export default function AddBook() {
         disabled={pending}
         aria-disabled={pending}
         className={`self-end w-full md:w-fit ${
-          pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
+          pending ? "btn-disabled" : "btn-primary"
         } h-[2.5rem] `}
       >
         {pending ? <Loading /> : "Simpan"}

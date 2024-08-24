@@ -9,7 +9,8 @@ import {
   useLoaderData,
   useNavigation,
 } from "@remix-run/react";
-import { Suspense } from "react";
+import { Suspense, useCallback, useState } from "react";
+import { motion } from "framer-motion";
 import {
   getBook,
   getCategories,
@@ -39,6 +40,12 @@ export default function EditBook() {
   const { book, categories, publishers } = useLoaderData<typeof loader>();
   const errors = useActionData<typeof action>();
 
+  const [edited, setEdited] = useState(false);
+
+  const edit = useCallback(() => {
+    setEdited(true);
+  }, []);
+
   const { state } = useNavigation();
   const pending = state === "submitting";
 
@@ -58,6 +65,7 @@ export default function EditBook() {
                     label="Judul Buku"
                     type="text"
                     error={errors?.title || null}
+                    edit={edit}
                   />
                   <TextBox
                     defaultValue={book.writer}
@@ -65,6 +73,7 @@ export default function EditBook() {
                     label="Penulis"
                     type="text"
                     error={errors?.writer || null}
+                    edit={edit}
                   />
                   <TextBox
                     defaultValue={book.year}
@@ -72,6 +81,7 @@ export default function EditBook() {
                     label="Tahun Terbit"
                     type="number"
                     error={errors?.year || null}
+                    edit={edit}
                   />
                   <TextBox
                     defaultValue={book.price}
@@ -79,6 +89,7 @@ export default function EditBook() {
                     label="Harga"
                     type="number"
                     error={errors?.price || null}
+                    edit={edit}
                   />
                 </section>
                 <Divider />
@@ -92,6 +103,7 @@ export default function EditBook() {
                           label="Penerbit"
                           datas={publishers}
                           error={errors?.publisher_id || null}
+                          edit={edit}
                         />
                       )}
                     </Await>
@@ -105,6 +117,7 @@ export default function EditBook() {
                           label="Kategori"
                           datas={categories}
                           error={errors?.category_id || null}
+                          edit={edit}
                         />
                       )}
                     </Await>
@@ -115,16 +128,27 @@ export default function EditBook() {
           </Await>
         </Suspense>
       </div>
-      <button
-        type="submit"
-        disabled={pending}
-        aria-disabled={pending}
-        className={`mt-auto md:mt-0 self-end w-full md:w-fit ${
-          pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
-        } h-[2.5rem] `}
-      >
-        {pending ? <Loading /> : "Simpan"}
-      </button>
+      {edited && (
+        <motion.button
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          exit={{
+            opacity: 0,
+          }}
+          type="submit"
+          disabled={pending}
+          aria-disabled={pending}
+          className={`mt-auto md:mt-0 self-end w-full md:w-fit ${
+            pending ? "btn-disabled" : "btn-primary"
+          } h-[2.5rem] `}
+        >
+          {pending ? <Loading /> : "Simpan"}
+        </motion.button>
+      )}
     </Form>
   );
 }

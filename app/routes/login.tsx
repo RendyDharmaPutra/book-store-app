@@ -42,9 +42,7 @@ export default function Login() {
           type="submit"
           disabled={pending}
           aria-disabled={pending}
-          className={`mt-4 ${
-            pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
-          }`}
+          className={`mt-4 ${pending ? "btn-disabled" : "btn-primary"}`}
         >
           {pending ? <Loading /> : "Login"}
         </button>

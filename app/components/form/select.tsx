@@ -6,17 +6,19 @@ type SelectType = {
   error: string[] | null;
   datas: foreign[];
   defaultValue: string | number;
+  edit?: () => void;
 };
 
 export default function Select(props: SelectType) {
-  props.defaultValue == "" ? (props.defaultValue = 1) : props.defaultValue;
+  const defaultValue = props.defaultValue === "" ? 1 : props.defaultValue;
 
   return (
     <Input name={props.name} label={props.label} error={props.error}>
       <select
         required
+        onChange={props.edit ?? undefined}
         key={props.name}
-        defaultValue={props.defaultValue}
+        defaultValue={defaultValue}
         id={props.name}
         name={props.name}
         className="w-full h-[3rem] overflow-y-auto input-primary focus:bg-page cursor-pointer"

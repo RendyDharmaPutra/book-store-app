@@ -9,7 +9,8 @@ import {
   useLoaderData,
   useNavigation,
 } from "@remix-run/react";
-import { Suspense } from "react";
+import { Suspense, useCallback, useState } from "react";
+import { motion } from "framer-motion";
 import { getUser, updateUser } from "utils/db/queries/users";
 import { UserSchema } from "utils/validation";
 import ErrorCard from "~/components/boundary/error_card";
@@ -32,6 +33,11 @@ export default function EditUser() {
 
   const { state } = useNavigation();
   const pending = state === "submitting";
+  const [edited, setEdited] = useState(false);
+
+  const edit = useCallback(() => {
+    setEdited(true);
+  }, []);
 
   const roles = [
     { id: 1, name: "Admin" },
@@ -55,6 +61,7 @@ export default function EditUser() {
                       label="Username"
                       type="text"
                       error={errors?.username || null}
+                      edit={edit}
                     />
                     <TextBox
                       defaultValue={user.password}
@@ -62,6 +69,7 @@ export default function EditUser() {
                       label="Password"
                       type="text"
                       error={errors?.password || null}
+                      edit={edit}
                     />
                     <TextBox
                       defaultValue={user.name}
@@ -69,6 +77,7 @@ export default function EditUser() {
                       label="Nama Lengkap"
                       type="text"
                       error={errors?.name || null}
+                      edit={edit}
                     />
                     <TextBox
                       defaultValue={user.address}
@@ -76,6 +85,7 @@ export default function EditUser() {
                       label="Alamat"
                       type="text"
                       error={errors?.address || null}
+                      edit={edit}
                     />
                     <TextBox
                       defaultValue={user.year}
@@ -83,6 +93,7 @@ export default function EditUser() {
                       label="Tahun Bergabung"
                       type="number"
                       error={errors?.year || null}
+                      edit={edit}
                     />
                   </section>
                   <Divider />
@@ -93,6 +104,7 @@ export default function EditUser() {
                       label="Tanggal Lahir"
                       type="date"
                       error={errors?.birth_date || null}
+                      edit={edit}
                     />
                     <Select
                       defaultValue={user.admin}
@@ -100,6 +112,7 @@ export default function EditUser() {
                       label="Role"
                       datas={roles}
                       error={errors?.admin || null}
+                      edit={edit}
                     />
                   </section>
                 </>
@@ -108,16 +121,27 @@ export default function EditUser() {
           </Await>
         </Suspense>
       </div>
-      <button
-        type="submit"
-        disabled={pending}
-        aria-disabled={pending}
-        className={`mt-auto md:mt-0 self-end w-full md:w-fit ${
-          pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
-        } h-[2.5rem] `}
-      >
-        {pending ? <Loading /> : "Simpan"}
-      </button>
+      {edited && (
+        <motion.button
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+          }}
+          exit={{
+            opacity: 0,
+          }}
+          type="submit"
+          disabled={pending}
+          aria-disabled={pending}
+          className={`mt-auto md:mt-0 self-end w-full md:w-fit ${
+            pending ? "bg-gray-200 text-gray-800 btn" : "btn-primary"
+          } h-[2.5rem] `}
+        >
+          {pending ? <Loading /> : "Simpan"}
+        </motion.button>
+      )}
     </Form>
   );
 }
