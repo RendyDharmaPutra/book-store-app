@@ -176,23 +176,28 @@ function Profile({ path }: { path: string }) {
       <AnimatePresence mode="wait">
         {show && (
           <motion.div
-            onClick={(e) => e.stopPropagation()}
-            initial={{
-              opacity: 0,
-              scaleY: 0,
-            }}
-            animate={{
-              opacity: 1,
-              scaleY: 1,
-            }}
-            exit={{
-              opacity: 0,
-              scaleY: 0,
-            }}
-            style={{ originY: 0 }}
-            className="absolute top-60 right-4 md:top-[68px] md:right-5"
+            onClick={() => setShow(false)}
+            className="absolute inset-0 h-full"
           >
-            <ProfileMenu />
+            <motion.div
+              onClick={(e) => e.stopPropagation()}
+              initial={{
+                opacity: 0,
+                scaleY: 0,
+              }}
+              animate={{
+                opacity: 1,
+                scaleY: 1,
+              }}
+              exit={{
+                opacity: 0,
+                scaleY: 0,
+              }}
+              style={{ originY: 0 }}
+              className="absolute top-60 right-4 md:top-[68px] md:right-5"
+            >
+              <ProfileMenu />
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
