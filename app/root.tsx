@@ -17,6 +17,7 @@ import Back from "./components/layout/back_button";
 import { getAccount, getAuth } from "utils/db/queries/authenticate";
 import { Suspense } from "react";
 import Restricted from "./components/boundary/restricted";
+import UnknownError from "./components/boundary/unknows_error";
 
 export const meta: MetaFunction = () => {
   return [
@@ -99,6 +100,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </body>
     </html>
   );
+}
+
+export function ErrorBoundary() {
+  return <UnknownError />;
 }
 
 export default function App() {
