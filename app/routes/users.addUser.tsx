@@ -121,5 +121,5 @@ export async function action({ request }: ActionFunctionArgs) {
 
   const result = await insertUser(validate.data);
 
-  if (result) return redirect("/users");
+  if (result) return redirect("/users?status=add");
 }

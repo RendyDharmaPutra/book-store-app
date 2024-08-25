@@ -167,7 +167,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
   const result = await updateUser(Number(body.get("id")), validate.data);
 
-  if (result) return redirect("/users");
+  if (result) return redirect("/users?status=edit");
 }
 
 export function ErrorBoundary() {

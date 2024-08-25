@@ -14,10 +14,24 @@ export const UserLogSchema = z.object({
 export type UserLog = z.infer<typeof UserSchema>;
 
 export const BookSchema = z.object({
-  title: z.string().min(1, "Judul tidak boleh kosong"),
-  writer: z.string().min(1, "Penulis tidak boleh kosong"),
-  year: z.number().min(4, "Tahun terbit harus 4 angka"),
-  price: z.number().min(4, "Harga minimal 4 angka"),
+  title: z
+    .string()
+    .min(1, "Judul tidak boleh kosong")
+    .max(100, "Judul terlalu panjang"),
+  writer: z
+    .string()
+    .min(1, "Penulis tidak boleh kosong")
+    .max(100, "Penulis terlalu panjang"),
+  year: z
+    .number()
+    .nonnegative("Tahun Terbit tidak boleh Negatif")
+    .min(1000, "Tahun Terbit harus 4 angka")
+    .max(9999, "Tahun Terbit terlalu besar"),
+  price: z
+    .number()
+    .nonnegative("Total Harga tidak boleh Negatif")
+    .min(1000, "Harga terlalu kecil")
+    .max(2147483647, "Total Harga terlalu besar"),
   category_id: z.number().min(1, "Kategori tidak boleh kosong"),
   publisher_id: z.number().min(1, "Penerbit tidak boleh kosong"),
 });
@@ -78,7 +92,7 @@ export const UserSchema = z.object({
     .number()
     .nonnegative("Tahun Bergabung tidak boleh Negatif")
     .min(1000, "Tahun Bergabung harus 4 angka")
-    .max(2147483647, "Tahun Bergabung terlalu besar"),
+    .max(9999, "Tahun Bergabung terlalu besar"),
   admin: z.boolean({
     required_error: "Masukkan role yang dipilih",
     invalid_type_error: "Role yang diberikan tidak valid",
@@ -119,7 +133,7 @@ export const ProfileSchema = z.object({
     .number()
     .nonnegative("Tahun Bergabung tidak boleh Negatif")
     .min(1000, "Tahun Bergabung harus 4 angka")
-    .max(2147483647, "Tahun Bergabung terlalu besar"),
+    .max(9999, "Tahun Bergabung terlalu besar"),
 });
 
 export type Profile = z.infer<typeof ProfileSchema>;

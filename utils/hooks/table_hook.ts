@@ -8,6 +8,7 @@ const routeMap = {
   "/": { headline: "Buku", type: "berjudul" },
   "/transaction": { headline: "Transaksi", type: "pada waktu" },
   "/users": { headline: "Karyawan", type: "bernama" },
+  "/profile": { headline: "Profile", type: "bernama" },
 } as const;
 
 const useTable = () => {

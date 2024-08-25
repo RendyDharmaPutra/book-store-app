@@ -44,14 +44,14 @@ function TBody(props: TBodyProps) {
       : props.data.time;
 
   return (
-    <tr>
+    <tr className="border-b border-gray-50">
       {props.heads.map((head, index) => (
         <TCol
           key={index}
           content={props.data[head as keyof typeof props.data]}
         />
       ))}
-      <td className="p-4 flex flex-col md:flex-row gap-2 border-b border-gray-50">
+      <td className="p-4 flex flex-col md:flex-row gap-2 ">
         <Link
           prefetch="viewport"
           to={`${props.data.id}`}
@@ -73,7 +73,7 @@ function TBody(props: TBodyProps) {
 
 function TCol(props: TColProps) {
   return (
-    <td className="p-4 border-b border-gray-50">
+    <td className="p-4 ">
       <p className="block text-sm antialiased font-normal leading-normal text-gray-800">
         {props.content}
       </p>

@@ -15,14 +15,8 @@ import TextBox from "~/components/form/text_box";
 export default function Login() {
   const errors = useActionData<typeof action>();
 
-  // const [show, setShow] = useState(false);
-
   const { state } = useNavigation();
   const pending = state === "submitting";
-
-  // useEffect(() => {
-  //   errors !== undefined && setShow(true);
-  // }, [pending]);
 
   return (
     <>
@@ -57,7 +51,6 @@ export default function Login() {
           </button>
         </Form>
       </div>
-      {/* <AccountModal status="danger" isOpen={show} setShow={setShow} /> */}
     </>
   );
 }

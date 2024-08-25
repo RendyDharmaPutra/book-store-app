@@ -7,10 +7,12 @@ import {
   deleteTransaction,
   getTransaction,
 } from "utils/db/queries/transaction";
+import useToast from "utils/hooks/toast_hooks";
 import Loading from "~/components/boundary/loading";
 import ActionBar from "~/components/container/action_bar";
 import Pagination from "~/components/container/pagination";
 import Table from "~/components/container/table";
+import AccountModal from "~/components/modal/toast";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url: URL = new URL(request.url);
@@ -19,13 +21,23 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const transactions = getTransaction(search, page);
 
-  return defer({
-    transactions,
-  });
+  return defer(
+    {
+      transactions,
+    },
+    {
+      headers: {
+        "Cache-control": "no-store",
+      },
+    }
+  );
 }
 
 export default function Transaction() {
   const { transactions } = useLoaderData<typeof loader>();
+
+  const { show, setShow, type } = useToast();
+
   const heads = ["Waktu", "Total Harga", "Kasir"];
 
   const values = ["time", "amount", "user"];
@@ -44,6 +56,12 @@ export default function Transaction() {
         </Suspense>
       </section>
       <Pagination />
+      <AccountModal
+        type={type}
+        status="primary"
+        isOpen={show}
+        setShow={setShow}
+      />
     </div>
   );
 }
@@ -58,5 +76,5 @@ export async function action({ request }: ActionFunctionArgs) {
     result = await deleteTransaction(id);
   }
 
-  if (result!) return redirect("/transaction");
+  if (result!) return redirect("/transaction?status=delete");
 }

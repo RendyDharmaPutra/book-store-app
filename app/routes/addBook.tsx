@@ -134,5 +134,5 @@ export async function action({ request }: ActionFunctionArgs) {
 
   const result = await insertBook(validate.data);
 
-  if (result) return redirect("/");
+  if (result) return redirect("/?status=add");
 }

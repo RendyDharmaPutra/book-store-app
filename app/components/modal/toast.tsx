@@ -1,13 +1,17 @@
 import { Dispatch, memo, SetStateAction, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import useTable from "utils/hooks/table_hook";
 
 type AccountModalType = {
+  type: string;
   status: string;
   isOpen: boolean;
   setShow: Dispatch<SetStateAction<boolean>>;
 };
 
 const AccountModal = memo((props: AccountModalType) => {
+  const { headline } = useTable();
+
   useEffect(() => {
     const timeOut = setTimeout(() => {
       props.setShow(false);
@@ -30,15 +34,15 @@ const AccountModal = memo((props: AccountModalType) => {
           exit={{
             opacity: 0,
           }}
-          className={`absolute top-10 md:right-2 layout w-[90%] md:w-1/4 border-l-[6px] border-${props.status} rounded-lg shadow bg-white`}
+          className={`absolute md:top-20 md:right-2 layout w-[90%] md:w-1/4 border-l-[6px] border-${props.status} rounded-lg shadow-md bg-white`}
         >
           <div className="flex flex-row justify-between ">
-            <h2 className="mb-4 bold text-lg md:text-xl">
-              Akun tidak ditemukan
+            <h2 className="bold text-lg md:text-xl">
+              Berhasil {props.type} {headline}
             </h2>
             <button
               onClick={() => props.setShow(false)}
-              className="p-[2px] w-fit h-fit rounded-full text-gray-500 hover:text-white border border-gray-200 hover:border-danger hover:bg-danger duration-200"
+              className="absolute top-3 right-3 p-[2px] w-fit h-fit rounded-full text-gray-500 hover:text-white border border-gray-200 hover:border-danger hover:bg-danger duration-200"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -56,9 +60,6 @@ const AccountModal = memo((props: AccountModalType) => {
               </svg>
             </button>
           </div>
-          <p className="mb-4 text-sm md:text-base text-gray-600">
-            Silahkan periksa kembali username dan password yang anda masukkan
-          </p>
         </motion.section>
       )}
     </AnimatePresence>

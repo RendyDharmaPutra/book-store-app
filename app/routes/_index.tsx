@@ -2,10 +2,12 @@ import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
 import { Await, defer, redirect, useLoaderData } from "@remix-run/react";
 import { Suspense } from "react";
 import { deleteBook, getBooks } from "utils/db/queries";
+import useToast from "utils/hooks/toast_hooks";
 import Loading from "~/components/boundary/loading";
 import ActionBar from "~/components/container/action_bar";
 import Pagination from "~/components/container/pagination";
 import Table from "~/components/container/table";
+import AccountModal from "~/components/modal/toast";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const url: URL = new URL(request.url);
@@ -14,13 +16,23 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
   const books = getBooks(search, page);
 
-  return defer({
-    books,
-  });
+  return defer(
+    {
+      books,
+    },
+    {
+      headers: {
+        "Cache-control": "no-store",
+      },
+    }
+  );
 }
 
 export default function Dashboard() {
   const { books } = useLoaderData<typeof loader>();
+
+  const { show, setShow, type } = useToast();
+
   const heads = [
     "Judul",
     "Kategori",
@@ -44,6 +56,12 @@ export default function Dashboard() {
         </Suspense>
       </section>
       <Pagination />
+      <AccountModal
+        type={type}
+        status="primary"
+        isOpen={show}
+        setShow={setShow}
+      />
     </div>
   );
 }
@@ -54,5 +72,5 @@ export async function action({ request }: ActionFunctionArgs) {
 
   const result = await deleteBook(idBook);
 
-  if (result) return redirect("/");
+  if (result) return redirect("/?status=delete");
 }

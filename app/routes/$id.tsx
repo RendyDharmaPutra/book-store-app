@@ -173,7 +173,7 @@ export async function action({ request }: ActionFunctionArgs) {
 
   const result = await updateBook(Number(body.get("id")), validate.data);
 
-  if (result) return redirect("/");
+  if (result) return redirect("/?status=edit");
 }
 
 export function ErrorBoundary() {

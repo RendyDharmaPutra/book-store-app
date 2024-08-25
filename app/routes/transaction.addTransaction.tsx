@@ -154,7 +154,7 @@ export async function action({ request }: ActionFunctionArgs) {
     await insertDetail(data);
   });
 
-  if (result) return redirect("/transaction");
+  if (result) return redirect("/transaction?status=add");
 
   return null;
 }

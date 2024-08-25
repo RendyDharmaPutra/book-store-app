@@ -15,7 +15,7 @@ export default function Input(props: InputType) {
         {props.label}
       </label>
       {props.children}
-      {props.error && <p className="text-sm text-danger">{props.error}</p>}
+      {props.error && <p className="text-xs text-danger">{props.error}</p>}
     </div>
   );
 }
