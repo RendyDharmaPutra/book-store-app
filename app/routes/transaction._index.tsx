@@ -24,12 +24,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
   return defer(
     {
       transactions,
-    },
-    {
-      headers: {
-        "Cache-control": "no-store",
-      },
     }
+    // {
+    //   headers: {
+    //     "Cache-control": "no-store",
+    //   },
+    // }
   );
 }
 

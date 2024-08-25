@@ -1,5 +1,11 @@
 import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
-import { Await, defer, redirect, useLoaderData } from "@remix-run/react";
+import {
+  Await,
+  defer,
+  redirect,
+  ShouldRevalidateFunctionArgs,
+  useLoaderData,
+} from "@remix-run/react";
 import { Suspense } from "react";
 import { deleteBook, getBooks } from "utils/db/queries";
 import useToast from "utils/hooks/toast_hooks";
@@ -19,12 +25,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
   return defer(
     {
       books,
-    },
-    {
-      headers: {
-        "Cache-control": "no-store",
-      },
     }
+    // {
+    //   headers: {
+    //     "Cache-control": "no-store",
+    //   },
+    // }
   );
 }
 

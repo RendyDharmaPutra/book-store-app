@@ -19,12 +19,12 @@ export async function loader({ request }: LoaderFunctionArgs) {
   return defer(
     {
       users,
-    },
-    {
-      headers: {
-        "Cache-control": "no-store",
-      },
     }
+    // {
+    //   headers: {
+    //     "Cache-control": "no-store",
+    //   },
+    // }
   );
 }
 
