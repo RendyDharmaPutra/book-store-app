@@ -8,7 +8,7 @@ type ModalButtonProps = {
   title: string;
 };
 
-export default function ModalButton(props: ModalButtonProps): JSX.Element {
+export default function ModalButton(props: ModalButtonProps) {
   const [show, setShow] = useState<boolean>(false);
 
   return (

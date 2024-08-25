@@ -15,39 +15,50 @@ import TextBox from "~/components/form/text_box";
 export default function Login() {
   const errors = useActionData<typeof action>();
 
+  // const [show, setShow] = useState(false);
+
   const { state } = useNavigation();
   const pending = state === "submitting";
 
+  // useEffect(() => {
+  //   errors !== undefined && setShow(true);
+  // }, [pending]);
+
   return (
-    <div className="layout self-center flex flex-col items-center gap-4 sm:gap-6 w-full sm:w-fit rounded-2xl bg-white">
-      <h1 className="headline">Login</h1>
-      <Form method="post" className="flex flex-col gap-2 sm:gap-4 w-full">
-        <TextBox
-          defaultValue={""}
-          key={"username"}
-          label="Username"
-          name="username"
-          type="text"
-          error={errors?.username || null}
-        />
-        <TextBox
-          defaultValue={""}
-          key={"password"}
-          label="Password"
-          name="password"
-          type="password"
-          error={errors?.password || null}
-        />
-        <button
-          type="submit"
-          disabled={pending}
-          aria-disabled={pending}
-          className={`mt-4 ${pending ? "btn-disabled" : "btn-primary"}`}
-        >
-          {pending ? <Loading /> : "Login"}
-        </button>
-      </Form>
-    </div>
+    <>
+      <div className="layout self-center flex flex-col items-center gap-4 sm:gap-6 w-full sm:w-fit rounded-2xl bg-white">
+        <h1 className="headline">Login</h1>
+        <Form method="post" className="flex flex-col gap-2 sm:gap-4 w-full">
+          <TextBox
+            defaultValue={""}
+            key={"username"}
+            label="Username"
+            name="username"
+            type="text"
+            error={errors?.username || null}
+          />
+          <TextBox
+            defaultValue={""}
+            key={"password"}
+            label="Password"
+            name="password"
+            type="password"
+            error={errors?.password || null}
+          />
+          <button
+            type="submit"
+            disabled={pending}
+            aria-disabled={pending}
+            className={`mt-4 h-[2.5rem] ${
+              pending ? "btn-disabled" : "btn-primary"
+            }`}
+          >
+            {pending ? <Loading /> : "Login"}
+          </button>
+        </Form>
+      </div>
+      {/* <AccountModal status="danger" isOpen={show} setShow={setShow} /> */}
+    </>
   );
 }
 
@@ -67,12 +78,19 @@ export async function action({ request }: ActionFunctionArgs) {
 
   const user = await login(validate.data);
 
-  if (user)
+  if (user) {
     return redirect("/", {
       headers: {
         "Set-Cookie": await authCookie.serialize(user.id),
       },
     });
+  }
 
-  return null;
+  return json(
+    {
+      username: ["Username atau Password salah"],
+      password: ["Username atau Password salah"],
+    },
+    { status: 400 }
+  );
 }
